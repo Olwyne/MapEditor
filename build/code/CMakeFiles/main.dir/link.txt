@@ -1,1 +1,0 @@
-/usr/bin/g++-7   -W -Werror -Wall -O2 -std=c++11 -g  -rdynamic CMakeFiles/main.dir/main.cpp.o  -o main ../glimac/libglimac.a -L/usr/local/lib -Wl,-rpath,/usr/local/lib -Wl,--enable-new-dtags -lSDL2 -lGL -lGLU -lGLEW 
