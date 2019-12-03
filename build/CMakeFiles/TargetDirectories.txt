@@ -1,0 +1,11 @@
+/home/monica/Documents/S3/openGL/project/build/CMakeFiles/rebuild_cache.dir
+/home/monica/Documents/S3/openGL/project/build/CMakeFiles/edit_cache.dir
+/home/monica/Documents/S3/openGL/project/build/glimac/CMakeFiles/rebuild_cache.dir
+/home/monica/Documents/S3/openGL/project/build/glimac/CMakeFiles/glimac.dir
+/home/monica/Documents/S3/openGL/project/build/glimac/CMakeFiles/edit_cache.dir
+/home/monica/Documents/S3/openGL/project/build/code/CMakeFiles/rebuild_cache.dir
+/home/monica/Documents/S3/openGL/project/build/code/CMakeFiles/main.dir
+/home/monica/Documents/S3/openGL/project/build/code/CMakeFiles/edit_cache.dir
+/home/monica/Documents/S3/openGL/project/build/doc/CMakeFiles/rebuild_cache.dir
+/home/monica/Documents/S3/openGL/project/build/doc/CMakeFiles/html.dir
+/home/monica/Documents/S3/openGL/project/build/doc/CMakeFiles/edit_cache.dir
