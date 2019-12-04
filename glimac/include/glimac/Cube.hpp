@@ -16,6 +16,7 @@ public:
   ~Cube() override = default;
 
   void create_vbo_vao() override;
+  inline glm::vec3 get_position() { return m_position; }
 
 };
 

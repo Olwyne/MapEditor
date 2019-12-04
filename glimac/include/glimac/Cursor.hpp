@@ -2,6 +2,8 @@
 #pragma once
 
 #include "Object.hpp"
+#include "Cube.hpp"
+#include <vector>
 
 class Cursor: public Object
 {
@@ -15,6 +17,8 @@ public:
 
   void change_position(const glm::vec3 position);
   void move(SDL_Event &e);
+  bool cube_on_top(std::vector <Cube> all_cubes); //check if the cursor is under a cube
+
 
 };
 

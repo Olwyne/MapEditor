@@ -9,10 +9,10 @@ void Cursor::create_vbo_vao()
 
     //origin + position
     Param_Pos_Color vertices[] = {
-                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, 1.0f)+ m_position, m_color), //0
-                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, -1.0f)+ m_position, m_color), //1
-                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, -1.0f)+ m_position, m_color), //2
-                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, 1.0f)+ m_position, m_color), //3
+                    Param_Pos_Color(glm::vec3(1.1f, -1.0f, 1.1f)+ m_position, m_color), //0
+                    Param_Pos_Color(glm::vec3(1.1f, -1.0f, -1.1f)+ m_position, m_color), //1
+                    Param_Pos_Color(glm::vec3(-1.1f, -1.0f, -1.1f)+ m_position, m_color), //2
+                    Param_Pos_Color(glm::vec3(-1.1f, -1.0f, 1.1f)+ m_position, m_color), //3
                           };
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -80,5 +80,28 @@ void Cursor::move(SDL_Event &e)
         case SDLK_l:
             change_position(glm::vec3(1,0,0));
             break;
+        case SDLK_p:
+            change_position(glm::vec3(0,1,0));
+            break;
+        case SDLK_m:
+            change_position(glm::vec3(0,-1,0));
+            break;
     }
+}
+
+bool Cursor::cube_on_top(std::vector <Cube> all_cubes)
+{
+    bool cube_found = false;
+    unsigned int i = 0;
+    //go through all the cubes and see if the position matches
+    while(i<all_cubes.size() && !cube_found)
+    {
+        if( m_position == all_cubes[i].get_position() )
+        {
+            cube_found = true;
+        }
+        i++;
+    }
+    
+    return cube_found;
 }
