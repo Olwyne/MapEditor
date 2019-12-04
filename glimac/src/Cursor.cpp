@@ -9,10 +9,10 @@ void Cursor::create_vbo_vao()
 
     //origin + position
     Param_Pos_Color vertices[] = {
-                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, -1.0f)+ m_position, m_color), //0
-                    Param_Pos_Color(glm::vec3(1.0f, 1.0f, -1.0f)+ m_position, m_color), //1
-                    Param_Pos_Color(glm::vec3(-1.0f, 1.0f, -1.0f)+ m_position, m_color), //2
-                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, -1.0f)+ m_position, m_color), //3
+                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, 1.0f)+ m_position, m_color), //0
+                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, -1.0f)+ m_position, m_color), //1
+                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, -1.0f)+ m_position, m_color), //2
+                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, 1.0f)+ m_position, m_color), //3
                           };
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -25,7 +25,7 @@ void Cursor::create_vbo_vao()
     //different target, reserved to IBOs
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
-    //8 vertices, 6 faces
+    //1 face, 2 triangles
     uint32_t indexes[get_index()] = {0, 1, 2,
                             2, 3, 0};
 
@@ -57,4 +57,28 @@ void Cursor::create_vbo_vao()
     //unbind vbo and vao
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+}
+
+void Cursor::change_position(const glm::vec3 position)
+{
+    m_position += position;
+}
+
+void Cursor::move(SDL_Event &e)
+{
+    switch(e.key.keysym.sym)
+    {
+        case SDLK_i:
+            change_position(glm::vec3(0,2,0));
+            break;
+        case SDLK_k:
+            change_position(glm::vec3(0,-2,0));
+            break;
+        case SDLK_j:
+            change_position(glm::vec3(2,0,0));
+            break;
+        case SDLK_l:
+            change_position(glm::vec3(-2,0,0));
+            break;
+    }
 }

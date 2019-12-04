@@ -3,8 +3,8 @@
 #include <glimac/SDLWindowManager.hpp>
 
 void TrackballCamera::moveFront(float delta) { m_fDistance += delta; }
-void TrackballCamera::rotateLeft(float degrees) { m_fAngleX += degrees; }
-void TrackballCamera::rotateUp(float degrees) { m_fAngleY += degrees; } 
+void TrackballCamera::rotateLeft(float degrees) { m_fAngleY += degrees; }
+void TrackballCamera::rotateUp(float degrees) { m_fAngleX += degrees; } 
 
 glm::mat4 TrackballCamera::getViewMatrix() const
 {
@@ -26,16 +26,16 @@ void TrackballCamera::move_camera_key_pressed(const SDL_Event &e)
         case SDLK_DOWN:
             moveFront(0.1);
             break;
-        case SDLK_z:
+        case SDLK_q:
             rotateLeft(1);
             break;
-        case SDLK_s:
+        case SDLK_d:
             rotateLeft(-1);
             break;
-        case SDLK_q:
+        case SDLK_z:
             rotateUp(1);
             break;
-        case SDLK_d:
+        case SDLK_s:
             rotateUp(-1);
             break;
     }

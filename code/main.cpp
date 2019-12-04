@@ -1,6 +1,7 @@
 
 #include <glimac/SDLWindowManager.hpp>
 #include <glimac/Cube.hpp>
+#include <glimac/Cursor.hpp>
 
 #include <GL/glew.h>
 #include <iostream>
@@ -48,18 +49,25 @@ int main(int argc, char** argv) {
 
 
     GLint uMVP_location, uMV_location, uNormal_location;
-    unsigned int nb_cubes=8;
+    
+    //create cursor
+    Cursor cursor;
+    cursor.create_vbo_vao();
+
+    //create cubes
+    unsigned int nb_cubes=3;
     std::vector <Cube> all_cubes;
     for (unsigned int i=0; i<nb_cubes; i++)
     {
-        all_cubes.push_back( Cube(Param_Pos_Color(glm::vec3(0,2*i,2), glm::vec3(0.2 + i/5.0, i/5.0, 0.2 + i*0.1)), 36) );
+        all_cubes.push_back( Cube(Param_Pos_Color(glm::vec3(0, 2*i, 0), glm::vec3(0.2 + i/5.0, i/5.0, 0.2 + i*0.1)), 36) );
     }
 
     for(Cube &c: all_cubes)
     {
         c.create_vbo_vao();
-        c.create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
     }
+    all_cubes[0].create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
+
 
     TrackballCamera camera;
     // Application loop:
@@ -72,6 +80,7 @@ int main(int argc, char** argv) {
                 done = true; // Leave the loop after this iteration
             }
             camera.move_camera_key_pressed(e);
+            cursor.move(e);
         }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -80,6 +89,7 @@ int main(int argc, char** argv) {
         {
             c.render(uMVP_location, uMV_location, uNormal_location, camera);
         }
+        cursor.render(uMVP_location, uMV_location, uNormal_location, camera);
 
         // Update the display
         windowManager.swapBuffers();

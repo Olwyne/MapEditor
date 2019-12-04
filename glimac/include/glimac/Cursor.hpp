@@ -13,5 +13,8 @@ public:
 
   virtual void create_vbo_vao() override;
 
+  void change_position(const glm::vec3 position);
+  void move(SDL_Event &e);
+
 };
 
