@@ -1,5 +1,6 @@
 #pragma once
 #include "glimac/glm.hpp"
+#include <glimac/SDLWindowManager.hpp>
 
 class TrackballCamera{
 
@@ -14,6 +15,7 @@ public:
     void moveFront(float delta);
     void rotateLeft (float degrees);
     void rotateUp(float degrees);
+    void move_camera_key_pressed(const SDL_Event &e);
 
     glm::mat4 getViewMatrix() const;
 };
