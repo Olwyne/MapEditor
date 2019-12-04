@@ -7,20 +7,12 @@ const float WINDOW_WIDTH = 800;
 const float WINDOW_HEIGHT = 800; //<----------------------------CHANGE THIS
 
 
-void Object::create_vbo_vao()
-{}
-
-unsigned int Object::get_index()
-{}
-
-
 void Object::create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Program &program)
 {
     uMVP_location = glGetUniformLocation(program.getGLId(), "uMVPMatrix" );
     uMV_location = glGetUniformLocation(program.getGLId(), "uMVMatrix" );
     uNormal_location = glGetUniformLocation(program.getGLId(), "uNormalMatrix" );
 }
-
 
 
 void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, TrackballCamera &camera)

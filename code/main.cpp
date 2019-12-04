@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
     std::vector <Cube> all_cubes;
     for (unsigned int i=0; i<nb_cubes; i++)
     {
-        all_cubes.push_back( Cube(glm::vec3(0,2*i,2), glm::vec3(0.2 + i/5.0, i/5.0, 0.2 + i*0.1)) );
+        all_cubes.push_back( Cube(Param_Pos_Color(glm::vec3(0,2*i,2), glm::vec3(0.2 + i/5.0, i/5.0, 0.2 + i*0.1)), 36) );
     }
 
     for(Cube &c: all_cubes)
@@ -85,10 +85,6 @@ int main(int argc, char** argv) {
         windowManager.swapBuffers();
     }
 
-    for(Cube &c: all_cubes)
-    {
-        c.liberate_resources();
-    }
 
     return EXIT_SUCCESS;
 }

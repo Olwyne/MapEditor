@@ -14,15 +14,15 @@ void Cube::create_vbo_vao()
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
     //origin + position
-    Vertex3DColor vertices[] = {
-                    Vertex3DColor(glm::vec3(1.0f, -1.0f, 1.0f)+ m_position, m_color), //0
-                    Vertex3DColor(glm::vec3(-1.0f, -1.0f, 1.0f)+ m_position, m_color), //1
-                    Vertex3DColor(glm::vec3(-1.0f, 1.0f, 1.0f)+ m_position, m_color), //2
-                    Vertex3DColor(glm::vec3(1.0f, 1.0f, 1.0f)+ m_position, m_color), //3
-                    Vertex3DColor(glm::vec3(1.0f, -1.0f, -1.0f)+ m_position, m_color), //4
-                    Vertex3DColor(glm::vec3(-1.0f, -1.0f, -1.0f)+ m_position, m_color), //5
-                    Vertex3DColor(glm::vec3(-1.0f, 1.0f, -1.0f)+ m_position, m_color), //6
-                    Vertex3DColor(glm::vec3(1.0f, 1.0f, -1.0f)+ m_position, m_color) //7
+    Param_Pos_Color vertices[] = {
+                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, 1.0f)+ m_position, m_color), //0
+                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, 1.0f)+ m_position, m_color), //1
+                    Param_Pos_Color(glm::vec3(-1.0f, 1.0f, 1.0f)+ m_position, m_color), //2
+                    Param_Pos_Color(glm::vec3(1.0f, 1.0f, 1.0f)+ m_position, m_color), //3
+                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, -1.0f)+ m_position, m_color), //4
+                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, -1.0f)+ m_position, m_color), //5
+                    Param_Pos_Color(glm::vec3(-1.0f, 1.0f, -1.0f)+ m_position, m_color), //6
+                    Param_Pos_Color(glm::vec3(1.0f, 1.0f, -1.0f)+ m_position, m_color) //7
                           };
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -69,9 +69,9 @@ void Cube::create_vbo_vao()
     //bind vbo again
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     //tell OpenGL where to find vertices and how to read data associated to each vertex
-    glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3DColor), (void*)offsetof(Vertex3DColor, m_position));
+    glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color), (void*)offsetof(Param_Pos_Color, m_position));
     glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
-    glVertexAttribPointer(VERTEX_ATTR_COLOR, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3DColor), (void*)offsetof(Vertex3DColor, m_color));
+    glVertexAttribPointer(VERTEX_ATTR_COLOR, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color), (void*)offsetof(Param_Pos_Color, m_color));
     glEnableVertexAttribArray(VERTEX_ATTR_COLOR);
     
     //unbind vbo and vao
