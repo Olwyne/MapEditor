@@ -1,13 +1,7 @@
-
 #include <iostream>
-#include <glimac/Cube.hpp>
+#include <glimac/Cursor.hpp>
 
-using namespace glimac;
-
-const float WINDOW_WIDTH = 800;
-const float WINDOW_HEIGHT = 800; //<----------------------------CHANGE THIS
-
-void Cube::create_vbo_vao()
+void Cursor::create_vbo_vao()
 {
     glGenBuffers(1, &m_vbo);
     //bind buffer vbo to a target
@@ -15,14 +9,10 @@ void Cube::create_vbo_vao()
 
     //origin + position
     Vertex3DColor vertices[] = {
-                    Vertex3DColor(glm::vec3(1.0f, -1.0f, 1.0f)+ m_position, m_color), //0
-                    Vertex3DColor(glm::vec3(-1.0f, -1.0f, 1.0f)+ m_position, m_color), //1
-                    Vertex3DColor(glm::vec3(-1.0f, 1.0f, 1.0f)+ m_position, m_color), //2
-                    Vertex3DColor(glm::vec3(1.0f, 1.0f, 1.0f)+ m_position, m_color), //3
-                    Vertex3DColor(glm::vec3(1.0f, -1.0f, -1.0f)+ m_position, m_color), //4
-                    Vertex3DColor(glm::vec3(-1.0f, -1.0f, -1.0f)+ m_position, m_color), //5
-                    Vertex3DColor(glm::vec3(-1.0f, 1.0f, -1.0f)+ m_position, m_color), //6
-                    Vertex3DColor(glm::vec3(1.0f, 1.0f, -1.0f)+ m_position, m_color) //7
+                    Vertex3DColor(glm::vec3(1.0f, -1.0f, -1.0f)+ m_position, m_color), //0
+                    Vertex3DColor(glm::vec3(1.0f, 1.0f, -1.0f)+ m_position, m_color), //1
+                    Vertex3DColor(glm::vec3(-1.0f, 1.0f, -1.0f)+ m_position, m_color), //2
+                    Vertex3DColor(glm::vec3(-1.0f, -1.0f, -1.0f)+ m_position, m_color), //3
                           };
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -36,18 +26,8 @@ void Cube::create_vbo_vao()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
     //8 vertices, 6 faces
-    uint32_t indexes[get_index()] = {0, 1, 3, //top face 
-                            1, 3, 2,
-                            4, 5, 7, //bottom face
-                            5, 7, 6,
-                            0, 3, 4, //left face
-                            3, 4, 7,
-                            1, 2, 5, //right face
-                            2, 5, 6,
-                            3, 2, 7, //front face
-                            2, 7, 6,
-                            0, 1, 4, //back 
-                            1, 4, 5};
+    uint32_t indexes[get_index()] = {0, 1, 2,
+                            2, 3, 0};
 
     //fill IBO with indexes
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, get_index()*sizeof(uint32_t), indexes, GL_STATIC_DRAW);
@@ -78,5 +58,3 @@ void Cube::create_vbo_vao()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
-
-
