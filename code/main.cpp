@@ -51,8 +51,9 @@ int main(int argc, char** argv) {
     GLint uMVP_location, uMV_location, uNormal_location;
     
     //create cursor
-    Cursor cursor;
-    cursor.create_vbo_vao();
+    //Cursor cursor;  //works but -0.3 helps to see it better
+    Param_Pos_Color cursor_data = Param_Pos_Color(glm::vec3(0,-0.3,0), glm::vec3(0.7,0.7,0.7));
+    Cursor cursor(cursor_data, 6);
 
     //create cubes
     unsigned int nb_cubes=3;
@@ -81,6 +82,7 @@ int main(int argc, char** argv) {
             }
             camera.move_camera_key_pressed(e);
             cursor.move(e);
+            cursor.create_vbo_vao();
         }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

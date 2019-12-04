@@ -69,16 +69,16 @@ void Cursor::move(SDL_Event &e)
     switch(e.key.keysym.sym)
     {
         case SDLK_i:
-            change_position(glm::vec3(0,2,0));
+            change_position(glm::vec3(0,0,-1));
             break;
         case SDLK_k:
-            change_position(glm::vec3(0,-2,0));
+            change_position(glm::vec3(0,0,1));
             break;
         case SDLK_j:
-            change_position(glm::vec3(2,0,0));
+            change_position(glm::vec3(-1,0,0));
             break;
         case SDLK_l:
-            change_position(glm::vec3(-2,0,0));
+            change_position(glm::vec3(1,0,0));
             break;
     }
 }
