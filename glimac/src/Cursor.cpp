@@ -82,7 +82,7 @@ void Cursor::cube_on_top(std::vector <Cube> &all_cubes)
 }
 
 
-void Cursor::move(SDL_Event &e, std::vector <Cube> &all_cubes)
+void Cursor::move(SDL_Event &e)
 {
     //move the cursor
     switch(e.key.keysym.sym)
@@ -107,7 +107,5 @@ void Cursor::move(SDL_Event &e, std::vector <Cube> &all_cubes)
             break;
     }
 
-    //consequence of the move: is there a cube?
-    cube_on_top(all_cubes);
 }
 

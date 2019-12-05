@@ -57,9 +57,8 @@ int main(int argc, char** argv) {
 
     //create cubes
     Construction construction;
-    std::vector <Cube> all_cubes = construction.get_cubes();
 
-    all_cubes[0].create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
+    construction.get_cubes()[0].create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
 
     TrackballCamera camera;
     // Application loop:
@@ -86,12 +85,12 @@ int main(int argc, char** argv) {
                 }
             }
             camera.move_camera_key_pressed(e);
-            cursor.move(e, all_cubes);
+            cursor.move(e);
         }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        for(Cube &c: all_cubes)
+        for(Cube &c: construction.get_cubes())
         {
             c.create_vbo_vao();
             c.render(uMVP_location, uMV_location, uNormal_location, camera);
