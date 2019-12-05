@@ -32,6 +32,7 @@ public:
   virtual void render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, TrackballCamera &camera);
   virtual void create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, glimac::Program &program);
   virtual unsigned int get_index() {return m_nb_index;}
+  virtual glm::vec3 get_position() { return m_position; }
 
 };
 

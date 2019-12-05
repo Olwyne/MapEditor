@@ -2,6 +2,8 @@
 #include <glimac/SDLWindowManager.hpp>
 #include <glimac/Cube.hpp>
 #include <glimac/Cursor.hpp>
+#include <glimac/Construction.hpp>
+
 
 #include <GL/glew.h>
 #include <iostream>
@@ -52,19 +54,12 @@ int main(int argc, char** argv) {
     
     //create cursor
     Cursor cursor;  
-    // Param_Pos_Color cursor_data = Param_Pos_Color(glm::vec3(0,-0.3,0), glm::vec3(0,0,0.3));
-    // Cursor cursor(cursor_data, 6);
 
     //create cubes
-    unsigned int nb_cubes=3;
-    std::vector <Cube> all_cubes;
-    for (unsigned int i=0; i<nb_cubes; i++)
-    {
-        all_cubes.push_back( Cube(Param_Pos_Color(glm::vec3(0, 2*i, 0), glm::vec3(0.2 + i/5.0, i/5.0, 0.2 + i*0.1)), 36) );
-    }
+    Construction construction;
+    std::vector <Cube> all_cubes = construction.get_cubes();
 
     all_cubes[0].create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
-
 
     TrackballCamera camera;
     // Application loop:
@@ -72,9 +67,23 @@ int main(int argc, char** argv) {
     while(!done) {
         // Event loop:
         SDL_Event e;
-        while(windowManager.pollEvent(e)) {
+        while(windowManager.pollEvent(e)) 
+        {
             if(e.type == SDL_QUIT) {
                 done = true; // Leave the loop after this iteration
+            }
+            //repeat is important, don't add 2 cubes at once!
+            if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+            {
+                switch(e.key.keysym.sym) //<-----CHANGE THIS, ADAPT WITH IMGUI
+                {
+                    case SDLK_a:
+                        construction.add_cube(cursor.get_position());
+                        break;
+                    case SDLK_b:
+                        std::cout << "b ";
+                        break;
+                }
             }
             camera.move_camera_key_pressed(e);
             cursor.move(e, all_cubes);
@@ -93,7 +102,6 @@ int main(int argc, char** argv) {
         // Update the display
         windowManager.swapBuffers();
     }
-
 
     return EXIT_SUCCESS;
 }
