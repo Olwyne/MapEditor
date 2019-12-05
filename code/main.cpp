@@ -63,10 +63,6 @@ int main(int argc, char** argv) {
         all_cubes.push_back( Cube(Param_Pos_Color(glm::vec3(0, 2*i, 0), glm::vec3(0.2 + i/5.0, i/5.0, 0.2 + i*0.1)), 36) );
     }
 
-    for(Cube &c: all_cubes)
-    {
-        c.create_vbo_vao();
-    }
     all_cubes[0].create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
 
 
@@ -81,17 +77,17 @@ int main(int argc, char** argv) {
                 done = true; // Leave the loop after this iteration
             }
             camera.move_camera_key_pressed(e);
-            cursor.move(e);
-            cursor.create_vbo_vao();
+            cursor.move(e, all_cubes);
         }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
         for(Cube &c: all_cubes)
         {
+            c.create_vbo_vao();
             c.render(uMVP_location, uMV_location, uNormal_location, camera);
         }
-
+        cursor.create_vbo_vao();
         cursor.render(uMVP_location, uMV_location, uNormal_location, camera);
 
         // Update the display

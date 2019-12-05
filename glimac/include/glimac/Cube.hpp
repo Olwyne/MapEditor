@@ -17,6 +17,7 @@ public:
 
   void create_vbo_vao() override;
   inline glm::vec3 get_position() { return m_position; }
+  void set_color(const glm::vec3 color);
 
 };
 

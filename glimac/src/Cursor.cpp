@@ -64,8 +64,27 @@ void Cursor::change_position(const glm::vec3 position)
     m_position += position;
 }
 
-void Cursor::move(SDL_Event &e)
+
+void Cursor::cube_on_top(std::vector <Cube> &all_cubes)
 {
+    bool cube_found = false;
+    unsigned int i = 0;
+    //go through all the cubes and see if the position matches
+    while(i<all_cubes.size() && !cube_found)
+    {
+        if( m_position == all_cubes[i].get_position() )
+        {
+            cube_found = true;
+            //all_cubes[i].set_color(glm::vec3(1,0,0));
+        }
+        i++;
+    }
+}
+
+
+void Cursor::move(SDL_Event &e, std::vector <Cube> &all_cubes)
+{
+    //move the cursor
     switch(e.key.keysym.sym)
     {
         case SDLK_i:
@@ -87,21 +106,8 @@ void Cursor::move(SDL_Event &e)
             change_position(glm::vec3(0,-1,0));
             break;
     }
+
+    //consequence of the move: is there a cube?
+    cube_on_top(all_cubes);
 }
 
-bool Cursor::cube_on_top(std::vector <Cube> all_cubes)
-{
-    bool cube_found = false;
-    unsigned int i = 0;
-    //go through all the cubes and see if the position matches
-    while(i<all_cubes.size() && !cube_found)
-    {
-        if( m_position == all_cubes[i].get_position() )
-        {
-            cube_found = true;
-        }
-        i++;
-    }
-    
-    return cube_found;
-}

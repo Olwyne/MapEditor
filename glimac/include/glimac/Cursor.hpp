@@ -16,9 +16,8 @@ public:
   virtual void create_vbo_vao() override;
 
   void change_position(const glm::vec3 position);
-  void move(SDL_Event &e);
-  bool cube_on_top(std::vector <Cube> all_cubes); //check if the cursor is under a cube
-
+  void cube_on_top(std::vector <Cube> &all_cubes); //check if the cursor is under a cube
+  void move(SDL_Event &e, std::vector <Cube> &all_cubes);
 
 };
 

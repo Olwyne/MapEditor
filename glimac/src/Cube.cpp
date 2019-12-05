@@ -80,3 +80,7 @@ void Cube::create_vbo_vao()
 }
 
 
+void Cube::set_color(const glm::vec3 color) 
+{
+    m_color = color;
+}
