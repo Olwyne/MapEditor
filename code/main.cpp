@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
     //create cursor
     Cursor cursor;  
 
-    //create cubes
+    //create world and intial cubes
     Construction construction;
 
     construction.get_cubes()[0].create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);

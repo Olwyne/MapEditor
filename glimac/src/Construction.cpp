@@ -18,23 +18,26 @@ Construction::Construction()
 }
 
 
-const glm::vec2 Construction::find_column(Cursor &cursor)
+std::deque<Cube> Construction::get_column(Cursor &cursor)
 {
+    std::deque<Cube> column(m_max_cubes_in_column);
     bool column_found = false;
     unsigned int i = 0;
     unsigned int j = 0;
+    //make sure the cursor is "in the world"
     while ( i<m_length && j<m_width && !column_found)
     {
         if( cursor.get_position().x == i && cursor.get_position().z == j )
         {
             column_found = true;
+            //column = m_all_cubes(i,j);
         }
         i++;
         j++;
     }
     
-    if (!column_found) return glm::vec2(-1, -1);
-    else return glm::vec2(i, j);
+    //will return empty deque if !column_found
+    return column;
 }
 
 
