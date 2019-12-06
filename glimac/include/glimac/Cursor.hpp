@@ -3,7 +3,6 @@
 
 #include "Object.hpp"
 #include "Cube.hpp"
-#include <vector>
 
 class Cursor: public Object
 {
@@ -16,7 +15,6 @@ public:
   virtual void create_vbo_vao() override;
 
   void change_position(const glm::vec3 position);
-  void cube_on_top(std::vector <Cube> &all_cubes); //check if the cursor is under a cube
   void move(SDL_Event &e);
 
 };

@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
                         construction.add_cube(cursor.get_position());
                         break;
                     case SDLK_b:
-                        std::cout << "b ";
+                        construction.delete_cube(cursor.get_position());
                         break;
                 }
             }

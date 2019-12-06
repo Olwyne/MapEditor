@@ -65,23 +65,6 @@ void Cursor::change_position(const glm::vec3 position)
 }
 
 
-void Cursor::cube_on_top(std::vector <Cube> &all_cubes)
-{
-    bool cube_found = false;
-    unsigned int i = 0;
-    //go through all the cubes and see if the position matches
-    while(i<all_cubes.size() && !cube_found)
-    {
-        if( m_position == all_cubes[i].get_position() )
-        {
-            cube_found = true;
-            //all_cubes[i].set_color(glm::vec3(1,0,0));
-        }
-        i++;
-    }
-}
-
-
 void Cursor::move(SDL_Event &e)
 {
     //move the cursor
