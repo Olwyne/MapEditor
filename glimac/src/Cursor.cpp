@@ -3,7 +3,7 @@
 
 void Cursor::create_vbo_vao()
 {
-    glGenBuffers(1, &m_vbo);
+    glGenBuffers(1, &m_vbo); 
     //bind buffer vbo to a target
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
@@ -64,7 +64,6 @@ void Cursor::change_position(const glm::vec3 position)
     m_position += position;
 }
 
-
 void Cursor::move(SDL_Event &e)
 {
     //move the cursor
@@ -91,4 +90,3 @@ void Cursor::move(SDL_Event &e)
     }
 
 }
-
