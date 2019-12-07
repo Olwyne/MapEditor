@@ -21,7 +21,8 @@ protected:
   GLuint m_vao; //Vertex Array Object
   glm::vec3 m_position;
   glm::vec3 m_color;
-  const unsigned int m_nb_index; //for IBO purpose
+  //can't use const because of the operator = function (Cube.hpp)
+  unsigned int m_nb_index; //for IBO purpose
 
 public:
   Object(unsigned int nb_index) : m_vbo(0), m_vao(0), m_position(glm::vec3(0,0,0)), m_color(glm::vec3(0.5,0.5,0.5)), m_nb_index(nb_index) {} 
@@ -40,6 +41,8 @@ public:
   virtual GLuint get_vao() { return m_vao; }
   virtual GLuint get_vbo() { return m_vbo; }
 
+  //create vao, vbo, and render
+  virtual void create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, TrackballCamera &camera);
 
 };
 

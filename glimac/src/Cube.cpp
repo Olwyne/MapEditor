@@ -84,3 +84,11 @@ void Cube::set_color(const glm::vec3 color)
 {
     m_color = color;
 }
+
+Cube& Cube::operator=(const Cube& c)
+{
+    m_color = c.m_color;
+    m_nb_index = c.m_nb_index;
+    m_vao = c.m_vao;
+    m_vbo = c.m_vbo;
+}

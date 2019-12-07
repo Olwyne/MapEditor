@@ -35,16 +35,6 @@ void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_locat
     glBindVertexArray(0);
 }
 
-// CHANGE THIS
-// Object &Object::operator=(Object &obj)
-// {
-//     m_nb_index = obj.get_index();
-//     m_position = obj.get_position();
-//     m_vao = obj.get_vao();
-//     m_vbo = obj.get_vbo();
-
-//     return *this;
-// }
 
 Object::~Object()
 {
@@ -52,4 +42,8 @@ Object::~Object()
     glDeleteVertexArrays(1, &m_vao);
 }
 
-
+void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, TrackballCamera &camera)
+{
+    create_vbo_vao();
+    render(uMVP_location, uMV_location, uNormal_location, camera);
+}

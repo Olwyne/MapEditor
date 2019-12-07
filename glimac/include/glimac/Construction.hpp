@@ -14,16 +14,21 @@ private:
     static const unsigned int m_height = 3;
     static const unsigned int m_max_cubes_in_column = 40;
     //deque: makes it easier to add an delete cubes at top of a col
-    //idea: each column = deque
-    Eigen::Matrix <std::deque<Cube>, m_width, m_height> m_all_cubes;
+    //a matrix of columns(=deques) of cubes
+    Eigen::Matrix <std::deque<Cube>, m_length, m_width> m_all_cubes;
 
 public:
     Construction();
 
-    //inline std::deque <Cube> get_cubes() { return m_all_cubes; }
+    inline Eigen::Matrix <std::deque<Cube>, m_length, m_width> get_cubes() { return m_all_cubes; }
+    inline unsigned int get_width() const { return m_width; } 
+    inline unsigned int get_length() const { return m_length; }
+    inline unsigned int get_height() const { return m_height; }
 
-    //from a cursor's position, send deque of cubes of the corresponding column
-    std::deque<Cube> get_column(Cursor &cursor);
+    bool valid_position(glm::vec3 position);
+
+    //from any (valid) position send deque of cubes of the corresponding column
+    std::deque<Cube> get_column(glm::vec3 position);
 
     bool is_there_a_cube(Cursor &cursor);
 
@@ -31,4 +36,5 @@ public:
     void delete_cube(Cursor &cursor);
     void extrude_cube(Cursor &cursor);
     void dig_cube(Cursor &cursor);
+
 };

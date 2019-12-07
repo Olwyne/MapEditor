@@ -4,40 +4,56 @@
 
 Construction::Construction()
 {
-    //create 3 layers of cubes
-    for(unsigned int i=0; i<m_length; i++)
+    // //create 3 layers of cubes
+    for(unsigned int i=0; i<m_length; i++) //<----CHANGE THIS, 3 loops is bad
     {
         for(unsigned int j=0; j<m_width; j++)
         {
             for (unsigned int layer=0; layer<m_height; layer++)
             {
-                m_all_cubes(i,j).push_back( Cube(Param_Pos_Color(glm::vec3(i,layer,j),glm::vec3(0.2,1,0)), 36) );
+                Cube new_cube = Cube(Param_Pos_Color(glm::vec3(i,layer,j), glm::vec3(0.2,1,0)), 36);
+                m_all_cubes(i,j).push_back(new_cube);
             }
         }
     } 
+                                                 
+    for(unsigned int i=0; i<m_length; i++) 
+    {
+        for(unsigned int j=0; j<m_width; j++)
+        {
+                auto column_cubes = get_column(glm::vec3(i, 0, j));
+                std::deque<Cube>::iterator it; 
+                //iterator to go through all cubes in each deque/column
+                std::cout << "column: ";
+                for (it = column_cubes.begin(); it != column_cubes.end(); ++it) 
+                {
+                    std::cout << " "<< (*it).get_position();
+                    std::cout<<std::endl;
+                }
+                    
+        }
+    }
 }
 
 
-std::deque<Cube> Construction::get_column(Cursor &cursor)
+bool Construction::valid_position(glm::vec3 position)
+{
+    if (position.x <= m_length && position.z <= m_width) return true;
+    else return false;
+}
+
+
+std::deque<Cube> Construction::get_column(glm::vec3 position)
 {
     std::deque<Cube> column(m_max_cubes_in_column);
-    bool column_found = false;
-    unsigned int i = 0;
-    unsigned int j = 0;
-    //make sure the cursor is "in the world"
-    while ( i<m_length && j<m_width && !column_found)
+    if (valid_position(position))
     {
-        if( cursor.get_position().x == i && cursor.get_position().z == j )
-        {
-            column_found = true;
-            //column = m_all_cubes(i,j);
-        }
-        i++;
-        j++;
+        column = get_cubes()(position.x, position.z);
     }
     
-    //will return empty deque if !column_found
+    //will return empty deque if unvalid position
     return column;
+    //PB: returns column of cubes with pos 0 0 0
 }
 
 
@@ -47,7 +63,7 @@ bool Construction::is_there_a_cube(Cursor &cursor)
     unsigned int x = cursor.get_position().x;
     unsigned int y = cursor.get_position().y;
     unsigned int z = cursor.get_position().z;
-    //make sure the cursor is in the world's limits
+    //make sure the cursor is in the world's    CHANGE THIS USE FCT UP
     if (x <= m_length && z <= m_width)
     {
         unsigned int i = 0;
@@ -61,3 +77,4 @@ bool Construction::is_there_a_cube(Cursor &cursor)
     
     return res;
 }
+

@@ -48,9 +48,6 @@ int main(int argc, char** argv) {
     program.use();
 
     std::cout << argc << std::endl; //<---------------------change this
-
-
-    GLint uMVP_location, uMV_location, uNormal_location;
     
     //create cursor
     Cursor cursor;  
@@ -58,7 +55,14 @@ int main(int argc, char** argv) {
     //create world and intial cubes
     Construction construction;
 
-    construction.get_cubes()[0].create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
+    //variables
+    GLint uMVP_location, uMV_location, uNormal_location;
+    unsigned int world_length = construction.get_length();
+    unsigned int world_width = construction.get_width();
+
+
+    //create uniform variables by using one cube 
+    construction.get_cubes()(0,0).at(0).create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
 
     TrackballCamera camera;
     // Application loop:
@@ -72,31 +76,39 @@ int main(int argc, char** argv) {
                 done = true; // Leave the loop after this iteration
             }
             //repeat is important, don't add 2 cubes at once!
-            if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
-            {
-                switch(e.key.keysym.sym) //<-----CHANGE THIS, ADAPT WITH IMGUI
-                {
-                    case SDLK_a:
-                        construction.add_cube(cursor.get_position());
-                        break;
-                    case SDLK_b:
-                        construction.delete_cube(cursor.get_position());
-                        break;
-                }
-            }
+            // if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+            // {
+            //     switch(e.key.keysym.sym) //<-----CHANGE THIS, ADAPT WITH IMGUI
+            //     {
+            //         case SDLK_a:
+            //             construction.add_cube(cursor);
+            //             break;
+            //         case SDLK_b:
+            //             construction.delete_cube(cursor);
+            //             break;
+            //     }
+            // }
             camera.move_camera_key_pressed(e);
             cursor.move(e);
         }
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        for(Cube &c: construction.get_cubes())
+
+    //create and render all cubes
+        for (unsigned int length=0; length<world_length; length++) 
         {
-            c.create_vbo_vao();
-            c.render(uMVP_location, uMV_location, uNormal_location, camera);
+            for (unsigned int width=0; width<world_width; width++)
+            {
+                auto column_cubes = construction.get_column(glm::vec3(length, 0, width));
+                std::deque<Cube>::iterator it; 
+            //iterator to go through all cubes in each deque/column
+                for (it = column_cubes.begin(); it != column_cubes.end(); ++it) 
+                    (*it).create_and_render(uMVP_location, uMV_location, uNormal_location, camera);
+            }
         }
-        cursor.create_vbo_vao();
-        cursor.render(uMVP_location, uMV_location, uNormal_location, camera);
+    //create and render the cursor
+        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, camera);
 
         // Update the display
         windowManager.swapBuffers();
