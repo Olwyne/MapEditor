@@ -15,14 +15,14 @@ void Cube::create_vbo_vao()
 
     //origin + position
     Param_Pos_Color vertices[] = {
-                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, 1.0f)+ m_position, m_color), //0
-                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, 1.0f)+ m_position, m_color), //1
-                    Param_Pos_Color(glm::vec3(-1.0f, 1.0f, 1.0f)+ m_position, m_color), //2
-                    Param_Pos_Color(glm::vec3(1.0f, 1.0f, 1.0f)+ m_position, m_color), //3
-                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, -1.0f)+ m_position, m_color), //4
-                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, -1.0f)+ m_position, m_color), //5
-                    Param_Pos_Color(glm::vec3(-1.0f, 1.0f, -1.0f)+ m_position, m_color), //6
-                    Param_Pos_Color(glm::vec3(1.0f, 1.0f, -1.0f)+ m_position, m_color) //7
+                    Param_Pos_Color(m_size* (glm::vec3(1.0f, -1.0f, 1.0f)+ m_position), m_color), //0
+                    Param_Pos_Color(m_size* (glm::vec3(-1.0f, -1.0f, 1.0f)+ m_position), m_color), //1
+                    Param_Pos_Color(m_size* (glm::vec3(-1.0f, 1.0f, 1.0f)+ m_position), m_color), //2
+                    Param_Pos_Color(m_size* (glm::vec3(1.0f, 1.0f, 1.0f)+ m_position), m_color), //3
+                    Param_Pos_Color(m_size* (glm::vec3(1.0f, -1.0f, -1.0f)+ m_position), m_color), //4
+                    Param_Pos_Color(m_size* (glm::vec3(-1.0f, -1.0f, -1.0f)+ m_position), m_color), //5
+                    Param_Pos_Color(m_size* (glm::vec3(-1.0f, 1.0f, -1.0f)+ m_position), m_color), //6
+                    Param_Pos_Color(m_size* (glm::vec3(1.0f, 1.0f, -1.0f)+ m_position), m_color) //7
                           };
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -91,4 +91,5 @@ Cube& Cube::operator=(const Cube& c)
     m_nb_index = c.m_nb_index;
     m_vao = c.m_vao;
     m_vbo = c.m_vbo;
-}
+    m_size = c.m_size;
+} 

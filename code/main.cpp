@@ -76,18 +76,18 @@ int main(int argc, char** argv) {
                 done = true; // Leave the loop after this iteration
             }
             //repeat is important, don't add 2 cubes at once!
-            // if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
-            // {
-            //     switch(e.key.keysym.sym) //<-----CHANGE THIS, ADAPT WITH IMGUI
-            //     {
-            //         case SDLK_a:
-            //             construction.add_cube(cursor);
-            //             break;
-            //         case SDLK_b:
-            //             construction.delete_cube(cursor);
-            //             break;
-            //     }
-            // }
+            if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+            {
+                switch(e.key.keysym.sym) //<-----CHANGE THIS, ADAPT WITH IMGUI
+                {
+                    case SDLK_a:
+                        construction.add_cube(cursor);
+                        break;
+                    case SDLK_b:
+                        construction.delete_cube(cursor);
+                        break;
+                }
+            }
             camera.move_camera_key_pressed(e);
             cursor.move(e);
         }

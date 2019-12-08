@@ -11,34 +11,20 @@ Construction::Construction()
         {
             for (unsigned int layer=0; layer<m_height; layer++)
             {
-                Cube new_cube = Cube(Param_Pos_Color(glm::vec3(i,layer,j), glm::vec3(0.2,1,0)), 36);
+                Cube new_cube = Cube(Param_Pos_Color(glm::vec3(2*i,2*layer,2*j), glm::vec3(0.2,1,0)), 36, 1);
                 m_all_cubes(i,j).push_back(new_cube);
             }
         }
     } 
-                                                 
-    for(unsigned int i=0; i<m_length; i++) 
-    {
-        for(unsigned int j=0; j<m_width; j++)
-        {
-                auto column_cubes = get_column(glm::vec3(i, 0, j));
-                std::deque<Cube>::iterator it; 
-                //iterator to go through all cubes in each deque/column
-                std::cout << "column: ";
-                for (it = column_cubes.begin(); it != column_cubes.end(); ++it) 
-                {
-                    std::cout << " "<< (*it).get_position();
-                    std::cout<<std::endl;
-                }
-                    
-        }
-    }
 }
 
 
 bool Construction::valid_position(glm::vec3 position)
 {
-    if (position.x <= m_length && position.z <= m_width) return true;
+    //the position is considered valid if it's in the construction of cubes
+    if (   position.x <= m_length && position.z <= m_width
+        && position.x >= 0 && position.z >= 0
+        && position.y <= m_max_cubes_in_column && position.y >= 0) return true;
     else return false;
 }
 
@@ -59,24 +45,52 @@ std::deque<Cube> Construction::get_column(glm::vec3 position)
 }
 
 
-bool Construction::is_there_a_cube(Cursor &cursor)
+bool Construction::is_there_a_cube(Cursor &cursor, int &position_in_deque)
 {
     bool res = false;
-    unsigned int x = cursor.get_position().x;
-    unsigned int y = cursor.get_position().y;
-    unsigned int z = cursor.get_position().z;
-    //make sure the cursor is in the world's    CHANGE THIS USE FCT UP
-    if (x <= m_length && z <= m_width)
+    int cube_in_column = 0;
+
+    if (valid_position(cursor.get_position()))
     {
-        unsigned int i = 0;
+        //these variables are mainly created to make the code easier to read
+        unsigned int x = cursor.get_position().x;
+        unsigned int y = cursor.get_position().y;
+        unsigned int z = cursor.get_position().z;
+        unsigned int deque_size = m_all_cubes(x, z).size();
+
         //check if the cursor's position is the same as one of the column's cube
-        while (i<m_height && !res)
+        while (cube_in_column < deque_size && !res)
         {
-            if(m_all_cubes(x, z).at(i).get_position().y == y) res = true; 
-            else i++;
+            if(m_all_cubes(x, z).at(cube_in_column).get_position().y == y) res = true; 
+            else cube_in_column++;
         }
     }
+
+    if (res) position_in_deque = cube_in_column;
+    else position_in_deque = -1;
     
     return res;
 }
 
+void Construction::add_cube(Cursor &cursor)
+{
+    int position_in_deque;
+    //only add a cube if there isn't one there already!
+    if(!is_there_a_cube(cursor, position_in_deque) && valid_position(cursor.get_position()))
+    {
+        Cube new_cube = Cube(Param_Pos_Color(cursor.get_position(), glm::vec3(0.2,1,0)), 36, 1);
+        m_all_cubes(cursor.get_position().x, cursor.get_position().z).push_back(new_cube);
+        std::cout << "cube added" << std::endl;
+    }
+}
+
+void Construction::delete_cube(Cursor &cursor)
+{
+    int position_in_deque;
+    //only delete a cube if it exists (if it does the position is necessarily valid)
+    if(is_there_a_cube(cursor, position_in_deque))
+    {
+        m_all_cubes(cursor.get_position().x, cursor.get_position().z).erase
+                                                                    ( m_all_cubes(cursor.get_position().x, cursor.get_position().z).begin() + position_in_deque);
+    }
+}
