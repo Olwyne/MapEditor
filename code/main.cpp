@@ -78,6 +78,7 @@ int main(int argc, char** argv) {
             //repeat is important, don't add 2 cubes at once!
             if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
             {
+                int useless;
                 switch(e.key.keysym.sym) //<-----CHANGE THIS, ADAPT WITH IMGUI
                 {
                     case SDLK_a:
@@ -85,6 +86,9 @@ int main(int argc, char** argv) {
                         break;
                     case SDLK_b:
                         construction.delete_cube(cursor);
+                        break;
+                    case SDLK_w:
+                        construction.is_there_a_cube(cursor,useless);
                         break;
                 }
             }

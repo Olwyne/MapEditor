@@ -47,3 +47,9 @@ void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint 
     create_vbo_vao();
     render(uMVP_location, uMV_location, uNormal_location, camera);
 }
+
+bool Object::obj_same_pos(Object &obj)
+{
+    if ( m_position == obj.m_position ) return true;
+    else return false;
+}

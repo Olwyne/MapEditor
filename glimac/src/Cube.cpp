@@ -9,20 +9,20 @@ const float WINDOW_HEIGHT = 800; //<----------------------------CHANGE THIS
 
 void Cube::create_vbo_vao()
 {
-    glGenBuffers(1, &m_vbo);
+    glGenBuffers(1, &m_vbo); 
     //bind buffer vbo to a target
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
     //origin + position
     Param_Pos_Color vertices[] = {
-                    Param_Pos_Color(m_size* (glm::vec3(1.0f, -1.0f, 1.0f)+ m_position), m_color), //0
-                    Param_Pos_Color(m_size* (glm::vec3(-1.0f, -1.0f, 1.0f)+ m_position), m_color), //1
-                    Param_Pos_Color(m_size* (glm::vec3(-1.0f, 1.0f, 1.0f)+ m_position), m_color), //2
-                    Param_Pos_Color(m_size* (glm::vec3(1.0f, 1.0f, 1.0f)+ m_position), m_color), //3
-                    Param_Pos_Color(m_size* (glm::vec3(1.0f, -1.0f, -1.0f)+ m_position), m_color), //4
-                    Param_Pos_Color(m_size* (glm::vec3(-1.0f, -1.0f, -1.0f)+ m_position), m_color), //5
-                    Param_Pos_Color(m_size* (glm::vec3(-1.0f, 1.0f, -1.0f)+ m_position), m_color), //6
-                    Param_Pos_Color(m_size* (glm::vec3(1.0f, 1.0f, -1.0f)+ m_position), m_color) //7
+                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, 1.0f)*m_size  + 2.f*m_size*m_position, m_color), //0
+                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, 1.0f)*m_size  + 2.f*m_size*m_position, m_color), //1
+                    Param_Pos_Color(glm::vec3(-1.0f, 1.0f, 1.0f)*m_size  + 2.f*m_size*m_position, m_color), //2
+                    Param_Pos_Color(glm::vec3(1.0f, 1.0f, 1.0f)*m_size  + 2.f*m_size*m_position, m_color), //3
+                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, -1.0f)*m_size  + 2.f*m_size*m_position, m_color), //4
+                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, -1.0f)*m_size  + 2.f*m_size*m_position, m_color), //5
+                    Param_Pos_Color(glm::vec3(-1.0f, 1.0f, -1.0f)*m_size  + 2.f*m_size*m_position, m_color), //6
+                    Param_Pos_Color(glm::vec3(1.0f, 1.0f, -1.0f)*m_size  + 2.f*m_size*m_position, m_color) //7
                           };
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);

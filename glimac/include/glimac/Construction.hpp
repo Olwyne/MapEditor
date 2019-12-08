@@ -9,9 +9,9 @@
 class Construction
 {
 private:
-    static const unsigned int m_width = 5;
-    static const unsigned int m_length = 5;
-    static const unsigned int m_height = 3;
+    static const unsigned int m_width = 2;
+    static const unsigned int m_length = 2;
+    static const unsigned int m_height = 2;
     static const unsigned int m_max_cubes_in_column = 40;
     //deque: makes it easier to add an delete cubes at top of a col
     //a matrix of columns(=deques) of cubes
