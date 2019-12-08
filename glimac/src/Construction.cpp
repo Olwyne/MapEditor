@@ -45,15 +45,17 @@ bool Construction::valid_position(glm::vec3 position)
 
 std::deque<Cube> Construction::get_column(glm::vec3 position)
 {
-    std::deque<Cube> column(m_max_cubes_in_column);
     if (valid_position(position))
     {
-        column = get_cubes()(position.x, position.z);
+        std::deque<Cube> column = get_cubes()(position.x, position.z);
+        return column;
+
     }
-    
-    //will return empty deque if unvalid position
-    return column;
-    //PB: returns column of cubes with pos 0 0 0
+    else
+    {
+       std::deque<Cube> empty_col; 
+       return empty_col;
+    }
 }
 
 
