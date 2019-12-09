@@ -87,10 +87,25 @@ void Cube::set_color(const glm::vec3 color)
 
 Cube& Cube::operator=(const Cube& c)
 {
-    m_color = c.m_color;
-    m_nb_index = c.m_nb_index;
-    m_vao = c.m_vao;
-    m_vbo = c.m_vbo;
-    m_size = c.m_size;
-    m_pos_in_deque = c.m_pos_in_deque;
+    if(this != &c)
+    {
+        m_color = c.m_color;
+        m_nb_index = c.m_nb_index;
+        m_vao = c.m_vao;
+        m_vbo = c.m_vbo;
+        m_size = c.m_size;
+        m_pos_in_deque = c.m_pos_in_deque;
+    }
+    return *this;
+} 
+
+
+bool Cube::operator==(const Cube& c)
+{
+    return ( m_color == c.m_color
+            && m_nb_index == c.m_nb_index
+            && m_vao == c.m_vao
+            && m_vbo == c.m_vbo
+            && m_size == c.m_size
+            && m_pos_in_deque == c.m_pos_in_deque );
 } 

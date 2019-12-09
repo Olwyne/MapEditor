@@ -37,4 +37,9 @@ public:
     void extrude_cube(Cursor &cursor);
     void dig_cube(Cursor &cursor);
 
+
+    void render_all_cubes(const unsigned int length, const unsigned int width, GLint &uMVP_location, 
+                          GLint &uMV_location, GLint &uNormal_location, TrackballCamera &camera);
+
+
 };

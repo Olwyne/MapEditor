@@ -24,8 +24,9 @@ public:
   void create_vbo_vao() override;
   void set_color(const glm::vec3 color);
 
-  //needs to be defined so that deque related functions work
+  //need to be defined so that deque related functions work
   Cube& operator=(const Cube& c);
+  bool operator==(const Cube& c);
   
   inline size_t get_size() { return m_size; }
   inline unsigned int get_pos_in_deque() { return m_pos_in_deque; }

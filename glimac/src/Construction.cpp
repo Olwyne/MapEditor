@@ -1,6 +1,6 @@
 #include <glimac/Construction.hpp>
 #include <iostream>
-
+#include <algorithm>
 
 Construction::Construction()
 {
@@ -31,6 +31,7 @@ bool Construction::valid_position(glm::vec3 position)
 }
 
 
+//CHANGE THIS    pretty sure it is useless asf
 std::deque<Cube> Construction::get_column(glm::vec3 position)
 {
     if (valid_position(position))
@@ -68,8 +69,6 @@ bool Construction::is_there_a_cube(Cursor &cursor)
             else cube_in_column++;
         }
     }
-
-    std::cout << "is there a cube? " << res << std::endl;
     
     return res;
 }
@@ -85,6 +84,8 @@ void Construction::add_cube(Cursor &cursor)
     }
 }
 
+
+
 void Construction::delete_cube(Cursor &cursor)
 {
     //only delete a cube if it exists (if it does the position is necessarily valid)
@@ -94,14 +95,32 @@ void Construction::delete_cube(Cursor &cursor)
         unsigned int x = cursor.get_position().x;
         unsigned int y = cursor.get_position().y;
         unsigned int z = cursor.get_position().z;
-
-        //get the cube we want to delete 's pos in the column
-        unsigned int position_in_deque =  m_all_cubes(x, z).at(y).get_pos_in_deque();
-        std::cout << "cube at pos" << x << " " << z << " pos_in_Deq " << position_in_deque <<std::endl;
-
-        //erase
-        m_all_cubes(x, z).erase(m_all_cubes(x, z).begin() + position_in_deque);
-
         
+
+//FUNCTOR METHOD 
+        Cube &cube_to_delete = m_all_cubes(x, z).at(y);
+        m_all_cubes(x, z).erase( std::remove(m_all_cubes(x, z).begin(), 
+                                             m_all_cubes(x, z).end(), 
+                                             cube_to_delete 
+                                            ),
+                                m_all_cubes(x, z).end() );
+        std::cout << "cursor pos " << cursor.get_position() << std::endl;
+        std::cout << "cube deleted at " << cube_to_delete.get_position() << std::endl;
+
+    
+//BASIC METHOD  
+        // const unsigned int position_in_deque = m_all_cubes(x, z).at(y).get_pos_in_deque();
+        // get_cubes()(x, z).erase( get_cubes()(x, z).begin() + position_in_deque );
+
+
+    }
+}
+
+void Construction::render_all_cubes(const unsigned int length, const unsigned int width, GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, TrackballCamera &camera)
+{
+    //tried using for_each but failed :-(
+    for(unsigned int i=0; i<m_all_cubes(length,width).size(); i++)
+    {
+        m_all_cubes(length,width).at(i).create_and_render(uMVP_location, uMV_location, uNormal_location, camera);
     }
 }

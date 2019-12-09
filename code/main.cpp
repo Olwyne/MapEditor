@@ -12,6 +12,7 @@
 using namespace glimac;
 
 
+
 //___________________________________________________________  WHERE DO WE PUT THESE FUNCTIONS?
 
 namespace{
@@ -70,6 +71,9 @@ int main(int argc, char** argv) {
     while(!done) {
         // Event loop:
         SDL_Event e;
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
         while(windowManager.pollEvent(e)) 
         {
             if(e.type == SDL_QUIT) {
@@ -92,19 +96,12 @@ int main(int argc, char** argv) {
             cursor.move(e);
         }
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-
     //create and render all cubes
         for (unsigned int length=0; length<world_length; length++) 
         {
             for (unsigned int width=0; width<world_width; width++)
             {
-                auto column_cubes = construction.get_column(glm::vec3(length, 0, width));
-                std::deque<Cube>::iterator it; 
-            //iterator to go through all cubes in each deque/column
-                for (it = column_cubes.begin(); it != column_cubes.end(); ++it) 
-                    (*it).create_and_render(uMVP_location, uMV_location, uNormal_location, camera);
+               construction.render_all_cubes(length, width, uMVP_location, uMV_location, uNormal_location, camera);
             }
         }
     //create and render the cursor
