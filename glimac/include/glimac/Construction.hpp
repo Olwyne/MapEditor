@@ -30,7 +30,7 @@ public:
     //from any (valid) position send deque of cubes of the corresponding column
     std::deque<Cube> get_column(glm::vec3 position);
 
-    bool is_there_a_cube(Cursor &cursor, int &position_in_deque);
+    bool is_there_a_cube(Cursor &cursor);
 
     void add_cube(Cursor &cursor);
     void delete_cube(Cursor &cursor);

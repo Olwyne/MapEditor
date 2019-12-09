@@ -92,4 +92,5 @@ Cube& Cube::operator=(const Cube& c)
     m_vao = c.m_vao;
     m_vbo = c.m_vbo;
     m_size = c.m_size;
+    m_pos_in_deque = c.m_pos_in_deque;
 } 
