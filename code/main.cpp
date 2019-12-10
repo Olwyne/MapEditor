@@ -6,6 +6,8 @@
 
 #include <glimac/Cube.hpp>
 #include <glimac/Cursor.hpp>
+#include <glimac/Construction.hpp>
+
 
 #include <GL/glew.h>
 #include <iostream>
@@ -117,42 +119,48 @@ int main(int argc, char** argv)
     
     //create cursor
     Cursor cursor;  
-    // Param_Pos_Color cursor_data = Param_Pos_Color(glm::vec3(0,-0.3,0), glm::vec3(0,0,0.3));
-    // Cursor cursor(cursor_data, 6);
 
-    //create cubes
-    unsigned int nb_cubes=3;
-    std::vector <Cube> all_cubes;
-    for (unsigned int i=0; i<nb_cubes; i++)
-    {
-        all_cubes.push_back( Cube(Param_Pos_Color(glm::vec3(0, 2*i, 0), glm::vec3(0.2 + i/5.0, i/5.0, 0.2 + i*0.1)), 36) );
-    }
+    //create world and intial cubes
+    Construction construction;
 
-    for(Cube &c: all_cubes)
-    {
-        c.create_vbo_vao();
-    }
-    all_cubes[0].create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
-
+    //variables
+    GLint uMVP_location, uMV_location, uNormal_location;
+    
+    //create uniform variables by using one cube 
+    construction.get_cubes()(0,0).at(0).create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
 
     TrackballCamera camera;
 
 
     // Main loop
     bool done = false;
-    while (!done)
-    {
-       SDL_Event event;
-        while (SDL_PollEvent(&event))
+    while(!done) {
+        // Event loop:
+        SDL_Event e;
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+        while(windowManager.pollEvent(e)) 
         {
+            if(e.type == SDL_QUIT) {
+                done = true; // Leave the loop after this iteration
+            }
+            //repeat is important, don't add 2 cubes at once!
+            if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+            {
+                switch(e.key.keysym.sym) //<-----CHANGE THIS, ADAPT WITH IMGUI
+                {
+                    case SDLK_a:
+                        construction.add_cube(cursor);
+                        break;
+                    case SDLK_b:
+                        construction.delete_cube(cursor);
+                        break;
+                }
+            }
+            camera.move_camera_key_pressed(e);
+            cursor.move(e);
             ImGui_ImplSDL2_ProcessEvent(&event);
-            if (event.type == SDL_QUIT)
-                done = true;
-            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
-                done = true;
-            camera.move_camera_key_pressed(event);
-            cursor.move(event);
-            cursor.create_vbo_vao();
         }
 
         // Start the Dear ImGui frame
@@ -163,6 +171,7 @@ int main(int argc, char** argv)
         {
             static float f = 0.0f;
             static int counter = 0;
+    //create and render all cubes
 
             ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
@@ -199,13 +208,10 @@ int main(int argc, char** argv)
         glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); 
+        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, camera);
 
-        for(Cube &c: all_cubes)
-        {
-            c.render(uMVP_location, uMV_location, uNormal_location, camera);
-        }
-
-        cursor.render(uMVP_location, uMV_location, uNormal_location, camera);
+    //create and render the cursor
+        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, camera);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         SDL_GL_SwapWindow(window);
     }
