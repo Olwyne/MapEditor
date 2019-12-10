@@ -58,10 +58,7 @@ int main(int argc, char** argv) {
 
     //variables
     GLint uMVP_location, uMV_location, uNormal_location;
-    unsigned int world_length = construction.get_length();
-    unsigned int world_width = construction.get_width();
-
-
+    
     //create uniform variables by using one cube 
     construction.get_cubes()(0,0).at(0).create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
 
@@ -97,13 +94,9 @@ int main(int argc, char** argv) {
         }
 
     //create and render all cubes
-        for (unsigned int length=0; length<world_length; length++) 
-        {
-            for (unsigned int width=0; width<world_width; width++)
-            {
-               construction.render_all_cubes(length, width, uMVP_location, uMV_location, uNormal_location, camera);
-            }
-        }
+
+        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, camera);
+
     //create and render the cursor
         cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, camera);
 

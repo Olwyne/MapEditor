@@ -94,7 +94,7 @@ Cube& Cube::operator=(const Cube& c)
         m_vao = c.m_vao;
         m_vbo = c.m_vbo;
         m_size = c.m_size;
-        m_pos_in_deque = c.m_pos_in_deque;
+        m_invisible = c.m_invisible;
     }
     return *this;
 } 
@@ -107,5 +107,11 @@ bool Cube::operator==(const Cube& c)
             && m_vao == c.m_vao
             && m_vbo == c.m_vbo
             && m_size == c.m_size
-            && m_pos_in_deque == c.m_pos_in_deque );
+            && m_invisible == c.m_invisible );
 } 
+
+
+void Cube::set_invisible(const bool invisible)
+{
+    m_invisible = invisible;
+}
