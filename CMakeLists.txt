@@ -35,7 +35,11 @@ include_directories(${SDL2_INCLUDE_DIRS}
 			${GLEW_INCLUDE_DIRS} 
 			${EIGEN3_INCLUDE_DIR} 
 			glimac/include 
-			third-party/include)
+			third-party/include
+			third-party/include/ImGUI
+			third-party/include/glad/include
+		#	${CMAKE_SOURCE_DIR}third-party/
+			)
 
 
 set(ALL_LIBRARIES glimac ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY} ${EIGEN3_LIBRARIES})
@@ -45,8 +49,15 @@ set(ALL_LIBRARIES glimac ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY} $
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 file(GLOB MAIN_CODE "code")
+file(GLOB_RECURSE IMGUI_SOURCES third-party/include/ImGUI/*)
+
+add_library(IMGUI STATIC ${IMGUI_SOURCES})
+
 add_subdirectory(glimac)
 add_subdirectory(code)
+add_subdirectory(third-party)
+add_subdirectory(third-party/include/ImGUI)
+
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
 
