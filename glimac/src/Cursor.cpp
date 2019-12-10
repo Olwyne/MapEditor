@@ -1,6 +1,8 @@
 #include <iostream>
 #include <glimac/Cursor.hpp>
 
+const float m_size = 1;//<----CHANGE THIS needs to be cube size
+
 void Cursor::create_vbo_vao()
 {
     glGenBuffers(1, &m_vbo);
@@ -9,10 +11,14 @@ void Cursor::create_vbo_vao()
 
     //origin + position
     Param_Pos_Color vertices[] = {
-                    Param_Pos_Color(glm::vec3(1.1f, -1.0f, 1.1f)+ m_position, m_color), //0
-                    Param_Pos_Color(glm::vec3(1.1f, -1.0f, -1.1f)+ m_position, m_color), //1
-                    Param_Pos_Color(glm::vec3(-1.1f, -1.0f, -1.1f)+ m_position, m_color), //2
-                    Param_Pos_Color(glm::vec3(-1.1f, -1.0f, 1.1f)+ m_position, m_color), //3
+                    Param_Pos_Color(glm::vec3(1.0f+0.1f, -1.0f-0.1f, 1.0f+0.1f)*m_size + 2.f*m_size*m_position, m_color), //0
+                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, -1.0f-0.1f, 1.0f+0.1f)*m_size + 2.f*m_size*m_position, m_color), //1
+                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, 1.0f+0.1f, 1.0f+0.1f)*m_size + 2.f*m_size*m_position, m_color), //2
+                    Param_Pos_Color(glm::vec3(1.0f+0.1f, 1.0f+0.1f, 1.0f+0.1f)*m_size + 2.f*m_size*m_position, m_color), //3
+                    Param_Pos_Color(glm::vec3(1.0f+0.1f, -1.0f-0.1f, -1.0f-0.1f)*m_size + 2.f*m_size*m_position, m_color), //4
+                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, -1.0f-0.1f, -1.0f-0.1f)*m_size + 2.f*m_size*m_position, m_color), //5
+                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, 1.0f+0.1f, -1.0f-0.1f)*m_size + 2.f*m_size*m_position, m_color), //6
+                    Param_Pos_Color(glm::vec3(1.0f+0.1f, 1.0f+0.1f, -1.0f-0.1f)*m_size + 2.f*m_size*m_position, m_color) //7
                           };
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -25,9 +31,19 @@ void Cursor::create_vbo_vao()
     //different target, reserved to IBOs
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
-    //1 face, 2 triangles
-    uint32_t indexes[get_index()] = {0, 1, 2,
-                            2, 3, 0};
+    //8 vertices, 6 faces
+    uint32_t indexes[get_index()] = {0, 1, 3, //top face 
+                            1, 3, 2,
+                            4, 5, 7, //bottom face
+                            5, 7, 6,
+                            0, 3, 4, //left face
+                            3, 4, 7,
+                            1, 2, 5, //right face
+                            2, 5, 6,
+                            3, 2, 7, //front face
+                            2, 7, 6,
+                            0, 1, 4, //back 
+                            1, 4, 5};
 
     //fill IBO with indexes
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, get_index()*sizeof(uint32_t), indexes, GL_STATIC_DRAW);
@@ -66,42 +82,29 @@ void Cursor::change_position(const glm::vec3 position)
 
 void Cursor::move(SDL_Event &e)
 {
+    //move the cursor
+    if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+    {
     switch(e.key.keysym.sym)
     {
-        case SDLK_i:
-            change_position(glm::vec3(0,0,-1));
-            break;
-        case SDLK_k:
-            change_position(glm::vec3(0,0,1));
-            break;
-        case SDLK_j:
-            change_position(glm::vec3(-1,0,0));
-            break;
-        case SDLK_l:
-            change_position(glm::vec3(1,0,0));
-            break;
-        case SDLK_p:
-            change_position(glm::vec3(0,1,0));
-            break;
-        case SDLK_m:
-            change_position(glm::vec3(0,-1,0));
-            break;
-    }
-}
-
-bool Cursor::cube_on_top(std::vector <Cube> all_cubes)
-{
-    bool cube_found = false;
-    unsigned int i = 0;
-    //go through all the cubes and see if the position matches
-    while(i<all_cubes.size() && !cube_found)
-    {
-        if( m_position == all_cubes[i].get_position() )
-        {
-            cube_found = true;
+            case SDLK_i:
+                change_position(glm::vec3(0,0,-1));
+                break;
+            case SDLK_k:
+                change_position(glm::vec3(0,0,1));
+                break;
+            case SDLK_j:
+                change_position(glm::vec3(-1,0,0));
+                break;
+            case SDLK_l:
+                change_position(glm::vec3(1,0,0));
+                break;
+            case SDLK_p:
+                change_position(glm::vec3(0,1,0));
+                break;
+            case SDLK_m:
+                change_position(glm::vec3(0,-1,0));
+                break;
         }
-        i++;
     }
-    
-    return cube_found;
 }
