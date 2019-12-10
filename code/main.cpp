@@ -113,9 +113,6 @@ int main(int argc, char** argv)
     bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0, 0, 0, -1);
-
-
-    GLint uMVP_location, uMV_location, uNormal_location;
     
     //create cursor
     Cursor cursor;  
@@ -140,8 +137,9 @@ int main(int argc, char** argv)
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        while(windowManager.pollEvent(e)) 
+        while(SDL_PollEvent(&e)) 
         {
+            ImGui_ImplSDL2_ProcessEvent(&e);
             if(e.type == SDL_QUIT) {
                 done = true; // Leave the loop after this iteration
             }
@@ -160,7 +158,7 @@ int main(int argc, char** argv)
             }
             camera.move_camera_key_pressed(e);
             cursor.move(e);
-            ImGui_ImplSDL2_ProcessEvent(&event);
+            
         }
 
         // Start the Dear ImGui frame
