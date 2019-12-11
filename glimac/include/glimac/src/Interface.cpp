@@ -88,3 +88,13 @@ ImGuiIO& initialise_ImGui(SDL_Window* window,SDL_GLContext gl_context){
     ImGui_ImplOpenGL3_Init(glsl_version);
     return io;
 }
+
+void destroy_window(SDL_GLContext gl_context,SDL_Window* window){
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
+
+    SDL_GL_DeleteContext(gl_context);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+}

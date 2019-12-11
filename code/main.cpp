@@ -102,7 +102,7 @@ int main(int, char** argv)
         {
             static float f = 0.0f;
             static int counter = 0;
-    //create and render all cubes
+        //create and render all cubes
 
             ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
@@ -154,13 +154,7 @@ int main(int, char** argv)
     }
 
     // Cleanup
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
-    ImGui::DestroyContext();
-
-    SDL_GL_DeleteContext(gl_context);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-
+    destroy_window(gl_context,window);
+    
     return 0;
 }
