@@ -4,7 +4,6 @@
 
 Construction::Construction()
 {
-    //CHANGE THIS: maybe use a ref cube to get the index and the size variables?
     // //create 3 layers of cubes
     for(unsigned int i=0; i<m_length; i++) //<----CHANGE THIS if possible, 3 loops is bad
     {
@@ -12,7 +11,7 @@ Construction::Construction()
         {
             for (unsigned int layer=0; layer<m_max_cubes_in_column; layer++)
             {
-                Cube new_cube = Cube(Param_Pos_Color(glm::vec3(i,layer,j), glm::vec3(0.2,1,0)), 36, 1);
+                Cube new_cube = Cube(Param_Pos_Color(glm::vec3(i,layer,j), glm::vec3(0.2,1,0)));
                 //make cubes over 3 initial layers invisible
                 if(layer >= 3) new_cube.set_invisible(1);
                 m_all_cubes(i,j).push_back(new_cube);
