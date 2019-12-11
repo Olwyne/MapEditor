@@ -45,7 +45,24 @@ namespace{
         return window;
     }
     SDL_GLContext initialise_context(SDL_Window* window){
+
+        #if _APPLE_
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG); // Always required on Mac
+
+        #else
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
+
+        #endif
+
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+
         SDL_GLContext gl_context = SDL_GL_CreateContext(window);
+
+        std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
+        std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
+
         SDL_GL_MakeCurrent(window, gl_context);
         SDL_GL_SetSwapInterval(1); // Enable vsync
 
@@ -67,21 +84,14 @@ namespace{
     }
     ImGuiIO& initialise_ImGui(SDL_Window* window,SDL_GLContext gl_context){
 
-         // Decide GL+GLSL versions
+        // Decide GLSL versions
         #if _APPLE_
             // GL 3.2 Core + GLSL 150
             const char* glsl_version = "#version 150";
-            SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG); // Always required on Mac
-            SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+
         #else
             // GL 3.0 + GLSL 130
             const char* glsl_version = "#version 130";
-            SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-            SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
         #endif
 
          // Setup Dear ImGui context
@@ -101,15 +111,12 @@ namespace{
     }
 }
 
-int main(int argc, char** argv)
+int main(int, char** argv)
 {
     SDL_Window* window=initialise_window();
     SDL_GLContext gl_context =initialise_context(window);
     ImGuiIO& io=initialise_ImGui(window,gl_context);
            
-
-     std::cout << argc << std::endl; 
-
     FilePath applicationPath(argv[0]);
     Program program = loadProgram(applicationPath.dirPath() + "shaders/simple.vs.glsl",
                               applicationPath.dirPath() + "shaders/simple.fs.glsl");
