@@ -81,7 +81,22 @@ void Construction::delete_cube(Cursor &cursor)
 }
 
 
-void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, TrackballCamera &camera)
+
+void Construction::change_color(Cursor &cursor)
+{
+    if( valid_position(cursor.get_position()))
+    {
+        if (cube_at_cursor(cursor).get_color()==glm::vec3(0.2,1,0)) 
+            cube_at_cursor(cursor).set_color( glm::vec3(1,0,0.8) );  
+
+        else if (cube_at_cursor(cursor).get_color()==glm::vec3(1,0,0.8)) 
+            cube_at_cursor(cursor).set_color( glm::vec3(0.2,1,0) );
+    }
+}
+
+
+
+void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera)
 {       
     for (unsigned int length=0; length<m_length; length++) 
     {

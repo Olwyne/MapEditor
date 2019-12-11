@@ -1,6 +1,6 @@
 #pragma once
 #include "Program.hpp"
-#include "TrackballCamera.hpp"
+#include "Camera.hpp"
 
 using namespace glimac;
 
@@ -32,11 +32,11 @@ public:
   virtual ~Object();
 
   virtual void create_vbo_vao() {}
-  virtual void render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, TrackballCamera &camera);
+  virtual void render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera);
   virtual void create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, glimac::Program &program);
   
   //create vao, vbo, and render
-  virtual void create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, TrackballCamera &camera);
+  virtual void create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera);
 
   virtual unsigned int get_index() {return m_nb_index;}
   virtual glm::vec3 get_position() { return m_position; }

@@ -15,7 +15,7 @@ void Object::create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_l
 }
 
 
-void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, TrackballCamera &camera)
+void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera)
 {
     glm::mat4 camera_VM = camera.getViewMatrix();
 
@@ -42,7 +42,7 @@ Object::~Object()
     glDeleteVertexArrays(1, &m_vao);
 }
 
-void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, TrackballCamera &camera)
+void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera)
 {
     create_vbo_vao();
     render(uMVP_location, uMV_location, uNormal_location, camera);

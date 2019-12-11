@@ -5,6 +5,10 @@ const float m_size = 1;//<----CHANGE THIS needs to be cube size
 
 void Cursor::create_vbo_vao()
 {
+    /*
+        JULES: CHANGE THIS: faire ligne par ligne pour dessiner aretes du cube
+    */
+
     glGenBuffers(1, &m_vbo);
     //bind buffer vbo to a target
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);

@@ -1,13 +1,15 @@
-#include <ImGUI/imgui.h>
-#include <ImGUI/imgui_impl_sdl.h>
-#include <ImGUI/imgui_impl_opengl3.h>
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_sdl.h>
+#include <imgui/imgui_impl_opengl3.h>
 
 #include <glimac/SDLWindowManager.hpp>
 
 #include <glimac/Cube.hpp>
 #include <glimac/Cursor.hpp>
 #include <glimac/Construction.hpp>
-
+#include <glimac/FreeflyCamera.hpp>
+#include <glimac/TrackballCamera.hpp>
+#include <glimac/Camera.hpp>
 
 #include <GL/glew.h>
 #include <iostream>
@@ -38,7 +40,7 @@ namespace{
         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
         SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
         SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
-        SDL_Window* window = SDL_CreateWindow("World Editor", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
+        SDL_Window* window = SDL_CreateWindow("World Editor", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 800, window_flags);
        
         return window;
     }
@@ -66,7 +68,7 @@ namespace{
     ImGuiIO& initialise_ImGui(SDL_Window* window,SDL_GLContext gl_context){
 
          // Decide GL+GLSL versions
-        #if __APPLE__
+        #if _APPLE_
             // GL 3.2 Core + GLSL 150
             const char* glsl_version = "#version 150";
             SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG); // Always required on Mac
@@ -105,6 +107,9 @@ int main(int argc, char** argv)
     SDL_GLContext gl_context =initialise_context(window);
     ImGuiIO& io=initialise_ImGui(window,gl_context);
            
+
+     std::cout << argc << std::endl; 
+
     FilePath applicationPath(argv[0]);
     Program program = loadProgram(applicationPath.dirPath() + "shaders/simple.vs.glsl",
                               applicationPath.dirPath() + "shaders/simple.fs.glsl");
@@ -125,9 +130,9 @@ int main(int argc, char** argv)
     
     //create uniform variables by using one cube 
     construction.get_cubes()(0,0).at(0).create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
-
-    TrackballCamera camera;
-
+   //create Cameras
+    TrackballCamera tb_camera(0,0,0);
+   FreeflyCamera ff_camera;
 
     // Main loop
     bool done = false;
@@ -154,9 +159,12 @@ int main(int argc, char** argv)
                     case SDLK_b:
                         construction.delete_cube(cursor);
                         break;
+                    case SDLK_w:
+                        construction.change_color(cursor);
+                        break;
                 }
             }
-            camera.move_camera_key_pressed(e);
+            tb_camera.move_camera_key_pressed(e);
             cursor.move(e);
             
         }
@@ -206,10 +214,16 @@ int main(int argc, char** argv)
         glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); 
-        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, camera);
+        
+        //create and render all cubes
+
+        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, tb_camera);
 
     //create and render the cursor
-        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, camera);
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); //CHANGE THIS IT IS BAD
+        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, tb_camera);
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         SDL_GL_SwapWindow(window);
     }
@@ -225,4 +239,3 @@ int main(int argc, char** argv)
 
     return 0;
 }
-

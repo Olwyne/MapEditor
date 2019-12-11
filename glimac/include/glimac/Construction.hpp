@@ -9,8 +9,8 @@
 class Construction
 {
 private:
-    static const unsigned int m_width = 2;
-    static const unsigned int m_length = 2;
+    static const unsigned int m_width = 5;
+    static const unsigned int m_length = 5;
     static const unsigned int m_height = 2;
     static const unsigned int m_max_cubes_in_column = 40;
 
@@ -27,6 +27,7 @@ public:
 
     bool valid_position(glm::vec3 position);
     Cube& cube_at_cursor(Cursor &cursor);
+    void change_color(Cursor &cursor);
 
     void add_cube(Cursor &cursor);
     void delete_cube(Cursor &cursor);
@@ -34,7 +35,7 @@ public:
     void dig_cube(Cursor &cursor);
 
 
-    void render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, TrackballCamera &camera);
+    void render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera);
 
 
 };
