@@ -8,7 +8,7 @@ const float WINDOW_WIDTH = 800;
 const float WINDOW_HEIGHT = 800; //<----------------------------CHANGE THIS
 
 void Cube::create_vbo_vao()
-{
+{ 
     glGenBuffers(1, &m_vbo); 
     //bind buffer vbo to a target
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
@@ -114,4 +114,17 @@ bool Cube::operator==(const Cube& c)
 void Cube::set_invisible(const bool invisible)
 {
     m_invisible = invisible;
+}
+
+void Cube::set_type(unsigned int type)
+{
+    switch(type)
+    {
+        case 0:
+            m_size = 1;
+            m_texture = 0;
+        case 1:
+            m_size = 1;
+            m_texture = 0;
+    }
 }
