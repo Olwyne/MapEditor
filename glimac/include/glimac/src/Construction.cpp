@@ -62,14 +62,12 @@ Cube& Construction::cube_at_cursor(Cursor &cursor)
 }
 
 
-
 void Construction::add_cube(Cursor &cursor)
 {
     //make cube visible if not already
     if( valid_position(cursor.get_position()) && cube_at_cursor(cursor).is_invisible() )
         cube_at_cursor(cursor).set_invisible(0);
 }
-
 
 
 void Construction::delete_cube(Cursor &cursor)
@@ -80,6 +78,37 @@ void Construction::delete_cube(Cursor &cursor)
 }
 
 
+void Construction::extrude_cube(Cursor &cursor)
+{
+    //add cube at the top of the column
+
+    if( valid_position(cursor.get_position()) )
+    {
+        //work out in which column the cursor is
+        unsigned int x = cursor.get_position().x;
+        unsigned int z = cursor.get_position().z;
+        //get last element on the column, +1 so we add the cube right after
+        unsigned int y = m_all_cubes(x, z).back().get_position().y +1; 
+
+        //extrude
+        m_all_cubes(x, z).at(y).set_invisible(0);
+    }
+}
+
+
+void Construction::dig_cube(Cursor &cursor)
+{
+    //add cube at the top of the column
+
+    if( valid_position(cursor.get_position()) )
+    {
+        unsigned int x = cursor.get_position().x;
+        unsigned int z = cursor.get_position().z;
+        unsigned int y = m_all_cubes(x, z).back().get_position().y;
+        //dig
+        m_all_cubes(x, z).at(y).set_invisible(1);
+    }
+}
 
 void Construction::change_color(Cursor &cursor)
 {
