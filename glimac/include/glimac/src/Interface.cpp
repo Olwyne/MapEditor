@@ -116,16 +116,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,ImVec4 clear_color, Im
         static int counter = 0;
         //create and render all cubes
 
-       ImGui::Begin("ToolBox", &show_toolbox, ImGuiWindowFlags_MenuBar);
-        if (ImGui::BeginMenuBar())
-        {
-            if (ImGui::BeginMenu("File"))
-            {
-                if (ImGui::MenuItem("Close", "Ctrl+W"))  { show_toolbox = false; }
-                ImGui::EndMenu();
-            }
-            ImGui::EndMenuBar();
-        }
+       ImGui::Begin("ToolBox", &show_toolbox);
        
         if (ImGui::Button("Add Cube")){
             construction.add_cube(cursor);
