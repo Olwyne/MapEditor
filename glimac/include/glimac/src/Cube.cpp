@@ -122,20 +122,23 @@ void Cube::set_type(unsigned int type)
 
     switch(type)
     {
+        //initial type: 3 first layers of cubes
         case 0:
             m_size = 1;
             m_texture = 0;
             m_color = glm::vec3(0.2,1,0);
             break;
+        //water
         case 1:
             m_size = 1;
             m_texture = 0;
-            m_color = glm::vec3(0,0.7,0.2);
+            m_color = glm::vec3(0, 0.2, 1);
             break;
+        //earth
         case 2:
             m_size = 1;
             m_texture = 0;
-            m_color = glm::vec3(0.8,0,0.2);
+            m_color = glm::vec3(0.8,0.6,0.2);
             break;
     }
 }

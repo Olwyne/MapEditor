@@ -11,6 +11,8 @@
 #include <glimac/TrackballCamera.hpp>
 #include <glimac/Camera.hpp>
 #include <glimac/Interface.hpp>
+#include <glimac/RadialBasisFunctions.hpp>
+
 
 #include <GL/glew.h>
 #include <iostream>
@@ -74,7 +76,7 @@ int main(int, char** argv)
             tb_camera.move_camera_key_pressed(e);
             cursor.move(e);
 
-            if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+            if (e.type == SDL_KEYDOWN && e.key.repeat == 0) //just to test methods
             {
                 switch(e.key.keysym.sym)
                 {

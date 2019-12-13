@@ -108,7 +108,6 @@ void Construction::extrude_cube(Cursor &cursor)
     unsigned int y = index_highest_cube_in_col(cursor);
 
     m_all_cubes(x,z).at(y+1).set_invisible(0);
-    std::cout << "extrude" << std::endl;
 }
 
 
@@ -119,7 +118,6 @@ void Construction::dig_cube(Cursor &cursor)
     unsigned int y = index_highest_cube_in_col(cursor);
 
     m_all_cubes(x,z).at(y).set_invisible(1);
-    std::cout << "dig" << std::endl;
 }
 
 //CHANGE THIS, depends on imgui
