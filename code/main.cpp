@@ -55,7 +55,7 @@ int main(int, char** argv)
     construction.get_cubes()(0,0).at(0).create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
    //create Cameras
     TrackballCamera tb_camera(0,0,0);
-   FreeflyCamera ff_camera;
+    FreeflyCamera ff_camera;
 
     // Main loop
     bool done = false;
@@ -73,11 +73,24 @@ int main(int, char** argv)
             }
             tb_camera.move_camera_key_pressed(e);
             cursor.move(e);
+
+            if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+            {
+                switch(e.key.keysym.sym)
+                {
+                        case SDLK_b:
+                            construction.dig_cube(cursor);
+                            break;
+                        case SDLK_n:
+                            construction.extrude_cube(cursor);
+                            break;
+                }
+            }
             
         }
 
         interface_imgui(window,show_toolbox,clear_color, io,construction, cursor);      
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); 
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
         
         //create and render all cubes
         construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, tb_camera);

@@ -77,40 +77,52 @@ void Construction::delete_cube(Cursor &cursor)
         cube_at_cursor(cursor).set_invisible(1);
 }
 
-
-void Construction::extrude_cube(Cursor &cursor)
+//used to extrude and dig
+unsigned int Construction::index_highest_cube_in_col(Cursor &cursor)
 {
-    //add cube at the top of the column
-
+    unsigned int index_col = 39;
     if( valid_position(cursor.get_position()) )
     {
         //work out in which column the cursor is
         unsigned int x = cursor.get_position().x;
         unsigned int z = cursor.get_position().z;
-        //get last element on the column, +1 so we add the cube right after
-        unsigned int y = m_all_cubes(x, z).back().get_position().y +1; 
 
-        //extrude
-        m_all_cubes(x, z).at(y).set_invisible(0);
+        //get last element in the column, ie find highest visible cube
+        //start from the top of the column 
+        bool cube_found = false;
+        while(index_col>=0 && !cube_found)
+        {
+            //if the cube is visible
+            if( !m_all_cubes(x, z).at(index_col).is_invisible() ) cube_found = true;
+            else index_col--;
+        }
     }
+    return index_col;
+}
+
+
+void Construction::extrude_cube(Cursor &cursor)
+{
+    unsigned int x = cursor.get_position().x;
+    unsigned int z = cursor.get_position().z;
+    unsigned int y = index_highest_cube_in_col(cursor);
+
+    m_all_cubes(x,z).at(y+1).set_invisible(0);
+    std::cout << "extrude" << std::endl;
 }
 
 
 void Construction::dig_cube(Cursor &cursor)
 {
-    //add cube at the top of the column
+    unsigned int x = cursor.get_position().x;
+    unsigned int z = cursor.get_position().z;
+    unsigned int y = index_highest_cube_in_col(cursor);
 
-    if( valid_position(cursor.get_position()) )
-    {
-        unsigned int x = cursor.get_position().x;
-        unsigned int z = cursor.get_position().z;
-        unsigned int y = m_all_cubes(x, z).back().get_position().y;
-        //dig
-        m_all_cubes(x, z).at(y).set_invisible(1);
-    }
+    m_all_cubes(x,z).at(y).set_invisible(1);
+    std::cout << "dig" << std::endl;
 }
 
-
+//CHANGE THIS, depends on imgui
 void Construction::change_color(Cursor &cursor)
 {
     if( valid_position(cursor.get_position()) && !cube_at_cursor(cursor).is_invisible())

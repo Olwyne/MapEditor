@@ -27,6 +27,7 @@ public:
 
     bool valid_position(glm::vec3 position);
     Cube& cube_at_cursor(Cursor &cursor);
+    unsigned int index_highest_cube_in_col(Cursor &cursor);
     void change_color(Cursor &cursor);
 
     void add_cube(Cursor &cursor);

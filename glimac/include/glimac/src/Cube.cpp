@@ -130,12 +130,12 @@ void Cube::set_type(unsigned int type)
         case 1:
             m_size = 1;
             m_texture = 0;
-            glm::vec3(0,0.7,0.2);
+            m_color = glm::vec3(0,0.7,0.2);
             break;
         case 2:
             m_size = 1;
             m_texture = 0;
-            glm::vec3(0.8,0,0.2);
+            m_color = glm::vec3(0.8,0,0.2);
             break;
     }
 }
