@@ -15,6 +15,7 @@ public:
   virtual void create_vbo_vao() override;
 
   void change_position(const glm::vec3 position);
+  //use keyboard to change the cursor's position
   void move(SDL_Event &e);
 
 };
