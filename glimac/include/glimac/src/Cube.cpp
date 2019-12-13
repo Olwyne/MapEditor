@@ -118,13 +118,17 @@ void Cube::set_invisible(const bool invisible)
 
 void Cube::set_type(unsigned int type)
 {
+    m_type = type;
+
     switch(type)
     {
         case 0:
             m_size = 1;
             m_texture = 0;
+            break;
         case 1:
             m_size = 1;
             m_texture = 0;
+            break;
     }
 }

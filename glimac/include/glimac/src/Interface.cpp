@@ -3,6 +3,10 @@
 #include <imgui/imgui_impl_sdl.h>
 #include <imgui/imgui_impl_opengl3.h>
 #include <glimac/SDLWindowManager.hpp>
+
+#include <glimac/Cube.hpp>
+#include <glimac/Cursor.hpp>
+#include <glimac/Construction.hpp>
 #include <GL/glew.h>
 #include <iostream>
 #include <vector>
@@ -101,42 +105,46 @@ void destroy_window(SDL_GLContext gl_context,SDL_Window* window){
 
 
 
-void interface_imgui(SDL_Window* window,bool show_demo_window ,bool show_another_window,ImVec4 clear_color, ImGuiIO& io){
+void interface_imgui(SDL_Window* window,bool show_toolbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor){
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(window);
     ImGui::NewFrame();
-    if (show_demo_window)
+    if (show_toolbox)
     {
         static float f = 0.0f;
         static int counter = 0;
         //create and render all cubes
 
-        ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+       ImGui::Begin("ToolBox", &show_toolbox, ImGuiWindowFlags_MenuBar);
+        if (ImGui::BeginMenuBar())
+        {
+            if (ImGui::BeginMenu("File"))
+            {
+                if (ImGui::MenuItem("Close", "Ctrl+W"))  { show_toolbox = false; }
+                ImGui::EndMenu();
+            }
+            ImGui::EndMenuBar();
+        }
+       
+        if (ImGui::Button("Add Cube")){
+            construction.add_cube(cursor);
+        }
+        if (ImGui::Button("Delete Cube")){
+             construction.delete_cube(cursor);
+        }
+  
+        ImGui::Text("Select the type of the cube");
+        int e=construction.cube_at_cursor(cursor).get_type();
+        if(ImGui::RadioButton("Terre", &e, 0)){
+            construction.cube_at_cursor(cursor).set_type(e);
+            construction.change_color(cursor);
+        }
+        if(ImGui::RadioButton("Eau", &e, 1)){
+            construction.cube_at_cursor(cursor).set_type(e);
+            construction.change_color(cursor); 
+        }
 
-        ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-        ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-        ImGui::Checkbox("Another Window", &show_another_window);
-
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-        if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        ImGui::End();
-    }
-
-    // 3. Show another simple window.
-    if (show_another_window)
-    {
-        ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-        ImGui::Text("Hello from another window!");
-        if (ImGui::Button("Close Me"))
-            show_another_window = false;
         ImGui::End();
     }
 

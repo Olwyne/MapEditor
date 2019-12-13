@@ -12,7 +12,6 @@
 #include <glimac/Camera.hpp>
 #include <glimac/Interface.hpp>
 
-
 #include <GL/glew.h>
 #include <iostream>
 #include <vector>
@@ -40,8 +39,7 @@ int main(int, char** argv)
                               applicationPath.dirPath() + "shaders/simple.fs.glsl");
     program.use();
     // Our state
-    bool show_demo_window = true;
-    bool show_another_window = false;
+    bool show_toolbox = true;
     ImVec4 clear_color = ImVec4(0, 0, 0, -1);
     
     //create cursor
@@ -73,28 +71,12 @@ int main(int, char** argv)
             if(e.type == SDL_QUIT) {
                 done = true; // Leave the loop after this iteration
             }
-            //repeat is important, don't add 2 cubes at once!
-            if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
-            {
-                switch(e.key.keysym.sym) //<-----CHANGE THIS, ADAPT WITH IMGUI
-                {
-                    case SDLK_a:
-                        construction.add_cube(cursor);
-                        break;
-                    case SDLK_b:
-                        construction.delete_cube(cursor);
-                        break;
-                    case SDLK_w:
-                        construction.change_color(cursor);
-                        break;
-                }
-            }
             tb_camera.move_camera_key_pressed(e);
             cursor.move(e);
             
         }
 
-        interface_imgui(window,show_demo_window ,show_another_window,clear_color, io);      
+        interface_imgui(window,show_toolbox,clear_color, io,construction, cursor);      
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT); 
         
         //create and render all cubes
