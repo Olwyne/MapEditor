@@ -28,6 +28,7 @@ public:
     bool valid_position(glm::vec3 position);
     Cube& cube_at_cursor(Cursor &cursor);
     unsigned int index_highest_cube_in_col(Cursor &cursor);
+
     void change_color(Cursor &cursor);
 
     void add_cube(Cursor &cursor);
@@ -35,8 +36,10 @@ public:
     void extrude_cube(Cursor &cursor);
     void dig_cube(Cursor &cursor);
 
-
     void render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera);
+
+    //use for radial functions
+    std::vector<glm::vec3> put_all_cubes_positions_in_one_vector();
 
 
 };
