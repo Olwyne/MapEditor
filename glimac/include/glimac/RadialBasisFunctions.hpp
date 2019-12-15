@@ -44,7 +44,7 @@ std::vector<glm::vec3> get_control_points(const std::string &filename)
 //___________________________________________radial functions
 
 template<typename T>
-T basic_radial_b(const glm::vec3 vect1, const glm::vec3 vect2) //CHANGE THIS, no e so how functor issue 
+T basic_radial_b(const glm::vec2 vect1, const glm::vec2 vect2) 
 { 
     T d = glm::distance2(vect1, vect2);
     return d; 
@@ -52,7 +52,7 @@ T basic_radial_b(const glm::vec3 vect1, const glm::vec3 vect2) //CHANGE THIS, no
 
 
 template<typename T>
-T multiquadric(const glm::vec3 vect1, const glm::vec3 vect2, const T e) 
+T multiquadric(const glm::vec2 vect1, const glm::vec2 vect2, const T e) 
 {
     T d = glm::distance2(vect1, vect2);
     return sqrt( 1+ (e*d)*(e*d) );
@@ -60,7 +60,7 @@ T multiquadric(const glm::vec3 vect1, const glm::vec3 vect2, const T e)
 
 
 template<typename T>
-T inverse_quadric(const glm::vec3 vect1, const glm::vec3 vect2, const T e) 
+T inverse_quadric(const glm::vec2 vect1, const glm::vec2 vect2, const T e) 
 {
     T d = glm::distance2(vect1, vect2);
     return static_cast<float>(1) / ( 1+ (e*d)*(e*d) );
@@ -68,7 +68,7 @@ T inverse_quadric(const glm::vec3 vect1, const glm::vec3 vect2, const T e)
 
 
 template<typename T>
-T gaussian(const glm::vec3 vect1, const glm::vec3 vect2, const T e) 
+T gaussian(const glm::vec2 vect1, const glm::vec2 vect2, const T e) 
 {
     T d = glm::distance2(vect1, vect2);
     return exp(-e*d*d); 
@@ -77,13 +77,18 @@ T gaussian(const glm::vec3 vect1, const glm::vec3 vect2, const T e)
 
 //___________________________________________interpolation function g
 
+/*
+    Little explanation: u_i will be the height cubes, x_i their (x,z) positions
+*/
+
+
 template<typename T, typename U>
-Eigen::VectorXd get_omega_variables(Construction &construction, std::vector<glm::vec3> control_points, 
+Eigen::VectorXd get_omega_variables(Construction &construction, std::vector<glm::vec2> control_points, 
                                     Eigen::VectorXd u_vect, U phi_function, const unsigned int nb_iterations)
 {
     //calculate phi matrix
     Eigen::MatrixXd phi_matrix(nb_iterations, nb_iterations);
-    std::vector<glm::vec3> all_positions = construction.put_all_cubes_positions_in_one_vector();
+    std::vector<glm::vec2> all_positions = construction.put_all_cubes_positions_in_one_vector();
 
     for(unsigned int i=0; i<nb_iterations; i++)
     {
@@ -102,11 +107,11 @@ Eigen::VectorXd get_omega_variables(Construction &construction, std::vector<glm:
 
 
 template<typename T, typename U>
-std::vector<glm::vec3> interpolate(Construction &construction, std::vector<glm::vec3> control_points, 
+std::vector<glm::vec2> interpolate(Construction &construction, std::vector<glm::vec3> control_points, 
                                    Eigen::VectorXd omegas, U phi_function)
 {
     std::vector<glm::vec3> interpolated_points;
-    std::vector<glm::vec3> all_positions = construction.put_all_cubes_positions_in_one_vector();
+    std::vector<glm::vec2> all_positions = construction.put_all_cubes_positions_in_one_vector();
     //omega * f(control_point - all_points)
     for(unsigned int i=0; i<all_positions.size(); i++)
     {
@@ -119,18 +124,16 @@ std::vector<glm::vec3> interpolate(Construction &construction, std::vector<glm::
     return interpolated_points;
 }
 
+
+//this is just used to test previous functions
 template<typename T>
 void test_RBF(Construction &construction)
 {    
     std::vector<glm::vec3> control_points;
-    std::vector<glm::vec3> all_positions = construction.put_all_cubes_positions_in_one_vector(); 
+    std::vector<glm::vec2> all_positions = construction.put_all_cubes_positions_in_one_vector(); 
     const unsigned int nb_iterations = all_positions.size();
     Eigen::VectorXd u_vect(nb_iterations);
 
-    //random shit
-    glm::vec3 yi;
-    glm::vec3 er;
-    const T e;
 
     u_vect.fill(1.f);
     control_points.push_back(glm::vec3(0,0,1));

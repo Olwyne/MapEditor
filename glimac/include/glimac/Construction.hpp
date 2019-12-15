@@ -39,7 +39,7 @@ public:
     void render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera);
 
     //use for radial functions
-    std::vector<glm::vec3> put_all_cubes_positions_in_one_vector();
+    std::vector<glm::vec2> put_all_cubes_positions_in_one_vector();
 
 
 };

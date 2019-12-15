@@ -157,16 +157,19 @@ void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, G
     }
 }
 
-std::vector<glm::vec3> Construction::put_all_cubes_positions_in_one_vector()
+std::vector<glm::vec2> Construction::put_all_cubes_positions_in_one_vector()
 {
-    std::vector<glm::vec3> vector_of_all_positions;
+    std::vector<glm::vec2> vector_of_all_positions;
     for (unsigned int length=0; length<m_length; length++) 
     {
         for (unsigned int width=0; width<m_width; width++)
         {
             for(unsigned int i=0; i<m_max_cubes_in_column; i++)
             {
-                vector_of_all_positions.push_back(m_all_cubes(length,width).at(i).get_position());
+                glm::vec2 x_and_z;
+                x_and_z.x = m_all_cubes(length,width).at(i).get_position().x;
+                x_and_z.y = m_all_cubes(length,width).at(i).get_position().z;
+                vector_of_all_positions.push_back(x_and_z);
             }
         }
     }
