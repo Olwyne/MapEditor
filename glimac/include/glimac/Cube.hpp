@@ -1,29 +1,26 @@
 #pragma once
 
 #include "Object.hpp"
-
+#include "Image.hpp"
 
 using namespace glimac;
 
 
-
 class Cube: public Object
 {
-
+private:
   bool m_invisible;
   unsigned int m_type;
-  GLuint m_texture;
-
 
 public:
-  Cube() : Object(36), m_invisible(1), m_type(0), m_texture(0) {}
-  Cube(const Param_Pos_Color param) 
-         : Object(param, 36), m_invisible(0), m_type(0), m_texture(0) {}
+  Cube() : Object(36), m_invisible(1), m_type(0) {}
+  Cube(const Param_Pos_Color_Text param) 
+         : Object(param, 36), m_invisible(0), m_type(0) {}
 
   Cube(const Cube &c) : Object(c), m_invisible(c.m_invisible) {}
   ~Cube() override = default;
 
-  void create_vbo_vao() override;
+  void create_vbo_vao(bool scene_modified) override;
   void set_color(const glm::vec3 color);
   void set_invisible(const bool invisible);
   void set_type(unsigned int type);
@@ -33,9 +30,8 @@ public:
   bool operator==(const Cube& c);
   
   inline bool is_invisible() { return m_invisible; }
-  inline bool get_type() { return m_type; }
-
+  inline unsigned int get_type() { return m_type; }
+  
 };
-
 
 

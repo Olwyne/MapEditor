@@ -102,10 +102,10 @@ void destroy_window(SDL_GLContext gl_context,SDL_Window* window){
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
+ 
 
 
-
-void interface_imgui(SDL_Window* window,bool show_toolbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor){
+void interface_imgui(SDL_Window* window,bool show_toolbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene){
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(window);
@@ -120,9 +120,11 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,ImVec4 clear_color, Im
        
         if (ImGui::Button("Add Cube")){
             construction.add_cube(cursor);
+            modified_scene=true; //SOPHIE= j'ai ajouté ce booleen pour des histoires de memoire, à utiliser qd ya un change de scene
         }
         if (ImGui::Button("Delete Cube")){
              construction.delete_cube(cursor);
+             modified_scene=true;
         }
   
         ImGui::Text("Select the type of the cube");

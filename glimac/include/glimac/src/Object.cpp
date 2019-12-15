@@ -7,16 +7,18 @@ const float WINDOW_WIDTH = 800;
 const float WINDOW_HEIGHT = 800; //<----------------------------CHANGE THIS
 
 
-void Object::create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Program &program)
+void Object::create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Program &program)
 {
     uMVP_location = glGetUniformLocation(program.getGLId(), "uMVPMatrix" );
     uMV_location = glGetUniformLocation(program.getGLId(), "uMVMatrix" );
     uNormal_location = glGetUniformLocation(program.getGLId(), "uNormalMatrix" );
+    uTexture_location = glGetUniformLocation(program.getGLId(), "uTexture" );
 }
 
 
-void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera)
+void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, GLint uTexture_location, Camera &camera, bool scene_modified)
 {
+
     glm::mat4 camera_VM = camera.getViewMatrix();
 
     //vertical angle of view, ratio width/height of window, near, far 
@@ -26,13 +28,20 @@ void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_locat
     glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
     
     glBindVertexArray(m_vao);
-        glUniformMatrix4fv(uMVP_location, 1, GL_FALSE, glm::value_ptr(ProjMatrix*camera_VM));
-        glUniformMatrix4fv(uMV_location, 1, GL_FALSE, glm::value_ptr(camera_VM*MVMatrix));
-        glUniformMatrix4fv(uNormal_location, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+
+    glUniform1i(uTexture_location, 0);
+    glBindTexture(GL_TEXTURE_2D, m_texture); 
+
+    glUniformMatrix4fv(uMVP_location, 1, GL_FALSE, glm::value_ptr(ProjMatrix*camera_VM));
+    glUniformMatrix4fv(uMV_location, 1, GL_FALSE, glm::value_ptr(camera_VM*MVMatrix));
+    glUniformMatrix4fv(uNormal_location, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+
     glDrawElements(GL_TRIANGLES, get_index(), GL_UNSIGNED_INT, 0);
 
     //unbind vao
     glBindVertexArray(0);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 
@@ -40,13 +49,16 @@ Object::~Object()
 {
     glDeleteBuffers(1, &m_vbo);
     glDeleteVertexArrays(1, &m_vao);
+    glDeleteTextures(1, &m_texture);
 }
 
-void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera)
+
+void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Camera &camera, bool scene_modified)
 {
-    create_vbo_vao();
-    render(uMVP_location, uMV_location, uNormal_location, camera);
+    create_vbo_vao(scene_modified); 
+    render(uMVP_location, uMV_location, uNormal_location, uTexture_location, camera, scene_modified);
 }
+
 
 bool Object::obj_same_pos(Object &obj)
 {

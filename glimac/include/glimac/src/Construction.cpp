@@ -4,6 +4,7 @@
 
 Construction::Construction()
 {
+
     // //create 3 layers of cubes
     for(unsigned int i=0; i<m_length; i++) //<----CHANGE THIS if possible, 3 loops is bad
     {
@@ -11,7 +12,7 @@ Construction::Construction()
         {
             for (unsigned int layer=0; layer<m_max_cubes_in_column; layer++)
             {
-                Cube new_cube = Cube(Param_Pos_Color(glm::vec3(i,layer,j), glm::vec3(0.2,1,0)));
+                Cube new_cube = Cube(Param_Pos_Color_Text(glm::vec3(i,layer,j), glm::vec3(0.2,1,0), 0) );
                 //make cubes over 3 initial layers invisible
                 if(layer >= 3) new_cube.set_invisible(1);
                 m_all_cubes(i,j).push_back(new_cube);
@@ -139,7 +140,7 @@ void Construction::change_color(Cursor &cursor)
 
 
 
-void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera)
+void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Camera &camera, bool &scene_modified)
 {       
     for (unsigned int length=0; length<m_length; length++) 
     {
@@ -150,11 +151,12 @@ void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, G
                 //only render cube if it its parameter invisible is false!
                 if (!m_all_cubes(length,width).at(i).is_invisible())
                 {
-                    m_all_cubes(length,width).at(i).create_and_render(uMVP_location, uMV_location, uNormal_location, camera);
+                    m_all_cubes(length,width).at(i).create_and_render(uMVP_location, uMV_location, uNormal_location, uTexture_location, camera, scene_modified);
                 }
             }
         }
     }
+    scene_modified=false;
 }
 
 std::vector<glm::vec2> Construction::put_all_cubes_positions_in_one_vector()

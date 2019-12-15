@@ -2,7 +2,7 @@
 #include <glimac/Cursor.hpp>
 
 
-void Cursor::create_vbo_vao()
+void Cursor::create_vbo_vao(bool scene_modified)
 {
     /*
         JULES: CHANGE THIS: faire ligne par ligne pour dessiner aretes du cube
@@ -13,15 +13,15 @@ void Cursor::create_vbo_vao()
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
     //origin + position
-    Param_Pos_Color vertices[] = {
-                    Param_Pos_Color(glm::vec3(1.0f+0.1f, -1.0f-0.1f, 1.0f+0.1f)+m_position*2.f, m_color), //0
-                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, -1.0f-0.1f, 1.0f+0.1f)+m_position*2.f, m_color), //1
-                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, 1.0f+0.1f, 1.0f+0.1f)+m_position*2.f, m_color), //2
-                    Param_Pos_Color(glm::vec3(1.0f+0.1f, 1.0f+0.1f, 1.0f+0.1f)+m_position*2.f, m_color), //3
-                    Param_Pos_Color(glm::vec3(1.0f+0.1f, -1.0f-0.1f, -1.0f-0.1f)+m_position*2.f, m_color), //4
-                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, -1.0f-0.1f, -1.0f-0.1f)+m_position*2.f, m_color), //5
-                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, 1.0f+0.1f, -1.0f-0.1f)+m_position*2.f, m_color), //6
-                    Param_Pos_Color(glm::vec3(1.0f+0.1f, 1.0f+0.1f, -1.0f-0.1f)+m_position*2.f, m_color) //7
+    Param_Pos_Color_Text vertices[] = {
+                    Param_Pos_Color_Text(glm::vec3(1.0f+0.1f, -1.0f-0.1f, 1.0f+0.1f)+m_position*2.f, m_color,0), //0
+                    Param_Pos_Color_Text(glm::vec3(-1.0f-0.1f, -1.0f-0.1f, 1.0f+0.1f)+m_position*2.f, m_color,0), //1
+                    Param_Pos_Color_Text(glm::vec3(-1.0f-0.1f, 1.0f+0.1f, 1.0f+0.1f)+m_position*2.f, m_color,0), //2
+                    Param_Pos_Color_Text(glm::vec3(1.0f+0.1f, 1.0f+0.1f, 1.0f+0.1f)+m_position*2.f, m_color,0), //3
+                    Param_Pos_Color_Text(glm::vec3(1.0f+0.1f, -1.0f-0.1f, -1.0f-0.1f)+m_position*2.f, m_color,0), //4
+                    Param_Pos_Color_Text(glm::vec3(-1.0f-0.1f, -1.0f-0.1f, -1.0f-0.1f)+m_position*2.f, m_color,0), //5
+                    Param_Pos_Color_Text(glm::vec3(-1.0f-0.1f, 1.0f+0.1f, -1.0f-0.1f)+m_position*2.f, m_color,0), //6
+                    Param_Pos_Color_Text(glm::vec3(1.0f+0.1f, 1.0f+0.1f, -1.0f-0.1f)+m_position*2.f, m_color,0) //7
                           };
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -68,9 +68,9 @@ void Cursor::create_vbo_vao()
     //bind vbo again
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     //tell OpenGL where to find vertices and how to read data associated to each vertex
-    glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color), (void*)offsetof(Param_Pos_Color, m_position));
+    glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color_Text), (void*)offsetof(Param_Pos_Color_Text, m_position));
     glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
-    glVertexAttribPointer(VERTEX_ATTR_COLOR, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color), (void*)offsetof(Param_Pos_Color, m_color));
+    glVertexAttribPointer(VERTEX_ATTR_COLOR, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color_Text), (void*)offsetof(Param_Pos_Color_Text, m_color));
     glEnableVertexAttribArray(VERTEX_ATTR_COLOR);
     
     //unbind vbo and vao

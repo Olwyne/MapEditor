@@ -51,10 +51,11 @@ int main(int, char** argv)
     Construction construction;
 
     //variables
-    GLint uMVP_location, uMV_location, uNormal_location;
+    GLint uMVP_location, uMV_location, uNormal_location, uTexture_location;
+    bool scene_modified = true;
     
     //create uniform variables by using one cube 
-    construction.get_cubes()(0,0).at(0).create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
+    construction.get_cubes()(0,0).at(0).create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, uTexture_location, program);
    
     //create Cameras
     TrackballCamera tb_camera(15,0,0);
@@ -99,15 +100,15 @@ int main(int, char** argv)
             
         }
 
-        interface_imgui(window, show_toolbox, clear_color, io, construction, cursor);      
+        interface_imgui(window, show_toolbox, clear_color, io, construction, cursor, scene_modified);      
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
         
         //create and render all cubes
-        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used));
+        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, uTexture_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
 
         //create and render the cursor
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); //CHANGE THIS IT IS BAD
-        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used));
+        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, uTexture_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
