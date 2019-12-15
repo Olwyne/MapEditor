@@ -15,14 +15,14 @@ void Cube::create_vbo_vao()
 
     //origin + position
     Param_Pos_Color vertices[] = {
-                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, 1.0f)*m_size  + 2.f*m_size*m_position, m_color), //0
-                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, 1.0f)*m_size  + 2.f*m_size*m_position, m_color), //1
-                    Param_Pos_Color(glm::vec3(-1.0f, 1.0f, 1.0f)*m_size  + 2.f*m_size*m_position, m_color), //2
-                    Param_Pos_Color(glm::vec3(1.0f, 1.0f, 1.0f)*m_size  + 2.f*m_size*m_position, m_color), //3
-                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, -1.0f)*m_size  + 2.f*m_size*m_position, m_color), //4
-                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, -1.0f)*m_size  + 2.f*m_size*m_position, m_color), //5
-                    Param_Pos_Color(glm::vec3(-1.0f, 1.0f, -1.0f)*m_size  + 2.f*m_size*m_position, m_color), //6
-                    Param_Pos_Color(glm::vec3(1.0f, 1.0f, -1.0f)*m_size  + 2.f*m_size*m_position, m_color) //7
+                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, 1.0f)+m_position*2.f, m_color), //0
+                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, 1.0f)+m_position*2.f, m_color), //1
+                    Param_Pos_Color(glm::vec3(-1.0f, 1.0f, 1.0f)+m_position*2.f, m_color), //2
+                    Param_Pos_Color(glm::vec3(1.0f, 1.0f, 1.0f)+m_position*2.f, m_color), //3
+                    Param_Pos_Color(glm::vec3(1.0f, -1.0f, -1.0f)+m_position*2.f, m_color), //4
+                    Param_Pos_Color(glm::vec3(-1.0f, -1.0f, -1.0f)+m_position*2.f, m_color), //5
+                    Param_Pos_Color(glm::vec3(-1.0f, 1.0f, -1.0f)+m_position*2.f, m_color), //6
+                    Param_Pos_Color(glm::vec3(1.0f, 1.0f, -1.0f)+m_position*2.f, m_color) //7
                           };
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -93,7 +93,6 @@ Cube& Cube::operator=(const Cube& c)
         m_nb_index = c.m_nb_index;
         m_vao = c.m_vao;
         m_vbo = c.m_vbo;
-        m_size = c.m_size;
         m_invisible = c.m_invisible;
     }
     return *this;
@@ -106,7 +105,6 @@ bool Cube::operator==(const Cube& c)
             && m_nb_index == c.m_nb_index
             && m_vao == c.m_vao
             && m_vbo == c.m_vbo
-            && m_size == c.m_size
             && m_invisible == c.m_invisible );
 } 
 
@@ -124,19 +122,16 @@ void Cube::set_type(unsigned int type)
     {
         //initial type: 3 first layers of cubes
         case 0:
-            m_size = 1;
             m_texture = 0;
             m_color = glm::vec3(0.2,1,0);
             break;
         //water
         case 1:
-            m_size = 1;
             m_texture = 0;
             m_color = glm::vec3(0, 0.2, 1);
             break;
         //earth
         case 2:
-            m_size = 1;
             m_texture = 0;
             m_color = glm::vec3(0.8,0.6,0.2);
             break;

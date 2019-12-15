@@ -66,7 +66,7 @@ void Construction::add_cube(Cursor &cursor)
 {
     //make cube visible if not already
     if( valid_position(cursor.get_position()) && cube_at_cursor(cursor).is_invisible() )
-        cube_at_cursor(cursor).set_invisible(0);
+        cube_at_cursor(cursor).set_invisible(0); 
 }
 
 
@@ -74,7 +74,7 @@ void Construction::delete_cube(Cursor &cursor)
 {
     //make cube invisible if not already  
     if( valid_position(cursor.get_position()) && !cube_at_cursor(cursor).is_invisible() )
-        cube_at_cursor(cursor).set_invisible(1);
+        cube_at_cursor(cursor).set_invisible(1); 
 }
 
 //used to extrude and dig

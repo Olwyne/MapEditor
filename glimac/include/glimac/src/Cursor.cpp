@@ -1,7 +1,6 @@
 #include <iostream>
 #include <glimac/Cursor.hpp>
 
-const float m_size = 1;//<----CHANGE THIS needs to be cube size
 
 void Cursor::create_vbo_vao()
 {
@@ -15,14 +14,14 @@ void Cursor::create_vbo_vao()
 
     //origin + position
     Param_Pos_Color vertices[] = {
-                    Param_Pos_Color(glm::vec3(1.0f+0.1f, -1.0f-0.1f, 1.0f+0.1f)*m_size + 2.f*m_size*m_position, m_color), //0
-                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, -1.0f-0.1f, 1.0f+0.1f)*m_size + 2.f*m_size*m_position, m_color), //1
-                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, 1.0f+0.1f, 1.0f+0.1f)*m_size + 2.f*m_size*m_position, m_color), //2
-                    Param_Pos_Color(glm::vec3(1.0f+0.1f, 1.0f+0.1f, 1.0f+0.1f)*m_size + 2.f*m_size*m_position, m_color), //3
-                    Param_Pos_Color(glm::vec3(1.0f+0.1f, -1.0f-0.1f, -1.0f-0.1f)*m_size + 2.f*m_size*m_position, m_color), //4
-                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, -1.0f-0.1f, -1.0f-0.1f)*m_size + 2.f*m_size*m_position, m_color), //5
-                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, 1.0f+0.1f, -1.0f-0.1f)*m_size + 2.f*m_size*m_position, m_color), //6
-                    Param_Pos_Color(glm::vec3(1.0f+0.1f, 1.0f+0.1f, -1.0f-0.1f)*m_size + 2.f*m_size*m_position, m_color) //7
+                    Param_Pos_Color(glm::vec3(1.0f+0.1f, -1.0f-0.1f, 1.0f+0.1f)+m_position*2.f, m_color), //0
+                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, -1.0f-0.1f, 1.0f+0.1f)+m_position*2.f, m_color), //1
+                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, 1.0f+0.1f, 1.0f+0.1f)+m_position*2.f, m_color), //2
+                    Param_Pos_Color(glm::vec3(1.0f+0.1f, 1.0f+0.1f, 1.0f+0.1f)+m_position*2.f, m_color), //3
+                    Param_Pos_Color(glm::vec3(1.0f+0.1f, -1.0f-0.1f, -1.0f-0.1f)+m_position*2.f, m_color), //4
+                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, -1.0f-0.1f, -1.0f-0.1f)+m_position*2.f, m_color), //5
+                    Param_Pos_Color(glm::vec3(-1.0f-0.1f, 1.0f+0.1f, -1.0f-0.1f)+m_position*2.f, m_color), //6
+                    Param_Pos_Color(glm::vec3(1.0f+0.1f, 1.0f+0.1f, -1.0f-0.1f)+m_position*2.f, m_color) //7
                           };
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
