@@ -5,12 +5,12 @@
 using namespace glimac;
 
 FreeflyCamera::FreeflyCamera(){
-    m_Position = glm::vec3(0.f, 0.f, 0.f);
+    m_Position = glm::vec3(0.f, 0.f, 4.f);
     float m_fPhi = M_PI;
     float m_fTheta = 0.f;
     computeDirectionVectors(m_FrontVector, m_LeftVector, m_UpVector, m_fPhi, m_fTheta);
 }
-
+ 
 //methods
 void FreeflyCamera::computeDirectionVectors(glm::vec3 &m_FrontVector, glm::vec3 &m_LeftVector, glm::vec3 &m_UpVector, const float m_fPhi, const float m_fTheta){
     m_FrontVector = glm::vec3(cos(m_fTheta)*sin(m_fPhi), sin(m_fTheta), cos(m_fTheta)*cos(m_fPhi));
@@ -49,24 +49,33 @@ void FreeflyCamera::move_camera_key_pressed(const SDL_Event &e)
 
     switch(e.key.keysym.sym)
     {
-        case SDLK_t:
+        case SDLK_UP:
             moveFront(-0.1);
             break;
-        case SDLK_g:
+        case SDLK_DOWN:
             moveFront(0.1);
             break;
-        case SDLK_f:
-            rotateLeft(1);
+        case SDLK_q:
+            rotateLeft(1); //doesnt work
             break;
-        case SDLK_h:
-            rotateLeft(-1);
+        case SDLK_d:
+            rotateLeft(-1); //doesnt work
             break;
-        case SDLK_c:
-            rotateUp(1);
+        case SDLK_z:
+            rotateUp(1); //doesnt work
             break;
-        case SDLK_v:
-            rotateUp(-1);
+        case SDLK_s:
+            rotateUp(-1); //doesnt work
             break;
     }
     
+}
+
+
+//_________________________________________
+
+Camera& choose_camera(TrackballCamera &tb_camera, FreeflyCamera &ff_camera, const bool choice)
+{
+    if(choice) return tb_camera;
+    else return ff_camera;
 }

@@ -55,9 +55,11 @@ int main(int, char** argv)
     
     //create uniform variables by using one cube 
     construction.get_cubes()(0,0).at(0).create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
-   //create Cameras
-    TrackballCamera tb_camera(0,0,0);
+   
+    //create Cameras
+    TrackballCamera tb_camera(15,0,0);
     FreeflyCamera ff_camera;
+    bool trackball_used = true;
 
     // Main loop
     bool done = false;
@@ -65,7 +67,7 @@ int main(int, char** argv)
         // Event loop:
         SDL_Event e;
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         while(SDL_PollEvent(&e)) 
         {
@@ -74,6 +76,7 @@ int main(int, char** argv)
                 done = true; // Leave the loop after this iteration
             }
             tb_camera.move_camera_key_pressed(e);
+            ff_camera.move_camera_key_pressed(e);
             cursor.move(e);
 
             if (e.type == SDL_KEYDOWN && e.key.repeat == 0) //just to test methods
@@ -86,20 +89,25 @@ int main(int, char** argv)
                         case SDLK_n:
                             construction.extrude_cube(cursor);
                             break;
+                        case SDLK_c:
+                            trackball_used = !trackball_used;
+                            if(trackball_used) {std::cout << "tbcam" << std::endl;}
+                            else {std::cout << "ffcam" << std::endl;}
+                            break;
                 }
             }
             
         }
 
-        interface_imgui(window,show_toolbox,clear_color, io,construction, cursor);      
+        interface_imgui(window, show_toolbox, clear_color, io, construction, cursor);      
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
         
         //create and render all cubes
-        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, tb_camera);
+        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used));
 
         //create and render the cursor
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); //CHANGE THIS IT IS BAD
-        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, tb_camera);
+        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used));
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

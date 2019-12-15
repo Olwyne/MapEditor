@@ -1,6 +1,7 @@
 #pragma once
 #include <glimac/SDLWindowManager.hpp>
 
+
 /* asbtract class */
 class Camera
 {
@@ -15,5 +16,5 @@ class Camera
 
 };
 
-  
+
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "glimac/glm.hpp"
 #include <glimac/Camera.hpp>
+#include <glimac/TrackballCamera.hpp>
 
 
 class FreeflyCamera: public Camera
@@ -29,3 +30,5 @@ public:
     void move_camera_key_pressed(const SDL_Event &e) override;
 
 };
+
+Camera& choose_camera(TrackballCamera &tb_camera, FreeflyCamera &ff_camera, const bool choice);

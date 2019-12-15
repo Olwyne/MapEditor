@@ -1,7 +1,7 @@
 #include <iostream>
 #include "glimac/TrackballCamera.hpp"
 #include <glimac/SDLWindowManager.hpp>
-
+ 
 void TrackballCamera::moveFront(float delta) { m_fDistance += delta; }
 void TrackballCamera::rotateLeft(float degrees) { m_fAngleY += degrees; }
 void TrackballCamera::rotateUp(float degrees) { m_fAngleX += degrees; } 

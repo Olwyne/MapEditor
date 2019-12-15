@@ -1,2 +1,0 @@
-#include <glimac/Camera.hpp>
-
