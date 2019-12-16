@@ -44,6 +44,8 @@ int main(int, char** argv)
     program.use();
     // Our state
     bool show_toolbox = true;
+    bool show_helpbox = false;
+
     ImVec4 clear_color = ImVec4(0, 0, 0, -1);
     
     //create cursor
@@ -87,17 +89,13 @@ int main(int, char** argv)
             {
                 switch(e.key.keysym.sym)
                 {
-                        case SDLK_c:
-                            trackball_used = !trackball_used;
-                            if(trackball_used) {std::cout << "tbcam" << std::endl;}
-                            else {std::cout << "ffcam" << std::endl;}
-                            break;
+                       
                 }
             }
             
         }
 
-        interface_imgui(window, show_toolbox, clear_color, io, construction, cursor, scene_modified);      
+        interface_imgui(window, show_toolbox,show_helpbox ,clear_color, io, construction, cursor, scene_modified,trackball_used);      
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
         
         //create and render all cubes

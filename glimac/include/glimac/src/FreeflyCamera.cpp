@@ -63,16 +63,16 @@ void FreeflyCamera::move_camera_key_pressed(const SDL_Event &e)
             moveFront(0.1);
             break;
         case SDLK_q:
-            rotateLeft(5.f);
+            rotateLeft(20.f);
             break;
         case SDLK_d:
-            rotateLeft(-5.f);
+            rotateLeft(-20.f);
             break;
         case SDLK_z:
-            rotateUp(5.f);
+            rotateUp(20.f);
             break;
         case SDLK_s:
-            rotateUp(-5.f);
+            rotateUp(-20.f);
             break;
     }
     

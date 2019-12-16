@@ -84,7 +84,7 @@ ImGuiIO& initialise_ImGui(SDL_Window* window,SDL_GLContext gl_context){
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Dear ImGui style
-    ImGui::StyleColorsLight();
+    ImGui::StyleColorsDark();
     // ImGui::StyleColorsClassic();
     
     // Setup Platform/Renderer bindings
@@ -102,10 +102,8 @@ void destroy_window(SDL_GLContext gl_context,SDL_Window* window){
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
- 
 
-
-void interface_imgui(SDL_Window* window,bool show_toolbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene){
+void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene,bool &trackball_used){
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(window);
@@ -116,34 +114,76 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,ImVec4 clear_color, Im
         static int counter = 0;
         //create and render all cubes
 
-       ImGui::Begin("ToolBox", &show_toolbox);
-       
-        if (ImGui::Button("Add Cube")){
-            construction.add_cube(cursor);
-            modified_scene=true; //SOPHIE= j'ai ajouté ce booleen pour des histoires de memoire, à utiliser qd ya un change de scene
-        }
-        if (ImGui::Button("Delete Cube")){
-             construction.delete_cube(cursor);
-             modified_scene=true;
-        }
-        if (ImGui::Button("Extrude")){
-            construction.extrude_cube(cursor);
-        }
-        if (ImGui::Button("Dig")){
-             construction.dig_cube(cursor);
-        }
-  
-        ImGui::Text("Select the type of the cube");
-        int e=construction.cube_at_cursor(cursor).get_type();
-        if(ImGui::RadioButton("Terre", &e, 0)){
-            construction.cube_at_cursor(cursor).set_type(e);
-        }
-        if(ImGui::RadioButton("Eau", &e, 1)){
-            construction.cube_at_cursor(cursor).set_type(e);
-        }
+        ImGui::Begin("ToolBox", &show_toolbox);
+            if (ImGui::Button("Show help")){
+                show_helpbox=!show_helpbox;
+            }
+            ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+            if (ImGui::Button("Change camera")){
+                trackball_used=!trackball_used;
+            }
+            ImGui::SameLine();
+            if(trackball_used){
+                ImGui::TextColored(ImVec4(1,0,0,1), "Trackball camera ON");
+            }
+            if(!trackball_used){
+                ImGui::TextColored(ImVec4(1,0,0,1), "Freefly camera ON");
+            }
+            ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+            ImGui::TextColored(ImVec4(1,1,0,1), "Change the world");
+            if (ImGui::Button("Add Cube")){
+                construction.add_cube(cursor);
+                modified_scene=true;
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Delete Cube")){
+                construction.delete_cube(cursor);
+                modified_scene=true;
+            }
+            if (ImGui::Button("Extrude")){
+                construction.extrude_cube(cursor);
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Dig")){
+                construction.dig_cube(cursor);
+            }
+            ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+            ImGui::TextColored(ImVec4(1,1,0,1), "Select the type of the cube");
+            int e=construction.cube_at_cursor(cursor).get_type();
+            if(ImGui::RadioButton("Grass", &e, 0)){
+                construction.cube_at_cursor(cursor).set_type(e);
+            }
+            if(ImGui::RadioButton("Water", &e, 1)){
+                construction.cube_at_cursor(cursor).set_type(e);
+            }
 
         ImGui::End();
     }
+
+       if (show_helpbox)
+        {
+            ImGui::Begin("Help Box", &show_helpbox);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+                ImGui::TextColored(ImVec4(1,1,0,1), "Moving the selection cursor :");
+                ImGui::Text("I : foward ");
+                ImGui::Text("K : backward ");
+                ImGui::Text("J : left ");
+                ImGui::Text("L : right ");
+                ImGui::Text("P : up ");
+                ImGui::Text("M : down ");
+                ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+                ImGui::TextColored(ImVec4(1,1,0,1), "Moving camera :");
+                ImGui::Text("Arrow up : foward ");
+                ImGui::Text("Arrow down : backward ");
+                ImGui::Text("Q : left ");
+                ImGui::Text("D : right ");
+                ImGui::Text("Z : up ");
+                ImGui::Text("S : down ");
+            ImGui::End();
+        }
 
     //render
     ImGui::SetNextWindowBgAlpha(0.f);
