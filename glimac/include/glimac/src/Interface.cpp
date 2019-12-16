@@ -126,6 +126,12 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,ImVec4 clear_color, Im
              construction.delete_cube(cursor);
              modified_scene=true;
         }
+        if (ImGui::Button("Extrude")){
+            construction.extrude_cube(cursor);
+        }
+        if (ImGui::Button("Dig")){
+             construction.dig_cube(cursor);
+        }
   
         ImGui::Text("Select the type of the cube");
         int e=construction.cube_at_cursor(cursor).get_type();
