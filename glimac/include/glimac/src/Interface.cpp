@@ -137,11 +137,9 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,ImVec4 clear_color, Im
         int e=construction.cube_at_cursor(cursor).get_type();
         if(ImGui::RadioButton("Terre", &e, 0)){
             construction.cube_at_cursor(cursor).set_type(e);
-            construction.change_color(cursor);
         }
         if(ImGui::RadioButton("Eau", &e, 1)){
             construction.cube_at_cursor(cursor).set_type(e);
-            construction.change_color(cursor); 
         }
 
         ImGui::End();
