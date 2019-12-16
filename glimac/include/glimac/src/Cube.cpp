@@ -8,7 +8,10 @@ using namespace glimac;
 const float WINDOW_WIDTH = 800;
 const float WINDOW_HEIGHT = 800; //<----------------------------CHANGE THIS
 
-std::unique_ptr<Image> earth_img = loadImage("../assets/textures/earth.jpg");
+
+
+std::unique_ptr<Image> earth_img = loadImage("code/textures/MoonMap.jpg");
+
 
 void Cube::create_vbo_vao(bool scene_modified)
 { 
@@ -16,7 +19,6 @@ void Cube::create_vbo_vao(bool scene_modified)
     if (scene_modified)
     {
         glBindTexture(GL_TEXTURE_2D, m_texture);
-
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, earth_img->getWidth(), earth_img->getHeight(), 0, GL_RGBA, GL_FLOAT, earth_img->getPixels());
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -89,7 +91,7 @@ void Cube::create_vbo_vao(bool scene_modified)
 
         glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color_Text), (void*)offsetof(Param_Pos_Color_Text, m_position));
         glVertexAttribPointer(VERTEX_ATTR_COLOR, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color_Text), (void*)offsetof(Param_Pos_Color_Text, m_color));
-        glVertexAttribPointer(VERTEX_ATTR_TEXT, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color_Text), (void*)offsetof(Param_Pos_Color_Text, m_texture));
+        glVertexAttribPointer(VERTEX_ATTR_TEXT, 2, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color_Text), (void*)offsetof(Param_Pos_Color_Text, m_texture));
 
         //unbind vbo and vao
         glBindBuffer(GL_ARRAY_BUFFER, 0);

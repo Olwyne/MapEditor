@@ -12,6 +12,8 @@
 #include <glimac/Camera.hpp>
 #include <glimac/Interface.hpp>
 #include <glimac/RadialBasisFunctions.hpp>
+#include <glimac/Image.hpp>
+
 
 
 #include <GL/glew.h>
@@ -60,6 +62,7 @@ int main(int, char** argv)
     //create Cameras
     TrackballCamera tb_camera(15,0,0);
     FreeflyCamera ff_camera;
+
     bool trackball_used = true;
 
     // Main loop
