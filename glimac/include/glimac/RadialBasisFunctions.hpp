@@ -111,10 +111,11 @@ public:
 */
 
 
-Eigen::VectorXd get_omega_variables(std::vector<glm::vec2> control_points, const unsigned int nb_control_points, 
-                                    Eigen::VectorXd u_vect, phi_functors phi_function, const unsigned int type_function)
+Eigen::VectorXd get_omega_variables(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, 
+                                    phi_functors phi_function, const unsigned int type_function)
 {
     //calculate phi matrix
+    const unsigned int nb_control_points = control_points.size();
     Eigen::MatrixXd phi_matrix(nb_control_points, nb_control_points);
 
     for(unsigned int i=0; i<nb_control_points; i++)
@@ -132,11 +133,12 @@ Eigen::VectorXd get_omega_variables(std::vector<glm::vec2> control_points, const
     return phi_matrix_inverse*u_vect;
 }
 
-template <typename T>
-std::vector<T> interpolate(Construction &construction, std::vector<glm::vec2> control_points, const unsigned int nb_control_points,
-                                   Eigen::VectorXd omegas, phi_functors phi_function, const unsigned int type_function)
+
+std::vector<float> interpolate(Construction &construction, std::vector<glm::vec2> control_points, Eigen::VectorXd omegas, 
+                           phi_functors phi_function, const unsigned int type_function)
 {
-    std::vector<T> interpolated_points(0.f);
+    const unsigned int nb_control_points = control_points.size();
+    std::vector<float> interpolation_result(0.f);
     std::vector<glm::vec2> all_positions = construction.put_all_cubes_positions_in_one_vector();
 
     //omega * f(control_point - all_points)
@@ -144,35 +146,32 @@ std::vector<T> interpolate(Construction &construction, std::vector<glm::vec2> co
     {
         for(unsigned int j=0; j<nb_control_points; j++)
         {
-            interpolated_points[i] += omegas(i)*phi_function( all_positions[i], control_points[j], 1, type_function );
+            interpolation_result[i] += omegas(i)*phi_function( all_positions[i], control_points[j], 1, type_function );
         }
     }
    
-    return interpolated_points;
+    return interpolation_result;
 }
 
 
-//this is just used to test previous functions
-template<typename T>
-void test_RBF(Construction &construction)
-{    
-    std::vector<glm::vec2> control_points;
-    std::vector<glm::vec2> all_positions = construction.put_all_cubes_positions_in_one_vector(); 
-    const unsigned int nb_iterations = all_positions.size();
-    Eigen::VectorXd u_vect(nb_iterations);
+void apply_interpolation(Construction &construction, std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect,
+                         phi_functors phi_function, const unsigned int type_function)
+{
+    Eigen::VectorXd omegas = get_omega_variables(control_points, u_vect, phi_function, type_function);
+    std::vector<float> interpolation_result = interpolate(construction, control_points, omegas, phi_function, type_function);
 
-
-    u_vect.fill(1.f);
-    control_points.push_back(glm::vec2(0,0));
-    control_points.push_back(glm::vec2(0,1));
-    control_points.push_back(glm::vec2(2,0));
-    control_points.push_back(glm::vec2(0,3));
-    control_points.push_back(glm::vec2(1,0));
-
-
-
-    //Eigen::VectorXd omegas = get_omega_variables(construction, control_points, u_vect, phi_functors, nb_iterations);
-
-    // std::vector<glm::vec3> interpolated_points = interpolate(construction, control_points, omegas, multiquadric);
+    unsigned int interpolation_it = 0;
+    for(unsigned int i=0; i<construction.get_length(); i++)
+    {
+        for(unsigned int j=0; j<construction.get_width(); j++)
+        {
+            for(unsigned int k=0; k<construction.get_height(); k++)
+            {
+                construction.get_cubes()(i,j).at(k).set_height(interpolation_result[interpolation_it]);
+                interpolation_it++;
+            }
+        }
+    }
 }
+
 
