@@ -87,12 +87,6 @@ int main(int, char** argv)
             {
                 switch(e.key.keysym.sym)
                 {
-                        case SDLK_b:
-                            construction.dig_cube(cursor);
-                            break;
-                        case SDLK_n:
-                            construction.extrude_cube(cursor);
-                            break;
                         case SDLK_c:
                             trackball_used = !trackball_used;
                             if(trackball_used) {std::cout << "tbcam" << std::endl;}

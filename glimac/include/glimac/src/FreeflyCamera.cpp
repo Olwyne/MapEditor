@@ -4,45 +4,52 @@
 
 using namespace glimac;
 
-FreeflyCamera::FreeflyCamera(){
-    m_Position = glm::vec3(0.f, 0.f, 4.f);
-    float m_fPhi = M_PI;
-    float m_fTheta = 0.f;
-    computeDirectionVectors(m_FrontVector, m_LeftVector, m_UpVector, m_fPhi, m_fTheta);
-}
- 
-//methods
-void FreeflyCamera::computeDirectionVectors(glm::vec3 &m_FrontVector, glm::vec3 &m_LeftVector, glm::vec3 &m_UpVector, const float m_fPhi, const float m_fTheta){
-    m_FrontVector = glm::vec3(cos(m_fTheta)*sin(m_fPhi), sin(m_fTheta), cos(m_fTheta)*cos(m_fPhi));
-    m_LeftVector = glm::vec3(sin(m_fPhi+M_PI/2.f), 0.f, cos(m_fPhi+M_PI/2.f));
-    m_UpVector = m_FrontVector*m_LeftVector;
+void FreeflyCamera::computeDirectionVectors()
+{
+    float phi = glm::radians(m_fPhi);
+    float theta = glm::radians(m_fTheta);
+    m_FrontVector = glm::vec3( glm::cos(theta)*glm::sin(phi), glm::sin(theta), glm::cos(theta)*glm::cos(phi) );
+    m_LeftVector = glm::vec3( glm::sin(phi + (M_PI/2)), 0, glm::cos(phi + (M_PI/2)) );
+    m_UpVector = glm::cross(m_FrontVector, m_LeftVector);
 }
 
-
-void FreeflyCamera::moveLeft(const float delta){
-    m_Position += delta*m_LeftVector;
+FreeflyCamera::FreeflyCamera()
+{
+    m_Position = glm::vec3(0.0f);
+    m_fPhi = M_PI;
+    m_fTheta = 0.0;
+    computeDirectionVectors();
 }
 
-
-void FreeflyCamera::moveFront(const float delta){
-    m_Position += delta*m_FrontVector;
+void FreeflyCamera::moveLeft(float t)
+{
+    m_Position += t*m_LeftVector; 
+    computeDirectionVectors();
 }
 
+void FreeflyCamera::moveFront(float t)
+{
+    m_Position += t*m_FrontVector;
+    computeDirectionVectors();
+}
 
-void FreeflyCamera::rotateLeft(const float degrees){
+void FreeflyCamera::rotateLeft(float degrees)
+{
     m_fPhi += glm::radians(degrees);
+    computeDirectionVectors();
 }
 
-
-void FreeflyCamera::rotateUp(const float degrees){
+void FreeflyCamera::rotateUp(float degrees)
+{
     m_fTheta += glm::radians(degrees);
+    computeDirectionVectors();
 }
 
-
-glm::mat4 FreeflyCamera::getViewMatrix() const{
-    return glm::lookAt(m_Position, m_Position+m_FrontVector, m_UpVector);
+glm::mat4 FreeflyCamera::getViewMatrix() const
+{
+    glm::mat4 MV = glm::lookAt(m_Position, m_Position+m_FrontVector, m_UpVector);
+    return MV;
 }
-
 
 void FreeflyCamera::move_camera_key_pressed(const SDL_Event &e)
 {
@@ -56,16 +63,16 @@ void FreeflyCamera::move_camera_key_pressed(const SDL_Event &e)
             moveFront(0.1);
             break;
         case SDLK_q:
-            rotateLeft(1); //doesnt work
+            rotateLeft(5.f);
             break;
         case SDLK_d:
-            rotateLeft(-1); //doesnt work
+            rotateLeft(-5.f);
             break;
         case SDLK_z:
-            rotateUp(1); //doesnt work
+            rotateUp(5.f);
             break;
         case SDLK_s:
-            rotateUp(-1); //doesnt work
+            rotateUp(-5.f);
             break;
     }
     
