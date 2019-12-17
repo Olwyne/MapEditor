@@ -40,25 +40,27 @@ bool Construction::valid_position(glm::vec3 position)
 Cube& Construction::cube_at_cursor(Cursor &cursor)
 {
     //this function is always used after having checked that the cursor's position is valid
-
-    bool res = false;
-    int cube_in_column = 0;
-
-    //these variables are mainly created to make the code easier to read
-    unsigned int x = cursor.get_position().x;
-    unsigned int y = cursor.get_position().y;
-    unsigned int z = cursor.get_position().z;
-    unsigned int vector_size = m_all_cubes(x, z).size();
-
-    
-    //check if the cursor's position is the same as one of the column's cube
-    while (cube_in_column < vector_size && !res)
+    if(valid_position( cursor.get_position() ))
     {
-        //if the cursor is where a cube is
-        if( m_all_cubes(x, z).at(cube_in_column).obj_same_pos(cursor) ) res=true;
-        else cube_in_column++;
+        bool res = false;
+        int cube_in_column = 0;
+
+        //these variables are mainly created to make the code easier to read
+        unsigned int x = cursor.get_position().x;
+        unsigned int y = cursor.get_position().y;
+        unsigned int z = cursor.get_position().z;
+        unsigned int vector_size = m_all_cubes(x, z).size();
+
+        //check if the cursor's position is the same as one of the column's cube
+        while (cube_in_column < vector_size && !res)
+        {
+            //if the cursor is where a cube is
+            if( m_all_cubes(x, z).at(cube_in_column).obj_same_pos(cursor) ) res=true;
+            else cube_in_column++;
+        }
+        return m_all_cubes(x, z).at(cube_in_column);
     }
-    return m_all_cubes(x, z).at(cube_in_column);
+    else return m_all_cubes(0,0).at(0);
     
 }
 
@@ -104,21 +106,27 @@ unsigned int Construction::index_highest_cube_in_col(Cursor &cursor)
 
 void Construction::extrude_cube(Cursor &cursor)
 {
-    unsigned int x = cursor.get_position().x;
-    unsigned int z = cursor.get_position().z;
-    unsigned int y = index_highest_cube_in_col(cursor);
+    if(valid_position( cursor.get_position() ))
+    {
+        unsigned int x = cursor.get_position().x;
+        unsigned int z = cursor.get_position().z;
+        unsigned int y = index_highest_cube_in_col(cursor);
 
-    m_all_cubes(x,z).at(y+1).set_invisible(0);
+        m_all_cubes(x,z).at(y+1).set_invisible(0);
+    }
 }
 
 
 void Construction::dig_cube(Cursor &cursor)
 {
-    unsigned int x = cursor.get_position().x;
-    unsigned int z = cursor.get_position().z;
-    unsigned int y = index_highest_cube_in_col(cursor);
+    if(valid_position( cursor.get_position() ))
+    {
+        unsigned int x = cursor.get_position().x;
+        unsigned int z = cursor.get_position().z;
+        unsigned int y = index_highest_cube_in_col(cursor);
 
-    m_all_cubes(x,z).at(y).set_invisible(1);
+        m_all_cubes(x,z).at(y).set_invisible(1);
+    }
 }
 
 //CHANGE THIS, depends on imgui

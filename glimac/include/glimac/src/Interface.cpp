@@ -143,11 +143,13 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,ImV
                 modified_scene=true;
             }
             if (ImGui::Button("Extrude")){
-                construction.extrude_cube(cursor);
+                construction.extrude_cube(cursor); 
+                modified_scene=true;
             }
             ImGui::SameLine();
             if (ImGui::Button("Dig")){
                 construction.dig_cube(cursor);
+                modified_scene=true;
             }
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
@@ -155,9 +157,11 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,ImV
             int e=construction.cube_at_cursor(cursor).get_type();
             if(ImGui::RadioButton("Grass", &e, 0)){
                 construction.cube_at_cursor(cursor).set_type(e);
+                modified_scene=true;
             }
             if(ImGui::RadioButton("Water", &e, 1)){
                 construction.cube_at_cursor(cursor).set_type(e);
+                modified_scene=true;
             }
 
         ImGui::End();

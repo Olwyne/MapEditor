@@ -67,6 +67,18 @@ int main(int, char** argv)
 
     bool trackball_used = true;
 
+    // std::vector<glm::vec2> control_points;
+    // control_points.push_back( glm::vec2(1,0) );
+    // control_points.push_back( glm::vec2(1,1) );
+    // control_points.push_back( glm::vec2(0,0) );
+    // control_points.push_back( glm::vec2(0,1) );
+    // control_points.push_back( glm::vec2(1,2) );
+    // Eigen::VectorXd u_vect(5);
+    // u_vect << 1, 1, 1, 1, 1;
+    // phi_functors f;
+    //  apply_interpolation(construction, control_points, u_vect, f, 0);
+
+
     // Main loop
     bool done = false;
     while(!done) {
