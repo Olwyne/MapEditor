@@ -1,6 +1,5 @@
 #include <glimac/Construction.hpp>
 #include <iostream>
-#include <algorithm>
 
 Construction::Construction()
 {
@@ -167,6 +166,7 @@ void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, G
     scene_modified=false;
 }
 
+
 std::vector<glm::vec2> Construction::put_all_cubes_positions_in_one_vector()
 {
     std::vector<glm::vec2> vector_of_all_positions;
@@ -186,3 +186,34 @@ std::vector<glm::vec2> Construction::put_all_cubes_positions_in_one_vector()
 
     return vector_of_all_positions;
 }
+
+
+
+void Construction::apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, phi_functors phi_function, const unsigned int type_function)
+{
+    std::vector<glm::vec2> all_positions = put_all_cubes_positions_in_one_vector();
+    Eigen::VectorXd omegas = get_omega_variables(control_points, u_vect, phi_function, type_function);
+    std::vector<unsigned int> interpolation_result = interpolate(control_points, omegas, all_positions, phi_function, type_function);
+
+    unsigned int interpolation_it = 0;
+    for(unsigned int i=0; i<m_length; i++) 
+    {
+        for(unsigned int j=0; j<m_width; j++)
+        {
+            for(unsigned int k=0; k<m_max_cubes_in_column; k++)
+            {
+                //use modulo to have nb that are inside the world
+                interpolation_result[interpolation_it] = interpolation_result[interpolation_it] % m_max_cubes_in_column;
+
+                if (m_all_cubes(i,j)[ interpolation_result[interpolation_it] ].is_invisible()) 
+                {
+                    for(unsigned int height=0; height<interpolation_result[interpolation_it]; height++)
+                        m_all_cubes(i,j)[ height ].set_invisible(0);
+                }
+    
+                interpolation_it++;
+            }
+        }
+    }
+}
+

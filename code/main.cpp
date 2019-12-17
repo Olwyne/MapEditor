@@ -1,24 +1,12 @@
-#include <imgui/imgui.h>
-#include <imgui/imgui_impl_sdl.h>
-#include <imgui/imgui_impl_opengl3.h>
 
-#include <glimac/SDLWindowManager.hpp>
-
-#include <glimac/Cube.hpp>
-#include <glimac/Cursor.hpp>
 #include <glimac/Construction.hpp>
 #include <glimac/FreeflyCamera.hpp>
 #include <glimac/TrackballCamera.hpp>
 #include <glimac/Camera.hpp>
 #include <glimac/Interface.hpp>
-#include <glimac/RadialBasisFunctions.hpp>
 #include <glimac/Image.hpp>
 
-
-
 #include <GL/glew.h>
-#include <iostream>
-#include <vector>
 
 #if defined(IMGUI_IMPL_OPENGL_LOADER_GL3W)
 #include <GL/gl3w.h>    // Initialize with gl3wInit()
@@ -67,16 +55,18 @@ int main(int, char** argv)
 
     bool trackball_used = true;
 
-    std::vector<glm::vec2> control_points;
-    control_points.push_back( glm::vec2(1,0) );
-    control_points.push_back( glm::vec2(1,1) );
-    control_points.push_back( glm::vec2(0,0) );
-    control_points.push_back( glm::vec2(0,1) );
-    control_points.push_back( glm::vec2(1,2) );
-    Eigen::VectorXd u_vect(5);
-    u_vect << 1, 1, 1, 1, 1;
-    phi_functors f;
-    apply_interpolation(construction, control_points, u_vect, f, 1);
+    // std::vector<glm::vec2> control_points;
+    // control_points.push_back( glm::vec2(1,0) );
+    // control_points.push_back( glm::vec2(1,1) );
+    // control_points.push_back( glm::vec2(0,0) );
+    // control_points.push_back( glm::vec2(0,1) );
+    // control_points.push_back( glm::vec2(1,2) );
+    // Eigen::VectorXd u_vect(5);
+    // u_vect << 1, 1, 1, 1, 1;
+    // phi_functors f;
+    // //only function 1 is interesting... take a look
+    // construction.apply_interpolation(control_points, u_vect, f, 1);
+
 
 
     // Main loop

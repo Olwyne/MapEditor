@@ -5,8 +5,6 @@
 
 #include <glimac/SDLWindowManager.hpp>
 
-#include <glimac/Cube.hpp>
-#include <glimac/Cursor.hpp>
 #include <glimac/Construction.hpp>
 #include <GL/glew.h>
 #include <iostream>

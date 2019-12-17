@@ -136,11 +136,6 @@ void Cube::set_invisible(const bool invisible)
 }
 
 
-void Cube::set_height(const unsigned int height)
-{
-    m_position.y = height;
-}
-
 void Cube::set_type(unsigned int type)
 {
     switch(type)

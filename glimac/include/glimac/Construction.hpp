@@ -2,17 +2,16 @@
 
 #include "Cube.hpp"
 #include "Cursor.hpp"
-#include <vector>
-#include <eigen3/Eigen/Dense>
+#include "RadialBasisFunctions.hpp"
 
 
 class Construction
 {
 private:
-    static const unsigned int m_width = 15;
-    static const unsigned int m_length = 15;
-    static const unsigned int m_height = 2;
-    static const unsigned int m_max_cubes_in_column = 40;
+    static const unsigned int m_width = 10;
+    static const unsigned int m_length = 10;
+    static const unsigned int m_height = 3;
+    static const unsigned int m_max_cubes_in_column = 60;
 
     //a matrix of columns(=vectors) of cubes
     Eigen::Matrix <std::vector<Cube>, m_length, m_width> m_all_cubes;
@@ -24,6 +23,7 @@ public:
     inline unsigned int get_width() const { return m_width; } 
     inline unsigned int get_length() const { return m_length; }
     inline unsigned int get_height() const { return m_height; }
+    inline unsigned int get_max_height() const { return m_max_cubes_in_column; }
 
     bool valid_position(glm::vec3 position);
     Cube& cube_at_cursor(Cursor &cursor);
@@ -40,6 +40,10 @@ public:
 
     //use for radial functions
     std::vector<glm::vec2> put_all_cubes_positions_in_one_vector();
+
+    //RBF
+    void apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, phi_functors phi_function, const unsigned int type_function);
+
 
 
 };

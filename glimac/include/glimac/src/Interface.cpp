@@ -1,11 +1,5 @@
 #include <glimac/Interface.hpp>
-#include <imgui/imgui.h>
-#include <imgui/imgui_impl_sdl.h>
-#include <imgui/imgui_impl_opengl3.h>
-#include <glimac/SDLWindowManager.hpp>
 
-#include <glimac/Cube.hpp>
-#include <glimac/Cursor.hpp>
 #include <glimac/Construction.hpp>
 #include <GL/glew.h>
 #include <iostream>
