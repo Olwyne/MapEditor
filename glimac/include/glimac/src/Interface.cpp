@@ -1,11 +1,5 @@
 #include <glimac/Interface.hpp>
 
-#include <glimac/Construction.hpp>
-#include <GL/glew.h>
-#include <iostream>
-#include <vector>
-
-
 SDL_Window* initialise_window(){ 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0){
         printf("Error: %s\n", SDL_GetError());
@@ -113,6 +107,11 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,ImV
                 show_helpbox=!show_helpbox;
             }
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+            if(!construction.valid_position(cursor.get_position())){
+                ImGui::TextColored(ImVec4(1,0,0,1), "Your cursor is outside of the world !");
+                ImGui::Dummy(ImVec2(0.0f, 10.0f));
+            }
 
             if (ImGui::Button("Change camera")){
                 trackball_used=!trackball_used;
