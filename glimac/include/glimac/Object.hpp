@@ -1,8 +1,7 @@
 #pragma once
-#include "Program.hpp"
 #include "Camera.hpp"
+#include "DirectionnalLight.hpp"
 
-using namespace glimac;
 
 struct Param_Pos_Color_Text
 {
@@ -34,11 +33,11 @@ public:
   virtual ~Object();
 
   virtual void create_vbo_vao(bool) {}
-  virtual void render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, GLint uTexture_location, Camera &camera, bool scene_modified);
+  virtual void render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, GLint uTexture_location, Camera &camera, bool scene_modified,DirectionnalLight light);
   virtual void create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, glimac::Program &program);
   
   //create vao, vbo, and render
-  virtual void create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Camera &camera, bool scene_modified);
+  virtual void create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Camera &camera, bool scene_modified,DirectionnalLight light);
 
   virtual unsigned int get_index() {return m_nb_index;}
   virtual glm::vec3 get_position() { return m_position; }

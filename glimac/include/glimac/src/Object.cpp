@@ -15,8 +15,7 @@ void Object::create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_l
     uTexture_location = glGetUniformLocation(program.getGLId(), "uTexture" );
 }
 
-
-void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, GLint uTexture_location, Camera &camera, bool scene_modified)
+void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, GLint uTexture_location, Camera &camera, bool scene_modified,DirectionnalLight light)
 {
 
     glm::mat4 camera_VM = camera.getViewMatrix();
@@ -29,8 +28,11 @@ void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_locat
     
     glBindVertexArray(m_vao);
 
+   
+    
     glUniform1i(uTexture_location, 0);
     glBindTexture(GL_TEXTURE_2D, m_texture); 
+     light.render_DirectionnalLight();
 
     glUniformMatrix4fv(uMVP_location, 1, GL_FALSE, glm::value_ptr(ProjMatrix*camera_VM));
     glUniformMatrix4fv(uMV_location, 1, GL_FALSE, glm::value_ptr(camera_VM*MVMatrix));
@@ -53,10 +55,10 @@ Object::~Object()
 }
 
 
-void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Camera &camera, bool scene_modified)
+void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Camera &camera, bool scene_modified,DirectionnalLight light)
 {
     create_vbo_vao(scene_modified); 
-    render(uMVP_location, uMV_location, uNormal_location, uTexture_location, camera, scene_modified);
+    render(uMVP_location, uMV_location, uNormal_location, uTexture_location, camera, scene_modified,light);
 }
 
 

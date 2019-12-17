@@ -4,7 +4,6 @@
 #include "Cursor.hpp"
 #include "RadialBasisFunctions.hpp"
 
-
 class Construction
 {
 private:
@@ -36,7 +35,7 @@ public:
     void extrude_cube(Cursor &cursor);
     void dig_cube(Cursor &cursor);
 
-    void render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Camera &camera, bool &scene_modified);
+    void render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Camera &camera, bool &scene_modified,DirectionnalLight light);
 
     //use for radial functions
     std::vector<glm::vec2> put_all_cubes_positions_in_one_vector();
