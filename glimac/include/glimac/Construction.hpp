@@ -9,8 +9,8 @@
 class Construction
 {
 private:
-    static const unsigned int m_width = 5;
-    static const unsigned int m_length = 5;
+    static const unsigned int m_width = 15;
+    static const unsigned int m_length = 15;
     static const unsigned int m_height = 2;
     static const unsigned int m_max_cubes_in_column = 40;
 
