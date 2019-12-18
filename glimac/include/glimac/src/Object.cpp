@@ -28,11 +28,12 @@ void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_locat
     
     glBindVertexArray(m_vao);
 
-   
+    light.render_DirectionnalLight();
+
     
     glUniform1i(uTexture_location, 0);
     glBindTexture(GL_TEXTURE_2D, m_texture); 
-     light.render_DirectionnalLight();
+    
 
     glUniformMatrix4fv(uMVP_location, 1, GL_FALSE, glm::value_ptr(ProjMatrix*camera_VM));
     glUniformMatrix4fv(uMV_location, 1, GL_FALSE, glm::value_ptr(camera_VM*MVMatrix));

@@ -1,6 +1,4 @@
-#version 330
-
-uniform sampler2D uTexture;
+#version 330 core
 
 //to represent material
 uniform vec3 uKd;
@@ -14,6 +12,10 @@ uniform vec3 uLightIntensity;
 in vec3 vPosition_vs;
 in vec3 vNormal_vs;
 in vec2 vTexCoords;
+
+
+uniform sampler2D uTexture;
+
  
 out vec3 fFragColor;
 
@@ -32,7 +34,8 @@ vec3 blinnPhong(vec3 position_vs, vec3 normal_vs)
 }
 
 void main() {
-	vec3 img_texture =  texture(uTexture, vTexCoords).xyz;
-	fFragColor =img_texture + blinnPhong(vPosition_vs, normalize(vNormal_vs));
+	fFragColor = blinnPhong(vPosition_vs, normalize(vNormal_vs))*texture( uTexture, vTexCoords ).xyz;
+
 };
+ 
 

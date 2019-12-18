@@ -17,7 +17,7 @@ int main(int, char** argv)
     ImGuiIO& io=initialise_ImGui(window,gl_context);
            
     FilePath applicationPath(argv[0]);
-    Program program = loadProgram(applicationPath.dirPath() + "shaders/simple.vs.glsl",
+    Program program = loadProgram(applicationPath.dirPath() + "shaders/world.vs.glsl",
                               applicationPath.dirPath() + "shaders/world.fs.glsl");
     program.use();
 
