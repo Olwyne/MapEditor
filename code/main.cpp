@@ -43,19 +43,13 @@ int main(int, char** argv)
 
     bool trackball_used = true;
 
-    std::vector<glm::vec2> control_points;
-    control_points.push_back( glm::vec2(1,0) );
-    control_points.push_back( glm::vec2(1,1) );
-    control_points.push_back( glm::vec2(0,0) );
-    control_points.push_back( glm::vec2(0,1) );
-    control_points.push_back( glm::vec2(1,2) );
+    //mathematics part: get control points, set u vector, apply interpolation
+    std::vector<glm::vec2> control_points = get_control_points_RBF("code/control_points.txt");
     Eigen::VectorXd u_vect(5);
     u_vect << 1, 1, 1, 1, 1;
     phi_functors f;
-    //only functions 0 & 1 is interesting... take a look
-    construction.apply_interpolation(control_points, u_vect, f, 3);
-
-
+    unsigned int RBF_function = 1; //c'est 0,1,2 ou 3, voir radialbasisfunction.hpp pour le noms des fonctions
+    construction.apply_interpolation(control_points, u_vect, f, RBF_function);
 
     // Main loop
     bool done = false;
