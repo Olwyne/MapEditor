@@ -1,4 +1,3 @@
-
 #include <glimac/Construction.hpp>
 #include <glimac/FreeflyCamera.hpp>
 #include <glimac/TrackballCamera.hpp>
@@ -6,16 +5,7 @@
 #include <glimac/Interface.hpp>
 #include <glimac/Image.hpp>
 
-#if defined(IMGUI_IMPL_OPENGL_LOADER_GL3W)
-#include <GL/gl3w.h>    // Initialize with gl3wInit()
-#elif defined(IMGUI_IMPL_OPENGL_LOADER_GLEW)
-#include <GL/glew.h>    // Initialize with glewInit()
-#elif defined(IMGUI_IMPL_OPENGL_LOADER_GLAD)
-#include <glad/glad.h>  // Initialize with gladLoadGL()
-#else
-#include IMGUI_IMPL_OPENGL_LOADER_CUSTOM
-#endif
-
+#include <GL/glew.h>
 using namespace glimac;
 
 int main(int, char** argv)

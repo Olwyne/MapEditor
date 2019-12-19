@@ -1,15 +1,16 @@
 #include <glimac/Interface.hpp>
-
-#include <glimac/Construction.hpp>
-#include <GL/glew.h>
 #include <iostream>
-#include <vector>
-
 
 SDL_Window* initialise_window(){ 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0){
-        printf("Error: %s\n", SDL_GetError());
+    try{
+        if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0){
+          throw std::string(SDL_GetError());
+        }
     }
+    catch(const std::string &err){
+        std::cerr<<"Error : "<< err <<std::endl;
+    }
+
 
     // Create window with graphics context
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -35,6 +36,14 @@ SDL_GLContext initialise_context(SDL_Window* window){
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
     SDL_GLContext gl_context = SDL_GL_CreateContext(window);
+    try{
+        if(SDL_GL_CONTEXT_MAJOR_VERSION<3 && SDL_GL_CONTEXT_MINOR_VERSION<3){
+           throw std::string("No good version of OPENGL");
+        }
+    }
+    catch(const std::string &err){
+        std::cerr<<"Error : "<< err <<std::endl;
+    }      
 
     std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
     std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
@@ -52,9 +61,14 @@ SDL_GLContext initialise_context(SDL_Window* window){
     #else
         bool err = false; // If you use IMGUI_IMPL_OPENGL_LOADER_CUSTOM, your loader is likely to requires some form of initialization.
     #endif
-    if (err)
-    {
-        fprintf(stderr, "Failed to initialize OpenGL loader!\n");
+    try{
+        if (err)
+        {
+             throw std::string("Failed to initialize OpenGL loader!\n");
+        }
+    }
+    catch(const std::string &err){
+        std::cerr<<"Error : " << err << std::endl;
     }
     return gl_context;
 }
@@ -79,7 +93,6 @@ ImGuiIO& initialise_ImGui(SDL_Window* window,SDL_GLContext gl_context){
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
-    // ImGui::StyleColorsClassic();
     
     // Setup Platform/Renderer bindings
     ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
@@ -113,6 +126,11 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,ImV
                 show_helpbox=!show_helpbox;
             }
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+            if(!construction.valid_position(cursor.get_position())){
+                ImGui::TextColored(ImVec4(1,0,0,1), "Your cursor is outside of the world !");
+                ImGui::Dummy(ImVec2(0.0f, 10.0f));
+            }
 
             if (ImGui::Button("Change camera")){
                 trackball_used=!trackball_used;
