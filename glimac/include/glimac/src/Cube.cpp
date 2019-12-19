@@ -2,6 +2,8 @@
 #include <iostream>
 #include <glimac/Cube.hpp>
 
+#include <GL/glew.h>
+
 
 using namespace glimac;
 
@@ -21,9 +23,47 @@ void Cube::create_vbo_vao(bool scene_modified)
         glBindTexture(GL_TEXTURE_2D, m_texture);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, earth_img->getWidth(), earth_img->getHeight(), 0, GL_RGBA, GL_FLOAT, earth_img->getPixels());
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glBindTexture(GL_TEXTURE, 0);
+
+        // glGenTextures(1, &m_texture);
+
+        // glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        // glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+        // glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        // glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+        // glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
+
+
+        // // Now, load in your six distinct images. They need to be the same dimensions!
+        // // Notice the targets being specified: the six sides of the cube map.
+        // auto width = earth_img->getWidth();
+        // auto height = earth_img->getHeight();
+        // auto data = earth_img->getPixels();
+        // glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGBA, width, height, 0,
+        //     GL_RGBA, GL_UNSIGNED_BYTE, data);
+        // glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGBA, width, height, 0,
+        //     GL_RGBA, GL_UNSIGNED_BYTE, data);
+        // glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL_RGBA, width, height, 0,
+        //     GL_RGBA, GL_UNSIGNED_BYTE, data);
+        // glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL_RGBA, width, height, 0,
+        //     GL_RGBA, GL_UNSIGNED_BYTE, data);
+        // glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGBA, width, height, 0,
+        //     GL_RGBA, GL_UNSIGNED_BYTE, data);
+        // glTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGBA, width, height, 0,
+        //     GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+        // glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+        // glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        //         glBindTexture(GL_TEXTURE, 0);
+
+
+
+
+
+
 
         glGenBuffers(1, &m_vbo); 
         //bind buffer vbo to a target

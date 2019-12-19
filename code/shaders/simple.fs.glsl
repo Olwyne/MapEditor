@@ -13,4 +13,3 @@ void main() {
 	vec3 img_texture =  texture(uTexture, vTexCoords).xyz;
 	fFragColor = img_texture;
 };
-

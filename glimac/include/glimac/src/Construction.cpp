@@ -1,11 +1,11 @@
 #include <glimac/Construction.hpp>
-#include <iostream>
+#include <stdio.h>
 
 Construction::Construction()
 {
 
     // //create 3 layers of cubes
-    for(unsigned int i=0; i<m_length; i++) //<----CHANGE THIS if possible, 3 loops is bad
+    for(unsigned int i=0; i<m_length; i++) 
     {
         for(unsigned int j=0; j<m_width; j++)
         {
@@ -33,7 +33,6 @@ bool Construction::valid_position(glm::vec3 position)
         return false;
     } 
 }
-
 
 
 Cube& Construction::cube_at_cursor(Cursor &cursor)
@@ -129,21 +128,21 @@ void Construction::dig_cube(Cursor &cursor)
 }
 
 //CHANGE THIS, depends on imgui
-void Construction::change_color(Cursor &cursor)
-{
-    if( valid_position(cursor.get_position()) && !cube_at_cursor(cursor).is_invisible())
-    {
-        if (cube_at_cursor(cursor).get_color()==glm::vec3(0.2,1,0)) 
-        {
-            cube_at_cursor(cursor).set_color( glm::vec3(1,0,0.8) ); 
-        } 
+// void Construction::change_color(Cursor &cursor)
+// {
+//     if( valid_position(cursor.get_position()) && !cube_at_cursor(cursor).is_invisible())
+//     {
+//         if (cube_at_cursor(cursor).get_color()==glm::vec3(0.2,1,0)) 
+//         {
+//             cube_at_cursor(cursor).set_color( glm::vec3(1,0,0.8) ); 
+//         } 
 
-        else if (cube_at_cursor(cursor).get_color()==glm::vec3(1,0,0.8)) 
-        {    
-            cube_at_cursor(cursor).set_color( glm::vec3(0.2,1,0) );
-        }
-    }
-}
+//         else if (cube_at_cursor(cursor).get_color()==glm::vec3(1,0,0.8)) 
+//         {    
+//             cube_at_cursor(cursor).set_color( glm::vec3(0.2,1,0) );
+//         }
+//     }
+// }
 
 
 
@@ -193,7 +192,7 @@ void Construction::apply_interpolation(std::vector<glm::vec2> control_points, Ei
 {
     std::vector<glm::vec2> all_positions = put_all_cubes_positions_in_one_vector();
     Eigen::VectorXd omegas = get_omega_variables(control_points, u_vect, phi_function, type_function);
-    std::vector<unsigned int> interpolation_result = interpolate(control_points, omegas, all_positions, phi_function, type_function);
+    std::vector<float> interpolation_result = interpolate(control_points, omegas, all_positions, phi_function, type_function);
 
     unsigned int interpolation_it = 0;
     for(unsigned int i=0; i<m_length; i++) 
@@ -202,9 +201,22 @@ void Construction::apply_interpolation(std::vector<glm::vec2> control_points, Ei
         {
             for(unsigned int k=0; k<m_max_cubes_in_column; k++)
             {
-                //use modulo to have nb that are inside the world
-                interpolation_result[interpolation_it] = interpolation_result[interpolation_it] % m_max_cubes_in_column;
 
+    /*we need to transform our interpolation results into nb that can be represented in our world*/
+
+                //if the result is very small (happens with phi_function 3)
+                if(interpolation_result[interpolation_it] < 0.1 && interpolation_result[interpolation_it] > 0)
+                {
+                    //get mantisa of the number
+                    int exponent;
+                    double mantisa = frexp(interpolation_result[interpolation_it], &exponent);
+                    interpolation_result[interpolation_it] = mantisa*10;
+                } 
+
+                //else using modulo is sufficient
+                else interpolation_result[interpolation_it] = static_cast<unsigned int>(interpolation_result[interpolation_it]) % m_max_cubes_in_column;
+                
+                //apply interpolation 
                 if (m_all_cubes(i,j)[ interpolation_result[interpolation_it] ].is_invisible()) 
                 {
                     for(unsigned int height=0; height<interpolation_result[interpolation_it]; height++)

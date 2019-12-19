@@ -6,8 +6,6 @@
 #include <glimac/Interface.hpp>
 #include <glimac/Image.hpp>
 
-#include <GL/glew.h>
-
 #if defined(IMGUI_IMPL_OPENGL_LOADER_GL3W)
 #include <GL/gl3w.h>    // Initialize with gl3wInit()
 #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLEW)
@@ -55,17 +53,17 @@ int main(int, char** argv)
 
     bool trackball_used = true;
 
-    // std::vector<glm::vec2> control_points;
-    // control_points.push_back( glm::vec2(1,0) );
-    // control_points.push_back( glm::vec2(1,1) );
-    // control_points.push_back( glm::vec2(0,0) );
-    // control_points.push_back( glm::vec2(0,1) );
-    // control_points.push_back( glm::vec2(1,2) );
-    // Eigen::VectorXd u_vect(5);
-    // u_vect << 1, 1, 1, 1, 1;
-    // phi_functors f;
-    // //only function 1 is interesting... take a look
-    // construction.apply_interpolation(control_points, u_vect, f, 1);
+    std::vector<glm::vec2> control_points;
+    control_points.push_back( glm::vec2(1,0) );
+    control_points.push_back( glm::vec2(1,1) );
+    control_points.push_back( glm::vec2(0,0) );
+    control_points.push_back( glm::vec2(0,1) );
+    control_points.push_back( glm::vec2(1,2) );
+    Eigen::VectorXd u_vect(5);
+    u_vect << 1, 1, 1, 1, 1;
+    phi_functors f;
+    //only functions 0 & 1 is interesting... take a look
+    construction.apply_interpolation(control_points, u_vect, f, 3);
 
 
 
