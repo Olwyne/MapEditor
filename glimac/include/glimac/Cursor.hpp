@@ -9,7 +9,7 @@ class Cursor: public Object
 
 public:
   Cursor() : Object(36) {} 
-  Cursor(Param_Pos_Color_Text param, unsigned int nb_index) : Object(param, nb_index) {}
+  Cursor(Param_Pos_Color param, unsigned int nb_index) : Object(param, nb_index) {}
   ~Cursor() override = default;
 
   virtual void create_vbo_vao(bool scene_modified) override;

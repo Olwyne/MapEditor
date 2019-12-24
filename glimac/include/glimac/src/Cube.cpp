@@ -12,34 +12,25 @@ const float WINDOW_HEIGHT = 800; //<----------------------------CHANGE THIS
 
 
 
-std::unique_ptr<Image> earth_img = loadImage("code/textures/MoonMap.jpg");
-
-
 void Cube::create_vbo_vao(bool scene_modified)
 { 
     //only do this again when there's been a change: ex. new cube, change of texture, etc.
     if (scene_modified)
     {
-        glBindTexture(GL_TEXTURE_2D, m_texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, earth_img->getWidth(), earth_img->getHeight(), 0, GL_RGBA, GL_FLOAT, earth_img->getPixels());
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glBindTexture(GL_TEXTURE, 0);
 
         glGenBuffers(1, &m_vbo); 
         //bind buffer vbo to a target
         glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
-        Param_Pos_Color_Text vertices[] = {
-                        Param_Pos_Color_Text(glm::vec3(1.0f, -1.0f, 1.0f)+m_position*2.f, m_color, m_texture), //0
-                        Param_Pos_Color_Text(glm::vec3(-1.0f, -1.0f, 1.0f)+m_position*2.f, m_color, m_texture), //1
-                        Param_Pos_Color_Text(glm::vec3(-1.0f, 1.0f, 1.0f)+m_position*2.f, m_color, m_texture), //2
-                        Param_Pos_Color_Text(glm::vec3(1.0f, 1.0f, 1.0f)+m_position*2.f, m_color, m_texture), //3
-                        Param_Pos_Color_Text(glm::vec3(1.0f, -1.0f, -1.0f)+m_position*2.f, m_color, m_texture), //4
-                        Param_Pos_Color_Text(glm::vec3(-1.0f, -1.0f, -1.0f)+m_position*2.f, m_color, m_texture), //5
-                        Param_Pos_Color_Text(glm::vec3(-1.0f, 1.0f, -1.0f)+m_position*2.f, m_color, m_texture), //6
-                        Param_Pos_Color_Text(glm::vec3(1.0f, 1.0f, -1.0f)+m_position*2.f, m_color, m_texture) //7
+        Param_Pos_Color vertices[] = {
+                        Param_Pos_Color(glm::vec3(1.0f, -1.0f, 1.0f)+m_position*2.f, m_color), //0
+                        Param_Pos_Color(glm::vec3(-1.0f, -1.0f, 1.0f)+m_position*2.f, m_color), //1
+                        Param_Pos_Color(glm::vec3(-1.0f, 1.0f, 1.0f)+m_position*2.f, m_color), //2
+                        Param_Pos_Color(glm::vec3(1.0f, 1.0f, 1.0f)+m_position*2.f, m_color), //3
+                        Param_Pos_Color(glm::vec3(1.0f, -1.0f, -1.0f)+m_position*2.f, m_color), //4
+                        Param_Pos_Color(glm::vec3(-1.0f, -1.0f, -1.0f)+m_position*2.f, m_color), //5
+                        Param_Pos_Color(glm::vec3(-1.0f, 1.0f, -1.0f)+m_position*2.f, m_color), //6
+                        Param_Pos_Color(glm::vec3(1.0f, 1.0f, -1.0f)+m_position*2.f, m_color) //7
                             };
 
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -89,11 +80,9 @@ void Cube::create_vbo_vao(bool scene_modified)
         //tell OpenGL where to find vertices and how to read data associated to each vertex
         glEnableVertexAttribArray(VERTEX_ATTR_COLOR);
         glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
-        glEnableVertexAttribArray(VERTEX_ATTR_TEXT);
 
-        glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color_Text), (void*)offsetof(Param_Pos_Color_Text, m_position));
-        glVertexAttribPointer(VERTEX_ATTR_COLOR, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color_Text), (void*)offsetof(Param_Pos_Color_Text, m_color));
-        glVertexAttribPointer(VERTEX_ATTR_TEXT, 2, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color_Text), (void*)offsetof(Param_Pos_Color_Text, m_texture));
+        glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color), (void*)offsetof(Param_Pos_Color, m_position));
+        glVertexAttribPointer(VERTEX_ATTR_COLOR, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color), (void*)offsetof(Param_Pos_Color, m_color));
 
         //unbind vbo and vao
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -107,6 +96,7 @@ void Cube::set_color(const glm::vec3 color)
 {
     m_color = color;
 }
+
 
 Cube& Cube::operator=(const Cube& c)
 {
@@ -144,17 +134,12 @@ void Cube::set_type(unsigned int type)
     {
         //initial type: 3 first layers of cubes
         case 0:
-            m_texture = 0;
             m_color = glm::vec3(0.2,1,0);
             break;
-        //water
         case 1:
-            m_texture = 0;
             m_color = glm::vec3(0, 0.2, 1);
             break;
-        //earth
         case 2:
-            m_texture = 0;
             m_color = glm::vec3(0.8,0.6,0.2);
             break;
     }

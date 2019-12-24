@@ -4,14 +4,13 @@
 
 using namespace glimac;
 
-struct Param_Pos_Color_Text
+struct Param_Pos_Color
 {
     glm::vec3 m_position;
     glm::vec3 m_color;
-    GLuint m_texture;
-    Param_Pos_Color_Text();
-    Param_Pos_Color_Text(glm::vec3 position, glm::vec3 color, GLuint texture)
-        :m_position(position), m_color(color), m_texture(texture) {}
+    Param_Pos_Color();
+    Param_Pos_Color(glm::vec3 position, glm::vec3 color)
+        :m_position(position), m_color(color)  {}
 };
 
 
@@ -20,16 +19,15 @@ class Object
 protected:
   GLuint m_vbo; //Vertex Buffer Object
   GLuint m_vao; //Vertex Array Object
-  GLuint m_texture;
   glm::vec3 m_position;
   glm::vec3 m_color;
   //can't use const because of the operator = function (Cube.hpp)
   unsigned int m_nb_index; //for IBO purpose
 
 public:
-  Object(unsigned int nb_index) : m_vbo(0), m_vao(0), m_texture(0), m_position(glm::vec3(0,0,0)), m_color(glm::vec3(0,0.5,0.5)), m_nb_index(nb_index) {} 
-  Object(Param_Pos_Color_Text param, unsigned int nb_index) : m_vbo(0), m_vao(0), m_texture(0), m_position(param.m_position), m_color(param.m_color), m_nb_index(nb_index){}
-  Object(const Object &obj): m_vbo(obj.m_vbo), m_vao(obj.m_vao), m_texture(obj.m_texture), m_position(obj.m_position), m_color(obj.m_color), m_nb_index(obj.m_nb_index) {}
+  Object(unsigned int nb_index) : m_vbo(0), m_vao(0), m_position(glm::vec3(0,0,0)), m_color(glm::vec3(0,0.5,0.5)), m_nb_index(nb_index) {} 
+  Object(Param_Pos_Color param, unsigned int nb_index) : m_vbo(0), m_vao(0), m_position(param.m_position), m_color(param.m_color), m_nb_index(nb_index){}
+  Object(const Object &obj): m_vbo(obj.m_vbo), m_vao(obj.m_vao), m_position(obj.m_position), m_color(obj.m_color), m_nb_index(obj.m_nb_index) {}
   
   virtual ~Object();
 
@@ -45,8 +43,6 @@ public:
   virtual glm::vec3 get_color() { return m_color; }
   virtual GLuint get_vao() { return m_vao; }
   virtual GLuint get_vbo() { return m_vbo; }
-  virtual GLuint get_texture() { return m_texture; }
-
 
   virtual bool obj_same_pos(Object &obj);
 

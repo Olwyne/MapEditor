@@ -14,7 +14,7 @@ private:
 
 public:
   Cube() : Object(36), m_invisible(1), m_type(0) {}
-  Cube(const Param_Pos_Color_Text param) 
+  Cube(const Param_Pos_Color param) 
          : Object(param, 36), m_invisible(0), m_type(0) {}
 
   Cube(const Cube &c) : Object(c), m_invisible(c.m_invisible) {}
