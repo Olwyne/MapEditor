@@ -52,6 +52,8 @@ int main(int, char** argv)
     unsigned int RBF_function = 1; //c'est 0,1,2 ou 3, voir radialbasisfunction.hpp pour le noms des fonctions
     construction.apply_interpolation(control_points, u_vect, f, RBF_function);
 
+    glEnable(GL_DEPTH_TEST);
+
     // Main loop
     bool done = false;
     while(!done) {
@@ -86,7 +88,6 @@ int main(int, char** argv)
         }
 
         interface_imgui(window, show_toolbox,show_helpbox ,clear_color, io, construction, cursor, scene_modified,trackball_used);      
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
         
         //create and render all cubes
         construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, uTexture_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
