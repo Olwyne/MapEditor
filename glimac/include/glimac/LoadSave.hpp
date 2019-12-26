@@ -2,6 +2,6 @@
 #include "Construction.hpp"
 
 
-std::string name_file();
+std::string name_file(const unsigned int load);
 
 

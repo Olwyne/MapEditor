@@ -13,21 +13,33 @@ ALL CUBES' POSITIONS then COLORS
 */
 
 
-std::string name_file()
+std::string name_file(const unsigned int load)
 {
-    std::string name;
+    std::string name, path;
+    if (load == 1)
+        std::cout << "please give me the path of the file you want to load. ex: code/txt/" << std::endl;
+    else
+        std::cout << "please tell me where you want your file to be saved. ex: code/txt/" << std::endl;
+    
+    std::cin >> path;
+    std::cout << "what would you like to name your file?" << std::endl;
     std::cin >> name;
-    return name;
+    return path + name + ".txt";
 }
 
 
 void Construction::save_scene(bool &scene_modified)
 {
-    std::cout << "what would you like to call your file?" << std::endl;
-    std::string filename = "code/txt/" + name_file() + ".txt";
+    std::string filename = name_file(0);
 
     //create file in which we'll store information about Construction
     std::ofstream myfile(filename);
+    myfile.open(filename, std::ios::out | std::ios::binary);
+    if (!myfile.is_open()) 
+    {
+        std::cerr << "Unable to open file"<< std::endl; 
+    }
+
     myfile << std::endl;
     myfile << m_length << " " << m_width << " ";
     myfile << m_height << " " << m_max_cubes_in_column << std::endl;
@@ -50,7 +62,6 @@ void Construction::save_scene(bool &scene_modified)
                 }
             }
 
-    std::cout << "scene saved" << std::endl; //CHANGE THIS just get rid of it
     //so that cubes are rendered 
     scene_modified = true;
     myfile.close();
@@ -60,8 +71,7 @@ void Construction::save_scene(bool &scene_modified)
 
 void Construction::load_scene(bool &scene_modified)
 {
-    std::cout << "what file would you like to load?" << std::endl;
-    std::string filename = "code/txt/" + name_file() + ".txt";
+    std::string filename = name_file(1);
 
     //set all cubes to be invisible so we start from 0
     for(unsigned int i=0; i<m_length; i++)
@@ -110,7 +120,6 @@ void Construction::load_scene(bool &scene_modified)
         }
     }
 
-    std::cout << "scene loaded" << std::endl; //CHANGE THIS just get rid of it
     //so that cubes are rendered 
     scene_modified = true;
     myfile.close();
