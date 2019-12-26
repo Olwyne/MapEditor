@@ -4,6 +4,7 @@
 #include <glimac/Camera.hpp>
 #include <glimac/Interface.hpp>
 #include <glimac/Image.hpp>
+#include <glimac/LoadSave.hpp>
 
 #include <GL/glew.h>
 using namespace glimac;
@@ -69,11 +70,16 @@ int main(int, char** argv)
             ff_camera.move_camera_key_pressed(e);
             cursor.move(e);
 
-            if (e.type == SDL_KEYDOWN && e.key.repeat == 0) //just to test methods
+            if (e.type == SDL_KEYDOWN && e.key.repeat == 0) //CHANGE THIS just to test methods
             {
                 switch(e.key.keysym.sym)
                 {
-                       
+                    case SDLK_v:
+                        construction.save_scene(scene_modified);
+                        break;
+                    case SDLK_b:
+                        construction.load_scene(scene_modified);
+                        break;
                 }
             }
             

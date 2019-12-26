@@ -2,6 +2,6 @@
 #include "Construction.hpp"
 
 
-save_scene(Construction &construction, const std::string &filename);
+std::string name_file();
 
-load_scene(Construction &construction), const std::string &filename;
+
