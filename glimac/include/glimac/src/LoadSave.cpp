@@ -17,13 +17,21 @@ std::string name_file(const unsigned int load)
 {
     std::string name, path;
     if (load == 1)
+    {
         std::cout << "please give me the path of the file you want to load. ex: code/txt/" << std::endl;
+        std::cin >> path;
+        std::cout << "what is the name of the file?" << std::endl;
+        std::cin >> name;
+    }
     else
+    {
         std::cout << "please tell me where you want your file to be saved. ex: code/txt/" << std::endl;
+        std::cin >> path;
+        std::cout << "what would you like to name your file?" << std::endl;
+        std::cin >> name;
+    }
     
-    std::cin >> path;
-    std::cout << "what would you like to name your file?" << std::endl;
-    std::cin >> name;
+
     return path + name + ".txt";
 }
 
@@ -34,11 +42,6 @@ void Construction::save_scene(bool &scene_modified)
 
     //create file in which we'll store information about Construction
     std::ofstream myfile(filename);
-    myfile.open(filename, std::ios::out | std::ios::binary);
-    if (!myfile.is_open()) 
-    {
-        std::cerr << "Unable to open file"<< std::endl; 
-    }
 
     myfile << std::endl;
     myfile << m_length << " " << m_width << " ";
@@ -64,7 +67,6 @@ void Construction::save_scene(bool &scene_modified)
 
     //so that cubes are rendered 
     scene_modified = true;
-    myfile.close();
 }
 
 

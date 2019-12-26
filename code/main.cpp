@@ -45,7 +45,7 @@ int main(int, char** argv)
     bool trackball_used = true;
 
     //mathematics part: get control points, set u vector, apply interpolation
-    std::vector<glm::vec2> control_points = get_control_points_RBF("code/control_points.txt");
+    std::vector<glm::vec2> control_points = get_control_points_RBF("code/txt/control_points.txt");
     Eigen::VectorXd u_vect(5);
     u_vect << 1, 1, 1, 1, 1;
     phi_functors f;
