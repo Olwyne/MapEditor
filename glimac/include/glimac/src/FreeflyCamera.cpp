@@ -15,7 +15,7 @@ void FreeflyCamera::computeDirectionVectors()
 
 FreeflyCamera::FreeflyCamera()
 {
-    m_Position = glm::vec3(0.0f);
+    m_Position = glm::vec3(-0.f,-0.f,-15.f);
     m_fPhi = M_PI;
     m_fTheta = 0.0;
     computeDirectionVectors();
