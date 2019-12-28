@@ -6,7 +6,8 @@
 
 void Construction::paint_cubes(Cursor &cursor, int perimeter, glm::vec3 color, bool &scene_modified)
 {
-
+    // if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_x && e.key.repeat == 0) 
+    // {
         //get initial position of the cursor
         glm::vec3 position = cube_at_cursor(cursor).get_position();
 
@@ -20,7 +21,7 @@ void Construction::paint_cubes(Cursor &cursor, int perimeter, glm::vec3 color, b
                         
                 }
         scene_modified = true;
-
+ //   }
 }
 
 glm::vec3 random_color()
