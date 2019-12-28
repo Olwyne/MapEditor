@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <glimac/Cube.hpp>
+#include <glimac/Color.hpp>
 
 #include <GL/glew.h>
 
@@ -134,13 +135,23 @@ void Cube::set_type(unsigned int type)
     {
         //initial type: 3 first layers of cubes
         case 0:
-            m_color = glm::vec3(0.2,1,0);
+            m_color = glm::vec3(0.5,1,0);
             break;
+        //red
         case 1:
-            m_color = glm::vec3(0, 0.2, 1);
+            m_color = glm::vec3(0.8, 0, 0);
             break;
+        //green
         case 2:
-            m_color = glm::vec3(0.8,0.6,0.2);
+            m_color = glm::vec3(0, 0.8, 0);
+            break;
+        //blue
+        case 3:
+            m_color = glm::vec3(0, 0, 0.8);
+            break;
+        //random color
+        case 4:
+            m_color = random_color();
             break;
     }
 

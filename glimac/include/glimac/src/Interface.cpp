@@ -165,13 +165,22 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,ImV
             }
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-            ImGui::TextColored(ImVec4(1,1,0,1), "Select the type of the cube");
-            int e=construction.cube_at_cursor(cursor).get_type();
-            if(ImGui::RadioButton("Grass", &e, 0)){
+            ImGui::TextColored(ImVec4(1,1,0,1), "Select the cube's color");
+            int e = construction.cube_at_cursor(cursor).get_type();
+
+            if(ImGui::RadioButton("Red", &e, 1)){
                 construction.cube_at_cursor(cursor).set_type(e);
                 modified_scene=true;
             }
-            if(ImGui::RadioButton("Water", &e, 1)){
+            if(ImGui::RadioButton("Green", &e, 2)){
+                construction.cube_at_cursor(cursor).set_type(e);
+                modified_scene=true;
+            }
+            if(ImGui::RadioButton("Blue", &e, 3)){
+                construction.cube_at_cursor(cursor).set_type(e);
+                modified_scene=true;
+            }
+            if(ImGui::RadioButton("Random", &e, 4)){
                 construction.cube_at_cursor(cursor).set_type(e);
                 modified_scene=true;
             }

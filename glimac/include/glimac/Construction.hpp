@@ -51,5 +51,4 @@ public:
 
     //color related functions
     void paint_cubes(Cursor &cursor, int perimeter, glm::vec3 color, const SDL_Event &e, bool &scene_modified);
-    void apply_random_color(Cursor &cursor);
 };
