@@ -39,18 +39,18 @@ int main(int, char** argv)
     construction.get_cubes()(0,0).at(0).create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, uTexture_location, program);
    
     //create Cameras
-    TrackballCamera tb_camera(15,0,0);
+    TrackballCamera tb_camera(45,10,0);
     FreeflyCamera ff_camera;
 
     bool trackball_used = true;
 
     //mathematics part: get control points, set u vector, apply interpolation
-    std::vector<glm::vec2> control_points = get_control_points_RBF("code/txt/control_points.txt");
-    Eigen::VectorXd u_vect(5);
-    u_vect << 1, 1, 1, 1, 1;
-    phi_functors f;
-    unsigned int RBF_function = 1; //c'est 0,1,2 ou 3, voir radialbasisfunction.hpp pour le noms des fonctions
-    construction.apply_interpolation(control_points, u_vect, f, RBF_function);
+    // std::vector<glm::vec2> control_points = get_control_points_RBF("code/txt/control_points.txt");
+    // Eigen::VectorXd u_vect(5);
+    // u_vect << 1, 1, 1, 1, 1;
+    // phi_functors f;
+    // unsigned int RBF_function = 1; //c'est 0,1,2 ou 3, voir radialbasisfunction.hpp pour le noms des fonctions
+    // construction.apply_interpolation(control_points, u_vect, f, RBF_function);
 
     glEnable(GL_DEPTH_TEST);
 
@@ -71,6 +71,7 @@ int main(int, char** argv)
             tb_camera.move_camera_key_pressed(e);
             ff_camera.move_camera_key_pressed(e);
             cursor.move(e);
+            construction.paint_cubes(cursor, 3, glm::vec3(1,0,0), e, scene_modified);
 
             if (e.type == SDL_KEYDOWN && e.key.repeat == 0) //CHANGE THIS just to test methods
             {

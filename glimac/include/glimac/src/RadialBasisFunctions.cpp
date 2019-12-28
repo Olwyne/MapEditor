@@ -1,5 +1,6 @@
 
 #include <glimac/RadialBasisFunctions.hpp>
+#include <glimac/Construction.hpp>
 
 
 std::vector<glm::vec2> get_control_points_RBF(const std::string &filename)
@@ -51,11 +52,6 @@ Eigen::VectorXd get_omega_variables(std::vector<glm::vec2> control_points, Eigen
     Eigen::MatrixXd phi_matrix_inverse(nb_control_points, nb_control_points);
     phi_matrix_inverse = phi_matrix.inverse();
 
-
-    // std::cout<<phi_matrix<<std::endl<<std::endl;
-    // std::cout<<phi_matrix_inverse<<std::endl;
-
-
     return phi_matrix_inverse*u_vect;
 }
 
@@ -85,3 +81,43 @@ std::vector<float> interpolate(std::vector<glm::vec2> control_points, Eigen::Vec
 }
 
 
+void Construction::apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, phi_functors phi_function, const unsigned int type_function)
+{
+    std::vector<glm::vec2> all_positions = put_all_cubes_positions_in_one_vector();
+    Eigen::VectorXd omegas = get_omega_variables(control_points, u_vect, phi_function, type_function);
+    std::vector<float> interpolation_result = interpolate(control_points, omegas, all_positions, phi_function, type_function);
+
+    unsigned int interpolation_it = 0;
+    for(unsigned int i=0; i<m_length; i++) 
+    {
+        for(unsigned int j=0; j<m_width; j++)
+        {
+            for(unsigned int k=0; k<m_max_cubes_in_column; k++)
+            {
+
+    /*we need to transform our interpolation results into nb that can be represented in our world*/
+
+                //if the result is very small (happens with phi_function 3)
+                if(interpolation_result[interpolation_it] < 0.1 && interpolation_result[interpolation_it] > 0)
+                {
+                    //get mantisa of the number
+                    int exponent;
+                    double mantisa = frexp(interpolation_result[interpolation_it], &exponent);
+                    interpolation_result[interpolation_it] = mantisa*10;
+                } 
+
+                //else using modulo is sufficient
+                else interpolation_result[interpolation_it] = static_cast<unsigned int>(interpolation_result[interpolation_it]) % m_max_cubes_in_column;
+                
+                //apply interpolation 
+                if (m_all_cubes(i,j)[ interpolation_result[interpolation_it] ].is_invisible()) 
+                {
+                    for(unsigned int height=0; height<interpolation_result[interpolation_it]; height++)
+                        m_all_cubes(i,j)[ height ].set_invisible(0);
+                }
+    
+                interpolation_it++;
+            }
+        }
+    }
+}

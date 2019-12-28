@@ -53,29 +53,30 @@ glm::mat4 FreeflyCamera::getViewMatrix() const
 
 void FreeflyCamera::move_camera_key_pressed(const SDL_Event &e)
 {
-
-    switch(e.key.keysym.sym)
+    if (e.type == SDL_KEYDOWN)
     {
-        case SDLK_UP:
-            moveFront(-0.1);
-            break;
-        case SDLK_DOWN:
-            moveFront(0.1);
-            break;
-        case SDLK_q:
-            rotateLeft(20.f);
-            break;
-        case SDLK_d:
-            rotateLeft(-20.f);
-            break;
-        case SDLK_z:
-            rotateUp(20.f);
-            break;
-        case SDLK_s:
-            rotateUp(-20.f);
-            break;
-    }
-    
+        switch(e.key.keysym.sym)
+        {
+            case SDLK_UP:
+                moveFront(-0.1);
+                break;
+            case SDLK_DOWN:
+                moveFront(0.1);
+                break;
+            case SDLK_q:
+                rotateLeft(20.f);
+                break;
+            case SDLK_d:
+                rotateLeft(-20.f);
+                break;
+            case SDLK_z:
+                rotateUp(20.f);
+                break;
+            case SDLK_s:
+                rotateUp(-20.f);
+                break;
+        }
+    }   
 }
 
 

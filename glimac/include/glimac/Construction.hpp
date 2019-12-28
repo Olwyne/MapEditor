@@ -8,8 +8,8 @@
 class Construction
 {
 private:
-    static const unsigned int m_width = 10;
-    static const unsigned int m_length = 10;
+    static const unsigned int m_width = 15;
+    static const unsigned int m_length = 15;
     static const unsigned int m_height = 3;
     static const unsigned int m_max_cubes_in_column = 60;
 
@@ -41,10 +41,15 @@ public:
     //use for radial functions
     std::vector<glm::vec2> put_all_cubes_positions_in_one_vector();
 
+    /*The following methods aren't in Construction.cpp*/
     //RBF
     void apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, phi_functors phi_function, const unsigned int type_function);
 
     //load and save scenes
     void save_scene(bool &scene_modified);
     void load_scene(bool &scene_modified);
+
+    //color related functions
+    void paint_cubes(Cursor &cursor, unsigned int perimeter, glm::vec3 color, const SDL_Event &e, bool &scene_modified);
+    void apply_random_color(Cursor &cursor);
 };

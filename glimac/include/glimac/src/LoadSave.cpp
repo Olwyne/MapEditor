@@ -105,7 +105,7 @@ void Construction::load_scene(bool &scene_modified)
             myfile >> length >> width >> height >> max_height;
             line_nb++;
             //if invalid numbers, stop everything
-            if (length != 10 || width != 10 || height != 3 || max_height != 60)
+            if (length != 15 || width != 15 || height != 3 || max_height != 60)
             {
                 std::cerr << "Invalid paramaters to build construction"<< std::endl; 
                 line_nb = 999999;
