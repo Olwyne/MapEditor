@@ -68,9 +68,13 @@ int main(int, char** argv)
             if(e.type == SDL_QUIT) {
                 done = true; // Leave the loop after this iteration
             }
+
             tb_camera.move_camera_key_pressed(e);
             ff_camera.move_camera_key_pressed(e);
             cursor.move(e);
+
+            //press x to paint multiple cubes around the cursor
+            //number 3 is the perimeter = what needs to be chosen in imgui
             construction.paint_cubes(cursor, 3, glm::vec3(1,0,0), e, scene_modified);
 
             if (e.type == SDL_KEYDOWN && e.key.repeat == 0) //CHANGE THIS just to test methods
