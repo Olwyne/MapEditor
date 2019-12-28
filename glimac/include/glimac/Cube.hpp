@@ -23,7 +23,7 @@ public:
   void create_vbo_vao(bool scene_modified) override;
   void set_color(const glm::vec3 color);
   void set_invisible(const bool invisible);
-  void set_type(unsigned int type);
+  glm::vec3 set_type(unsigned int type);
 
   //need to be defined so that vector related functions work
   Cube& operator=(const Cube& c);

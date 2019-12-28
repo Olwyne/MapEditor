@@ -180,21 +180,25 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
 
             ImGui::TextColored(ImVec4(1,1,0,1), "Select the cube's color");
             int e = construction.cube_at_cursor(cursor).get_type();
+            static int perimeter=1;
+            ImGui::SliderInt("Perimeter of color", &perimeter, 1, 15);
+
+
 
             if(ImGui::RadioButton("Red", &e, 1)){
-                construction.cube_at_cursor(cursor).set_type(e);
-                modified_scene=true;
+                construction.paint_cubes(cursor, perimeter-1, construction.cube_at_cursor(cursor).set_type(e), modified_scene);   
+                 modified_scene=true;
             }
             if(ImGui::RadioButton("Green", &e, 2)){
-                construction.cube_at_cursor(cursor).set_type(e);
+                construction.paint_cubes(cursor, perimeter-1, construction.cube_at_cursor(cursor).set_type(e), modified_scene);   
                 modified_scene=true;
             }
             if(ImGui::RadioButton("Blue", &e, 3)){
-                construction.cube_at_cursor(cursor).set_type(e);
+                construction.paint_cubes(cursor, perimeter-1, construction.cube_at_cursor(cursor).set_type(e), modified_scene);   
                 modified_scene=true;
             }
             if(ImGui::RadioButton("Random", &e, 4)){
-                construction.cube_at_cursor(cursor).set_type(e);
+                construction.paint_cubes(cursor, perimeter-1, construction.cube_at_cursor(cursor).set_type(e), modified_scene);   
                 modified_scene=true;
             }
 

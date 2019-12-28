@@ -129,7 +129,7 @@ void Cube::set_invisible(const bool invisible)
 }
 
 
-void Cube::set_type(unsigned int type)
+glm::vec3 Cube::set_type(unsigned int type)
 {
     switch(type)
     {
@@ -156,6 +156,7 @@ void Cube::set_type(unsigned int type)
     }
 
     m_type = type;
+    return m_color;
 
 }
 

@@ -79,7 +79,7 @@ int main(int, char** argv)
             //press x to paint multiple cubes around the cursor
             //number 3 is the perimeter = what needs to be chosen in imgui
             //glm::vec3 is the color = needs to be chosen in imgui too
-            construction.paint_cubes(cursor, 3, glm::vec3(1,0,0), e, scene_modified);
+            //construction.paint_cubes(cursor, 3, glm::vec3(1,0,0), e, scene_modified);
 
             
             if (e.type == SDL_KEYDOWN && e.key.repeat == 0) //CHANGE THIS just to test methods

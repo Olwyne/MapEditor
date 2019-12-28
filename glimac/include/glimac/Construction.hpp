@@ -50,5 +50,5 @@ public:
     void load_scene(bool &scene_modified,std::string path,std::string name);
 
     //color related functions
-    void paint_cubes(Cursor &cursor, int perimeter, glm::vec3 color, const SDL_Event &e, bool &scene_modified);
+    void paint_cubes(Cursor &cursor, int perimeter, glm::vec3 color, bool &scene_modified);
 };
