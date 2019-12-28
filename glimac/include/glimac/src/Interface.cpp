@@ -36,14 +36,11 @@ SDL_GLContext initialise_context(SDL_Window* window){
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
     SDL_GLContext gl_context = SDL_GL_CreateContext(window);
-    try{
-        if(SDL_GL_CONTEXT_MAJOR_VERSION<3 && SDL_GL_CONTEXT_MINOR_VERSION<3){
-           throw std::string("No good version of OPENGL");
-        }
+
+    if(SDL_GL_CONTEXT_MAJOR_VERSION<3 && SDL_GL_CONTEXT_MINOR_VERSION<3){
+        throw std::runtime_error("No good version of OPENGL. Need 3.3 or newer");
     }
-    catch(const std::string &err){
-        std::cerr<<"Error : "<< err <<std::endl;
-    }      
+   
 
     std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
     std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
