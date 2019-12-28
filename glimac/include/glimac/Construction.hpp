@@ -46,8 +46,8 @@ public:
     void apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, phi_functors phi_function, const unsigned int type_function);
 
     //load and save scenes
-    void save_scene(bool &scene_modified);
-    void load_scene(bool &scene_modified);
+    void save_scene(bool &scene_modified,std::string path,std::string name);
+    void load_scene(bool &scene_modified,std::string path,std::string name);
 
     //color related functions
     void paint_cubes(Cursor &cursor, int perimeter, glm::vec3 color, const SDL_Event &e, bool &scene_modified);

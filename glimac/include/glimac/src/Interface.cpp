@@ -1,5 +1,7 @@
 #include <glimac/Interface.hpp>
 #include <iostream>
+#include <chrono>
+#include <ctime>
 
 SDL_Window* initialise_window(){ 
     try{
@@ -110,7 +112,7 @@ void destroy_window(SDL_GLContext gl_context,SDL_Window* window){
     SDL_Quit();
 }
 
-void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene,bool &trackball_used){
+void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,bool &show_savebox,bool &show_loadbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene,bool &trackball_used){
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(window);
@@ -124,6 +126,17 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,ImV
         ImGui::Begin("ToolBox", &show_toolbox);
             if (ImGui::Button("Show help")){
                 show_helpbox=!show_helpbox;
+            }
+            ImGui::SameLine();
+
+            if (ImGui::Button("Save scene")){
+                show_savebox=!show_savebox;
+            }
+            ImGui::SameLine();
+             if (ImGui::Button("Load scene")){
+                show_loadbox=!show_loadbox;
+               // construction.load_scene(modified_scene);
+                modified_scene=true;
             }
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
@@ -188,9 +201,59 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,ImV
         ImGui::End();
     }
 
-       if (show_helpbox)
+       if (show_savebox)
         {
-            ImGui::Begin("Help Box", &show_helpbox);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+            static char path_file[128] = "code/txt/";
+            static char name_file[128] = "myscene";
+            ImGui::Begin("Save", &show_savebox);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+                ImGui::TextColored(ImVec4(1,1,0,1), "Please tell me where you want your file to be saved. ex: code/txt/");
+                ImGui::InputText("Path", path_file,IM_ARRAYSIZE(path_file));
+                ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+                ImGui::TextColored(ImVec4(1,1,0,1), "What would you like to name your file?");
+                ImGui::InputText("Name", name_file,IM_ARRAYSIZE(name_file));
+
+                ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+                if (ImGui::Button("Validate")){
+
+                    std::string path_string(path_file);
+                    std::string name_string(name_file);
+                    construction.save_scene(modified_scene,path_string,name_string);
+                    modified_scene=true;  
+                    show_savebox=!show_savebox;
+                }
+                ImGui::TextColored(ImVec4(1,1,0,1), "Please wait few seconds after validation");
+            ImGui::End();
+        }
+        if (show_loadbox)
+        {
+            static char path_file[128] = "code/txt/";
+            static char name_file[128] = "myscene";
+            ImGui::Begin("Load", &show_savebox);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+                ImGui::TextColored(ImVec4(1,1,0,1), "please give me the path of the file you want to load. ex: code/txt/");
+                ImGui::InputText("Path", path_file,IM_ARRAYSIZE(path_file));
+                ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+                ImGui::TextColored(ImVec4(1,1,0,1), "what is the name of the file?");
+                ImGui::InputText("Name", name_file,IM_ARRAYSIZE(name_file));
+
+                ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+                if (ImGui::Button("Validate")){
+
+                    std::string path_string(path_file);
+                    std::string name_string(name_file);
+                    construction.load_scene(modified_scene,path_string,name_string);
+                    modified_scene=true;  
+                    show_loadbox=!show_loadbox;
+                }
+                ImGui::TextColored(ImVec4(1,1,0,1), "Please wait few seconds after validation");
+            ImGui::End();
+        }
+        if (show_helpbox)
+        {
+            ImGui::Begin("Help", &show_helpbox);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
                 ImGui::TextColored(ImVec4(1,1,0,1), "Moving the selection cursor :");
                 ImGui::Text("I : foward ");
                 ImGui::Text("K : backward ");

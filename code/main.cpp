@@ -22,6 +22,9 @@ int main(int, char** argv)
     // Our state
     bool show_toolbox = true;
     bool show_helpbox = false;
+    bool show_savebox = false;
+     bool show_loadbox = false;
+
 
     ImVec4 clear_color = ImVec4(0, 0, 0, -1);
     
@@ -84,17 +87,17 @@ int main(int, char** argv)
                 switch(e.key.keysym.sym)
                 {
                     case SDLK_v:
-                        construction.save_scene(scene_modified);
+                  //      construction.save_scene(scene_modified);
                         break;
                     case SDLK_b:
-                        construction.load_scene(scene_modified);
+                    //    construction.load_scene(scene_modified);
                         break;
                 }
             }
             
         }
 
-        interface_imgui(window, show_toolbox, show_helpbox, clear_color, io, construction, cursor, scene_modified, trackball_used);      
+        interface_imgui(window, show_toolbox, show_helpbox,show_savebox, show_loadbox, clear_color, io, construction, cursor, scene_modified, trackball_used);      
         
         //create and render all cubes
         construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, uTexture_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);

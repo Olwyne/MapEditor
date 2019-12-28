@@ -13,9 +13,8 @@ ALL CUBES' POSITIONS then COLORS
 */
 
 
-std::string name_file(const unsigned int load)
+std::string name_file(const unsigned int load,std::string path,std::string name) ///USELESS NOW
 {
-    std::string name, path;
     if (load == 1)
     {
         std::cout << "please give me the path of the file you want to load. ex: code/txt/" << std::endl;
@@ -36,9 +35,9 @@ std::string name_file(const unsigned int load)
 }
 
 
-void Construction::save_scene(bool &scene_modified)
+void Construction::save_scene(bool &scene_modified,std::string path,std::string name)
 {
-    std::string filename = name_file(0);
+    std::string filename = path + name + ".txt";
 
     //create file in which we'll store information about Construction
     std::ofstream myfile(filename);
@@ -71,9 +70,9 @@ void Construction::save_scene(bool &scene_modified)
 
 
 
-void Construction::load_scene(bool &scene_modified)
+void Construction::load_scene(bool &scene_modified,std::string path,std::string name)
 {
-    std::string filename = name_file(1);
+    std::string filename = path + name + ".txt";
 
     //set all cubes to be invisible so we start from 0
     for(unsigned int i=0; i<m_length; i++)
