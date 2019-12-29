@@ -41,7 +41,6 @@ public:
     //use for radial functions
     std::vector<glm::vec2> put_all_cubes_positions_in_one_vector();
 
-    /*The following methods aren't in Construction.cpp*/
     //RBF
     void apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, phi_functors phi_function, const unsigned int type_function);
 

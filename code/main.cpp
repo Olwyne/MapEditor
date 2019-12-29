@@ -11,9 +11,9 @@ using namespace glimac;
 
 int main(int, char** argv)
 {
-    SDL_Window* window=initialise_window();
-    SDL_GLContext gl_context =initialise_context(window);
-    ImGuiIO& io=initialise_ImGui(window,gl_context);
+    SDL_Window* window = initialise_window();
+    SDL_GLContext gl_context = initialise_context(window);
+    ImGuiIO& io = initialise_ImGui(window,gl_context);
            
     FilePath applicationPath(argv[0]);
     Program program = loadProgram(applicationPath.dirPath() + "shaders/simple.vs.glsl",

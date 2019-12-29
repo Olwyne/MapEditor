@@ -126,23 +126,6 @@ void Construction::dig_cube(Cursor &cursor)
     }
 }
 
-//CHANGE THIS, depends on imgui
-// void Construction::change_color(Cursor &cursor)
-// {
-//     if( valid_position(cursor.get_position()) && !cube_at_cursor(cursor).is_invisible())
-//     {
-//         if (cube_at_cursor(cursor).get_color()==glm::vec3(0.2,1,0)) 
-//         {
-//             cube_at_cursor(cursor).set_color( glm::vec3(1,0,0.8) ); 
-//         } 
-
-//         else if (cube_at_cursor(cursor).get_color()==glm::vec3(1,0,0.8)) 
-//         {    
-//             cube_at_cursor(cursor).set_color( glm::vec3(0.2,1,0) );
-//         }
-//     }
-// }
-
 
 
 void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Camera &camera, bool &scene_modified)
@@ -185,6 +168,64 @@ std::vector<glm::vec2> Construction::put_all_cubes_positions_in_one_vector()
     return vector_of_all_positions;
 }
 
+
+void Construction::apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, phi_functors phi_function, const unsigned int type_function)
+{
+    std::vector<glm::vec2> all_positions = put_all_cubes_positions_in_one_vector();
+    Eigen::VectorXd omegas = get_omega_variables(control_points, u_vect, phi_function, type_function);
+    std::vector<float> interpolation_result = interpolate(control_points, omegas, all_positions, phi_function, type_function);
+
+    unsigned int interpolation_it = 0;
+    for(unsigned int i=0; i<m_length; i++) 
+    {
+        for(unsigned int j=0; j<m_width; j++)
+        {
+            for(unsigned int k=0; k<m_max_cubes_in_column; k++)
+            {
+
+    /*we need to transform our interpolation results into nb that can be represented in our world*/
+
+                //if the result is very small (happens with phi_function 3)
+                if(interpolation_result[interpolation_it] < 0.1 && interpolation_result[interpolation_it] > 0)
+                {
+                    //get mantisa of the number
+                    int exponent;
+                    double mantisa = frexp(interpolation_result[interpolation_it], &exponent);
+                    interpolation_result[interpolation_it] = mantisa*10;
+                } 
+
+                //else using modulo is sufficient
+                else interpolation_result[interpolation_it] = static_cast<unsigned int>(interpolation_result[interpolation_it]) % m_max_cubes_in_column;
+                
+                //apply interpolation 
+                if (m_all_cubes(i,j)[ interpolation_result[interpolation_it] ].is_invisible()) 
+                {
+                    for(unsigned int height=0; height<interpolation_result[interpolation_it]; height++)
+                        m_all_cubes(i,j)[ height ].set_invisible(0);
+                }
+    
+                interpolation_it++;
+            }
+        }
+    }
+}
+
+
+void Construction::paint_cubes(Cursor &cursor, int perimeter, glm::vec3 color, bool &scene_modified)
+{
+    glm::vec3 position = cube_at_cursor(cursor).get_position();
+
+    for(int i=-perimeter; i<perimeter; i++)
+        for(int j=-perimeter; j<perimeter; j++)
+                for(int k=-perimeter; k<perimeter; k++)
+            {
+                //make sure all positions are valid = that cubes exist
+                if ( valid_position(glm::vec3(position.x-i, position.y-j, position.z-k) ) )
+                        m_all_cubes(position.x-i, position.z-k)[position.y-j].set_color(color);
+                    
+            }
+    scene_modified = true;
+}
 
 
 

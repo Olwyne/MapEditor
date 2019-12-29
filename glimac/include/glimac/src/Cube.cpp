@@ -2,8 +2,8 @@
 #include <iostream>
 #include <glimac/Cube.hpp>
 #include <glimac/Color.hpp>
-
-#include <GL/glew.h>
+#include <chrono>
+#include <random>
 
 
 using namespace glimac;
@@ -126,6 +126,22 @@ bool Cube::operator==(const Cube& c)
 void Cube::set_invisible(const bool invisible)
 {
     m_invisible = invisible;
+}
+
+
+
+glm::vec3 random_color()
+{
+    unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine generator(seed);
+    //between 0 and 1 because we're dealing with colors
+    std::uniform_real_distribution<float> uniformRealDistribution(0,1);
+
+    float color_x = uniformRealDistribution(generator);
+    float color_y = uniformRealDistribution(generator);
+    float color_z = uniformRealDistribution(generator);
+
+    return glm::vec3(color_x, color_y, color_z);
 }
 
 
