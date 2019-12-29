@@ -5,16 +5,15 @@
 using namespace glimac;
 
 
-void Object::create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Program &program)
+void Object::create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Program &program)
 {
     uMVP_location = glGetUniformLocation(program.getGLId(), "uMVPMatrix" );
     uMV_location = glGetUniformLocation(program.getGLId(), "uMVMatrix" );
     uNormal_location = glGetUniformLocation(program.getGLId(), "uNormalMatrix" );
-    uTexture_location = glGetUniformLocation(program.getGLId(), "uTexture" );
 }
 
 
-void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, GLint uTexture_location, Camera &camera, bool scene_modified)
+void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera, bool scene_modified)
 {
 
     glm::mat4 camera_VM = camera.getViewMatrix();
@@ -26,8 +25,6 @@ void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_locat
     glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
     
     glBindVertexArray(m_vao);
-
-    glUniform1i(uTexture_location, 0);
 
     glUniformMatrix4fv(uMVP_location, 1, GL_FALSE, glm::value_ptr(ProjMatrix*camera_VM));
     glUniformMatrix4fv(uMV_location, 1, GL_FALSE, glm::value_ptr(camera_VM*MVMatrix));
@@ -48,10 +45,10 @@ Object::~Object()
 }
 
 
-void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Camera &camera, bool scene_modified)
+void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool scene_modified)
 {
     create_vbo_vao(scene_modified); 
-    render(uMVP_location, uMV_location, uNormal_location, uTexture_location, camera, scene_modified);
+    render(uMVP_location, uMV_location, uNormal_location, camera, scene_modified);
 }
 
 

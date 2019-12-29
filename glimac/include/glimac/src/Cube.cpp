@@ -10,7 +10,7 @@ using namespace glimac;
 
 void Cube::create_vbo_vao(bool scene_modified)
 { 
-    //only do this again when there's been a change: ex. new cube, change of texture, etc.
+    //only do this again when there's been a change: ex. new cube, change of color, etc.
     if (scene_modified)
     {
 
@@ -68,7 +68,6 @@ void Cube::create_vbo_vao(bool scene_modified)
         //tell OpenGL what attribute we're wanting to use (position-0)
         const GLuint VERTEX_ATTR_POSITION = 0;
         const GLuint VERTEX_ATTR_COLOR = 1;
-        const GLuint VERTEX_ATTR_TEXT = 2;
 
         //vbo contains data, vao describes it
         //bind vbo again

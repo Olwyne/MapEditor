@@ -36,8 +36,7 @@ private:
     Eigen::Matrix <std::vector<Cube>, m_length, m_width> m_all_cubes; /*!< matrix of columns (=vectors) of cubes*/
 
 public:
-	/// \brief constructor from a size and default constructor
-	/// \param size : the size of the requested vector (optional)
+	/// \brief only constructor: creates a 3 layered construction of dimensions m_width x m_length
     Construction();
 
     /// \brief return the matrix of vectors of cubes
@@ -51,29 +50,58 @@ public:
     /// \brief return maximum height of the construction
     inline unsigned int get_max_height() const { return m_max_cubes_in_column; }
 
+    /// \brief return true if the position is valid (inside the world), false if it isn't
+	/// \param position : the position vector of type glm::vec3
     bool valid_position(glm::vec3 position);
+    /// \brief return the reference to the cube where the cursor is
+	/// \param cursor : reference of the cursor
     Cube& cube_at_cursor(Cursor &cursor);
+    /// \brief return an unsigned int matching the index of the highest cube in the column in which the cursor ir
+	/// \param cursor : reference of the cursor
     unsigned int index_highest_cube_in_col(Cursor &cursor);
 
-    void change_color(Cursor &cursor);
-
+    /// \brief add a cube where the cursor is
+	/// \param cursor : reference of the cursor
     void add_cube(Cursor &cursor);
+    /// \brief delete a cube where the cursor is
+	/// \param cursor : reference of the cursor
     void delete_cube(Cursor &cursor);
+    /// \brief add a cube at the top of the column in which the cursor is
+	/// \param cursor : reference of the cursor
     void extrude_cube(Cursor &cursor);
+    /// \brief delete the cube at the top of the column in which the cursor is
+	/// \param cursor : reference of the cursor
     void dig_cube(Cursor &cursor);
 
-    void render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Camera &camera, bool &scene_modified);
 
-    //use for radial functions
+    /// \brief render all cubes in the world
+	/// \param uMVP_location : GLint, used to create uniform variable location
+    /// \param uMV_location : GLint, used to create uniform variable location
+	/// \param uNormal_location : GLint, used to create uniform variable location
+	/// \param camera : either Trackball or Freefly camera
+	/// \param scene_modified : bool, if true means that there's been a change in the scene and it needs to be updated
+    void render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool &scene_modified);
+
+    /// \brief return a vector of vec2: basically a vector of all (x, z) positions, used for RBF purpose
     std::vector<glm::vec2> put_all_cubes_positions_in_one_vector();
 
-    //RBF
+    /// \brief apply interpolation on cubes of the construction thanks to Radial Basis Functions' magic
+    /// \param control_points : vector of vec2 found in a txt file
+    /// \param u_vect : vector used in RBF part
+    /// \param phi_function : a RBF
+    /// \param type_function : the index of the RBF
     void apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, phi_functors phi_function, const unsigned int type_function);
 
-    //load and save scenes
-    void save_scene(bool &scene_modified,std::string path,std::string name);
-    void load_scene(bool &scene_modified,std::string path,std::string name);
+    /// \brief save the current construction (create a txt file with all its information)
+    /// \param scene modified : bool set to true so that the scene will be rerendered
+    void save_scene(bool &scene_modified, std::string path, std::string name);
+    /// \brief load a construction (from a txt file)
+    /// \param scene_modified : bool set to true so that the scene will be rerendered
+    void load_scene(bool &scene_modified, std::string path, std::string name);
 
-    //color related functions
+    /// \brief change cubes' color according to a given perimeter
+    /// \param cursor : reference to the cursor 
+    /// \param perimeter : int referring to the size of the zone the user wants to paint
+    /// \param scene_modified : bool set to true so that the scene will be rerendered
     void paint_cubes(Cursor &cursor, int perimeter, glm::vec3 color, bool &scene_modified);
 };

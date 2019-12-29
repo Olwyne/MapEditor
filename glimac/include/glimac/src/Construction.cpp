@@ -128,7 +128,7 @@ void Construction::dig_cube(Cursor &cursor)
 
 
 
-void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Camera &camera, bool &scene_modified)
+void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool &scene_modified)
 {       
     for (unsigned int length=0; length<m_length; length++) 
     {
@@ -139,7 +139,7 @@ void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, G
                 //only render cube if it its parameter invisible is false!
                 if (!m_all_cubes(length,width).at(i).is_invisible())
                 {
-                    m_all_cubes(length,width).at(i).create_and_render(uMVP_location, uMV_location, uNormal_location, uTexture_location, camera, scene_modified);
+                    m_all_cubes(length,width).at(i).create_and_render(uMVP_location, uMV_location, uNormal_location, camera, scene_modified);
                 }
             }
         }
