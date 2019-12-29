@@ -1,7 +1,6 @@
 
 #include <iostream>
 #include <glimac/Cube.hpp>
-#include <glimac/Color.hpp>
 #include <chrono>
 #include <random>
 

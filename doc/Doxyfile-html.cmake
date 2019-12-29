@@ -24,7 +24,7 @@ ABBREVIATE_BRIEF       = "The $name class" \
 ALWAYS_DETAILED_SEC    = YES
 INLINE_INHERITED_MEMB  = NO
 FULL_PATH_NAMES        = YES
-STRIP_FROM_PATH        = @vectorD_SOURCE_DIR@/
+STRIP_FROM_PATH        = @CMAKE_SOURCE_DIR@/
 STRIP_FROM_INC_PATH    =
 SHORT_NAMES            = NO
 JAVADOC_AUTOBRIEF      = NO
@@ -92,7 +92,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = @vectorD_SOURCE_DIR@/src
+INPUT                  = @CMAKE_SOURCE_DIR@/glimac/include/glimac
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \
@@ -146,12 +146,12 @@ FILE_PATTERNS          = *.c \
 RECURSIVE              = YES
 EXCLUDE                = 
 EXCLUDE_SYMLINKS       = NO
-EXCLUDE_PATTERNS       = *Utility.hpp *Geometric.hpp *Outer.hpp *Inner.hpp
+EXCLUDE_PATTERNS       = #*Utility.hpp *Geometric.hpp *Outer.hpp *Inner.hpp
 EXCLUDE_SYMBOLS        = 
 EXAMPLE_PATH           =
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = NO
-IMAGE_PATH             = @vectorD_SOURCE_DIR@/doc/images/
+IMAGE_PATH             = 
 INPUT_FILTER           = 
 FILTER_PATTERNS        = 
 FILTER_SOURCE_FILES    = NO
