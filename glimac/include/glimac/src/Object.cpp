@@ -1,10 +1,8 @@
 #include <glimac/Object.hpp>
+#include <glimac/Interface.hpp>
 #include <iostream>
 
 using namespace glimac;
-
-const float WINDOW_WIDTH = 800;
-const float WINDOW_HEIGHT = 800; //<----------------------------CHANGE THIS
 
 
 void Object::create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, GLint &uTexture_location, Program &program)
@@ -22,7 +20,7 @@ void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_locat
     glm::mat4 camera_VM = camera.getViewMatrix();
 
     //vertical angle of view, ratio width/height of window, near, far 
-    glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), WINDOW_HEIGHT/WINDOW_WIDTH, 0.1f, 100.f); //<---- height/width change
+    glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), WINDOW_WIDTH/WINDOW_HEIGHT, 0.1f, 100.f); 
     glm::mat4 MVMatrix = glm::translate(glm::mat4(), glm::vec3(0.f, 0.f, -5.f));
     //formula: (MV⁻1)^T
     glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));

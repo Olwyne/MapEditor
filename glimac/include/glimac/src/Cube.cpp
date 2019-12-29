@@ -7,10 +7,6 @@
 
 using namespace glimac;
 
-const float WINDOW_WIDTH = 800;
-const float WINDOW_HEIGHT = 800; //<----------------------------CHANGE THIS
-
-
 
 void Cube::create_vbo_vao(bool scene_modified)
 { 
