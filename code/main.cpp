@@ -5,6 +5,8 @@
 #include <glimac/Interface.hpp>
 #include <glimac/Image.hpp>
 #include <glimac/LoadSave.hpp>
+#include <glimac/DirectionnalLight.hpp>
+
 
 #include <GL/glew.h>
 using namespace glimac;
@@ -17,7 +19,7 @@ int main(int, char** argv)
            
     FilePath applicationPath(argv[0]);
     Program program = loadProgram(applicationPath.dirPath() + "shaders/simple.vs.glsl",
-                              applicationPath.dirPath() + "shaders/simple.fs.glsl");
+                              applicationPath.dirPath() + "shaders/directionallight.fs.glsl");
     program.use();
     // Our state
     bool show_toolbox = true;
@@ -33,14 +35,20 @@ int main(int, char** argv)
 
     //create world and intial cubes
     Construction construction;
+    DirectionnalLight sun;
+
 
     //variables
     GLint uMVP_location, uMV_location, uNormal_location;
     bool scene_modified = true;
+
+    //light
+  //  GLint uKd, uKs, uShininess, uLightDir_vs, uLightIntensity;
     
     //create uniform variables by using one cube 
     construction.get_cubes()(0,0).at(0).create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
-   
+    sun.create_uniform_variable_light(program);
+
     //create Cameras
     TrackballCamera tb_camera(45,10,0);
     FreeflyCamera ff_camera;
@@ -98,14 +106,16 @@ int main(int, char** argv)
         }
 
         interface_imgui(window, show_toolbox, show_helpbox,show_savebox, show_loadbox, clear_color, io, construction, cursor, scene_modified, trackball_used);      
-        
+  
         //create and render all cubes
-        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
+        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified,sun);
 
         //create and render the cursor
         glClear(GL_DEPTH_BUFFER_BIT); //so that it's always visible
+
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); //so that it's wireframed
-        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
+
+        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified,sun);
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

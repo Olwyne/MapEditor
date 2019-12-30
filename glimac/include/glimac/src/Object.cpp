@@ -13,10 +13,12 @@ void Object::create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_l
 }
 
 
-void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera, bool scene_modified)
+void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera, bool scene_modified, DirectionnalLight sun)
 {
+    glBindVertexArray(m_vao);
 
     glm::mat4 camera_VM = camera.getViewMatrix();
+
 
     //vertical angle of view, ratio width/height of window, near, far 
     glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), WINDOW_WIDTH/WINDOW_HEIGHT, 0.1f, 100.f); 
@@ -24,7 +26,8 @@ void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_locat
     //formula: (MV⁻1)^T
     glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
     
-    glBindVertexArray(m_vao);
+    sun.render_DirectionnalLight();
+
 
     glUniformMatrix4fv(uMVP_location, 1, GL_FALSE, glm::value_ptr(ProjMatrix*camera_VM));
     glUniformMatrix4fv(uMV_location, 1, GL_FALSE, glm::value_ptr(camera_VM*MVMatrix));
@@ -45,10 +48,10 @@ Object::~Object()
 }
 
 
-void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool scene_modified)
+void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool scene_modified,DirectionnalLight sun)
 {
     create_vbo_vao(scene_modified); 
-    render(uMVP_location, uMV_location, uNormal_location, camera, scene_modified);
+    render(uMVP_location, uMV_location, uNormal_location, camera, scene_modified,sun);
 }
 
 
