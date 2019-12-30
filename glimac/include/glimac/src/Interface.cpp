@@ -136,7 +136,6 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
             ImGui::SameLine();
              if (ImGui::Button("Load scene")){
                 show_loadbox=!show_loadbox;
-               // construction.load_scene(modified_scene);
                 modified_scene=true;
             }
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -182,9 +181,6 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
             ImGui::TextColored(ImVec4(1,1,0,1), "Select the cube's color");
             int e = construction.cube_at_cursor(cursor).get_type();
             static int perimeter=1;
-            ImGui::SliderInt("Perimeter of color", &perimeter, 1, 15);
-
-
 
             if(ImGui::RadioButton("Red", &e, 1)){
                 construction.paint_cubes(cursor, perimeter-1, construction.cube_at_cursor(cursor).set_type(e), modified_scene);   
@@ -202,6 +198,8 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
                 construction.paint_cubes(cursor, perimeter-1, construction.cube_at_cursor(cursor).set_type(e), modified_scene);   
                 modified_scene=true;
             }
+            ImGui::TextColored(ImVec4(1,1,0,1), "Apply color to a larger zone :");
+            ImGui::SliderInt("", &perimeter, 1, 15);
 
         ImGui::End();
     }
@@ -220,7 +218,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
 
                 ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-                if (ImGui::Button("Validate")){
+                if (ImGui::Button("Confirm")){
 
                     std::string path_string(path_file);
                     std::string name_string(name_file);
@@ -235,7 +233,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
         {
             static char path_file[128] = "code/txt/";
             static char name_file[128] = "myscene";
-            ImGui::Begin("Load", &show_savebox);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+            ImGui::Begin("Load", &show_loadbox);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
                 ImGui::TextColored(ImVec4(1,1,0,1), "please give me the path of the file you want to load. ex: code/txt/");
                 ImGui::InputText("Path", path_file,IM_ARRAYSIZE(path_file));
                 ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -245,7 +243,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
 
                 ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-                if (ImGui::Button("Validate")){
+                if (ImGui::Button("Confirm")){
 
                     std::string path_string(path_file);
                     std::string name_string(name_file);
