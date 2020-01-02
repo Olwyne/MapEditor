@@ -42,13 +42,13 @@ public:
     /// \brief return the matrix of vectors of cubes
     inline Eigen::Matrix <std::vector<Cube>, m_length, m_width> get_cubes() { return m_all_cubes; }
     /// \brief return maximum width of the construction
-    inline unsigned int get_width() const { return m_width; } 
+    constexpr unsigned int get_width() const { return m_width; } 
     /// \brief return maximum length of the construction
-    inline unsigned int get_length() const { return m_length; }
+    constexpr unsigned int get_length() const { return m_length; }
     /// \brief return initial height of the construction
-    inline unsigned int get_height() const { return m_height; }
+    constexpr unsigned int get_height() const { return m_height; }
     /// \brief return maximum height of the construction
-    inline unsigned int get_max_height() const { return m_max_cubes_in_column; }
+    constexpr unsigned int get_max_height() const { return m_max_cubes_in_column; }
 
     /// \brief return true if the position is valid (inside the world), false if it isn't
 	/// \param position : the position vector of type glm::vec3
