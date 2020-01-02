@@ -24,9 +24,9 @@ Construction::Construction()
 bool Construction::valid_position(glm::vec3 position)
 {
     //the position is considered valid if it's in the construction of cubes
-    if (   position.x <= m_length && position.z <= m_width
+    if (   position.x < m_length && position.z < m_width
         && position.x >= 0 && position.z >= 0
-        && position.y <= m_max_cubes_in_column && position.y >= 0) return true;
+        && position.y < m_max_cubes_in_column && position.y >= 0) return true;
     else
     {
         return false;
@@ -218,12 +218,12 @@ void Construction::paint_cubes(Cursor &cursor, int perimeter, glm::vec3 color, b
     for(int i=-perimeter; i<perimeter; i++)
         for(int j=-perimeter; j<perimeter; j++)
                 for(int k=-perimeter; k<perimeter; k++)
-            {
-                //make sure all positions are valid = that cubes exist
-                if ( valid_position(glm::vec3(position.x-i, position.y-j, position.z-k) ) )
-                        m_all_cubes(position.x-i, position.z-k)[position.y-j].set_color(color);
-                    
-            }
+                {
+                    //make sure all positions are valid = that we paint cubes that exist
+                    if ( valid_position(glm::vec3(position.x-i, position.y-j, position.z-k) ) )
+                            m_all_cubes(position.x-i, position.z-k)[position.y-j].set_color(color);
+                        
+                }
     scene_modified = true;
 }
 

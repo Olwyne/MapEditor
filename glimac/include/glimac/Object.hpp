@@ -49,15 +49,26 @@ public:
 	/// \param scene_modified : bool, if true means that there's been a change in the scene and it needs to be updated
   virtual void render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera, bool scene_modified);
   
-  //create vao, vbo, and render
+	/// \brief creates the object's VBO and VAO
+  /// \param uMVP_location : GLint, used to create uniform variable location
+  /// \param uMV_location : GLint, used to create uniform variable location
+	/// \param uNormal_location : GLint, used to create uniform variable location
+	/// \param camera : either Trackball or Freefly camera
+	/// \param scene_modified : bool, if true means that there's been a change in the scene and it needs to be updated
   virtual void create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool scene_modified);
 
+	/// \brief return the object's number of indexes
   virtual unsigned int get_index() {return m_nb_index;}
+  /// \brief return the object's position
   virtual glm::vec3 get_position() { return m_position; }
+	/// \brief return the object's color 
   virtual glm::vec3 get_color() { return m_color; }
+  /// \brief return the object's VAO
   virtual GLuint get_vao() { return m_vao; }
+  /// \brief return the object's VBO
   virtual GLuint get_vbo() { return m_vbo; }
 
+	/// \brief return true if the object as a parameter has the same position as the current object
   virtual bool obj_same_pos(Object &obj);
 
 };
