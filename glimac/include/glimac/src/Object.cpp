@@ -13,7 +13,7 @@ void Object::create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_l
 }
 
 
-void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera, bool scene_modified, DirectionnalLight sun)
+void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera, bool scene_modified)
 {
     glBindVertexArray(m_vao);
 
@@ -47,10 +47,10 @@ Object::~Object()
 }
 
 
-void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool scene_modified,DirectionnalLight sun)
+void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool scene_modified)
 {
     create_vbo_vao(scene_modified); 
-    render(uMVP_location, uMV_location, uNormal_location, camera, scene_modified,sun);
+    render(uMVP_location, uMV_location, uNormal_location, camera, scene_modified);
 }
 
 

@@ -66,18 +66,24 @@ void Cube::create_vbo_vao(bool scene_modified)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
         //8 vertices, 6 faces
-        uint32_t indexes[get_index()] = {0, 1, 3, //top face 
-                                1, 3, 2,
-                                4, 5, 7, //bottom face
-                                5, 7, 6,
-                                0, 3, 4, //left face
-                                3, 4, 7,
-                                1, 2, 5, //right face
-                                2, 5, 6,
-                                3, 2, 7, //front face
-                                2, 7, 6,
-                                0, 1, 4, //back 
-                                1, 4, 5};
+        uint32_t indexes[get_index()] = {// Back face
+                    0, 1, 2,
+                    0, 2, 3,
+                    // Front face
+                    4, 5, 6,
+                    4, 6, 7,
+                    // Top face
+                    8, 9, 10,
+                    8, 10, 11,
+                    // Bottom face
+                    12, 13 , 14,
+                    12, 14, 15,
+                    // Left face
+                    16, 17 , 18,
+                    16, 18, 19,
+                    // Right face
+                    20, 21 , 22,
+                    20, 22, 23,};
 
         //fill IBO with indexes
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, get_index()*sizeof(uint32_t), indexes, GL_STATIC_DRAW);

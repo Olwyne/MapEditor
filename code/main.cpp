@@ -18,8 +18,8 @@ int main(int, char** argv)
     ImGuiIO& io = initialise_ImGui(window,gl_context);
            
     FilePath applicationPath(argv[0]);
-    Program program = loadProgram(applicationPath.dirPath() + "shaders/simple.vs.glsl",
-                              applicationPath.dirPath() + "shaders/directionallight.fs.glsl");
+    Program program = loadProgram(applicationPath.dirPath() + "shaders/dirPoint.vs.glsl",
+                              applicationPath.dirPath() + "shaders/dirPoint.fs.glsl");
     program.use();
     // Our state
     bool show_toolbox = true;
@@ -106,16 +106,16 @@ int main(int, char** argv)
         }
 
         interface_imgui(window, show_toolbox, show_helpbox,show_savebox, show_loadbox, clear_color, io, construction, cursor, scene_modified, trackball_used);      
-  
+        sun.render_DirectionnalLight();
         //create and render all cubes
-        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified,sun);
+        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
 
         //create and render the cursor
         glClear(GL_DEPTH_BUFFER_BIT); //so that it's always visible
 
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); //so that it's wireframed
 
-        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified,sun);
+        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

@@ -15,7 +15,7 @@ in vec3 vNormal_vs;
 out vec3 fFragColor;
 
 
-vec3 blinnPhong(vec3 position_vs, vec3 normal_vs)
+vec3 blinnPhongPoint(vec3 position_vs, vec3 normal_vs)
 {
 	vec3 w_zero = normalize(-position_vs);
 	vec3 w_i = normalize(uLightPos_vs - vPosition_vs);
