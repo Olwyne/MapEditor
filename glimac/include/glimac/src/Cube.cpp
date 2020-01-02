@@ -191,7 +191,7 @@ glm::vec3 Cube::set_type(unsigned int type)
             break;
         //green
         case 2:
-            m_color = glm::vec3(0, 0.8, 0);
+            m_color = glm::vec3(0, 1, 0);
             break;
         //blue
         case 3:
