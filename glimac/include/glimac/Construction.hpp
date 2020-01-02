@@ -105,4 +105,7 @@ public:
     /// \param perimeter : int referring to the size of the zone the user wants to paint
     /// \param scene_modified : bool set to true so that the scene will be rerendered
     void paint_cubes(Cursor &cursor, int perimeter, glm::vec3 color, bool &scene_modified);
+
+    /// \brief sets all cubes to be invisible
+    void erase_all_cubes();
 };

@@ -203,7 +203,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
 
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
             int typelight=light.get_typeAmbiant();
-            ImGui::TextColored(ImVec4(1,1,0,1), "Ambiance light : ");
+            ImGui::TextColored(ImVec4(1,1,0,1), "Ambiance : ");
             if(ImGui::RadioButton("Day", &typelight, 0)){
                 light.set_typeAmbiant(typelight);
                 modified_scene=true;
@@ -212,7 +212,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
                 light.set_typeAmbiant(typelight);
                 modified_scene=true;
             }
-            ImGui::TextColored(ImVec4(1,1,0,1), "Intensity sun (directionnal light) : ");
+            ImGui::TextColored(ImVec4(1,1,0,1), "Intensity of the sun (directional light) : ");
             float intensitySun=light.get_intensitySun();
             float tmp=intensitySun;
             ImGui::SliderFloat("%", &intensitySun,0.0, 1.0);
@@ -229,18 +229,22 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
             u_vect << 1, 1, 1, 1, 1;
             phi_functors phi;
             if(ImGui::RadioButton("Basic Radial", &typeradial, 0)){
+                construction.erase_all_cubes();
                 construction.apply_interpolation(control_points, u_vect, phi,typeradial);
                 modified_scene=true;
             }
             if(ImGui::RadioButton("Multiquadric", &typeradial,1)){
+                construction.erase_all_cubes();
                 construction.apply_interpolation(control_points, u_vect, phi,typeradial);
                 modified_scene=true;
             }
             if(ImGui::RadioButton("Inverse Quadric", &typeradial,2)){
+                construction.erase_all_cubes();
                 construction.apply_interpolation(control_points, u_vect, phi,typeradial);
                 modified_scene=true;
             }
             if(ImGui::RadioButton("Gaussian", &typeradial,3)){
+                construction.erase_all_cubes();
                 construction.apply_interpolation(control_points, u_vect, phi,typeradial);
                 modified_scene=true;
             }

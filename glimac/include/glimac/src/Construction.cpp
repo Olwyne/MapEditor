@@ -4,12 +4,9 @@
 
 Construction::Construction()
 {
-
     // //create 3 layers of cubes
     for(unsigned int i=0; i<m_length; i++) 
-    {
         for(unsigned int j=0; j<m_width; j++)
-        {
             for (unsigned int layer=0; layer<m_max_cubes_in_column; layer++)
             {
                 Cube new_cube = Cube(Param_Pos_Color(glm::vec3(i,layer,j), glm::vec3(0.2,1,0)));
@@ -17,8 +14,6 @@ Construction::Construction()
                 if(layer >= 3) new_cube.set_invisible(1);
                 m_all_cubes(i,j).push_back(new_cube);
             }
-        }
-    } 
 }
 
 
@@ -154,9 +149,7 @@ std::vector<glm::vec2> Construction::put_all_cubes_positions_in_one_vector()
 {
     std::vector<glm::vec2> vector_of_all_positions;
     for (unsigned int length=0; length<m_length; length++) 
-    {
         for (unsigned int width=0; width<m_width; width++)
-        {
             for(unsigned int i=0; i<m_max_cubes_in_column; i++)
             {
                 glm::vec2 x_and_z;
@@ -164,8 +157,6 @@ std::vector<glm::vec2> Construction::put_all_cubes_positions_in_one_vector()
                 x_and_z.y = m_all_cubes(length,width).at(i).get_position().z;
                 vector_of_all_positions.push_back(x_and_z);
             }
-        }
-    }
 
     return vector_of_all_positions;
 }
@@ -229,6 +220,14 @@ void Construction::paint_cubes(Cursor &cursor, int perimeter, glm::vec3 color, b
     scene_modified = true;
 }
 
-
+void Construction::erase_all_cubes()
+{
+    for (unsigned int length=0; length<m_length; length++) 
+        for (unsigned int width=0; width<m_width; width++)
+            for(unsigned int i=0; i<m_max_cubes_in_column; i++)
+            {
+                m_all_cubes(length, width)[i].set_invisible(1);
+            }
+}
 
 
