@@ -23,8 +23,7 @@ int main(int, char** argv)
     bool show_toolbox = true;
     bool show_helpbox = false;
     bool show_savebox = false;
-     bool show_loadbox = false;
-
+    bool show_loadbox = false;
 
     ImVec4 clear_color = ImVec4(0, 0, 0, -1);
     
@@ -35,25 +34,28 @@ int main(int, char** argv)
     Construction construction;
 
     //variables
-    GLint uMVP_location, uMV_location, uNormal_location;
+    GLint uMVP_location = glGetUniformLocation(program.getGLId(), "uMVPMatrix" );
+    GLint uMV_location = glGetUniformLocation(program.getGLId(), "uMVMatrix" );
+    GLint uNormal_location = glGetUniformLocation(program.getGLId(), "uNormalMatrix" );
     bool scene_modified = true;
     
-    //create uniform variables by using one cube 
-    construction.get_cubes()(0,0).at(0).create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
-   
     //create Cameras
     TrackballCamera tb_camera(45,10,0);
     FreeflyCamera ff_camera;
 
     bool trackball_used = true;
 
+
     //mathematics part: get control points, set u vector, apply interpolation
+    unsigned int RBF_function = 1; //c'est 0,1,2 ou 3, voir radialbasisfunction.hpp pour le noms des fonctions
+    if (RBF_function <= 3) //if it's a valid index
+    {
     // std::vector<glm::vec2> control_points = get_control_points_RBF("code/txt/control_points.txt");
     // Eigen::VectorXd u_vect(5);
     // u_vect << 1, 1, 1, 1, 1;
     // phi_functors f;
-    // unsigned int RBF_function = 1; //c'est 0,1,2 ou 3, voir radialbasisfunction.hpp pour le noms des fonctions
     // construction.apply_interpolation(control_points, u_vect, f, RBF_function);
+    }
 
     glEnable(GL_DEPTH_TEST);
 
