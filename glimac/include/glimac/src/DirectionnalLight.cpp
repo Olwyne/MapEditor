@@ -21,7 +21,7 @@ void DirectionnalLight::render_DirectionnalLight(){
     glUniform1f(m_uShininess, 32.0);
     glm::vec3 LightDir = glm::normalize(glm::vec3(10, -100, -30));;
     glUniform3f(m_uLightDir_vs, LightDir.x, LightDir.y, LightDir.z);
-    glUniform3f(m_uLightIntensity, 10.0, 10.0, 10.0);
+    glUniform1f(m_uLightIntensity, m_intensitySun);
     glUniform3f(m_uLightPos, 1, 1, 30);
     if(m_typeAmbiant==0){
         glUniform1f(m_uAmbiantLightIntensity, 0.4);

@@ -16,6 +16,7 @@ class DirectionnalLight
         GLuint m_uLightPos;
         GLuint m_uAmbiantLightIntensity;
         int m_typeAmbiant;
+        float m_intensitySun;
 
 
     public:
@@ -31,6 +32,8 @@ class DirectionnalLight
         GLuint get_uLightDir_vs() { return m_uLightDir_vs; }
         GLuint get_uLightIntensity() { return m_uLightIntensity; }
         int get_typeAmbiant() { return m_typeAmbiant; }
+        float get_intensitySun() { return m_intensitySun; }
+
 
 
         void set_uDiffuse(GLint uDiffuse) { m_uDiffuse= uDiffuse; }
@@ -39,5 +42,6 @@ class DirectionnalLight
         void set_uLightDir_vs(GLint uLightDir_vs) { m_uLightDir_vs= uLightDir_vs; }
         void set_uLightIntensity(GLint uLightIntensity) { m_uLightIntensity= uLightIntensity; }
         void set_typeAmbiant(int typeAmbiant) { m_typeAmbiant=typeAmbiant; }
+        void set_intensitySun(float intensitySun) { m_intensitySun=intensitySun; }
 
 };

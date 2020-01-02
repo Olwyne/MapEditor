@@ -203,13 +203,21 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
 
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
             int typelight=light.get_typeAmbiant();
-            ImGui::TextColored(ImVec4(1,1,0,1), "Lights : ");
+            ImGui::TextColored(ImVec4(1,1,0,1), "Ambiance light : ");
             if(ImGui::RadioButton("Day", &typelight, 0)){
                 light.set_typeAmbiant(typelight);
                 modified_scene=true;
             }
             if(ImGui::RadioButton("Night", &typelight, 1)){
                 light.set_typeAmbiant(typelight);
+                modified_scene=true;
+            }
+            ImGui::TextColored(ImVec4(1,1,0,1), "Intensity sun (directionnal light) : ");
+            float intensitySun=light.get_intensitySun();
+            float tmp=intensitySun;
+            ImGui::SliderFloat("%", &intensitySun,0.0, 1.0);
+            light.set_intensitySun(intensitySun);
+            if(tmp!=intensitySun){
                 modified_scene=true;
             }
 
