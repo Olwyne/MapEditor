@@ -113,7 +113,7 @@ void destroy_window(SDL_GLContext gl_context,SDL_Window* window){
     SDL_Quit();
 }
 
-void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,bool &show_savebox,bool &show_loadbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene,bool &trackball_used,DirectionnalLight &light){
+void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,bool &show_savebox,bool &show_loadbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene,bool &trackball_used,Light &light){
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(window);

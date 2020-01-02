@@ -5,7 +5,7 @@
 #include <glimac/Interface.hpp>
 #include <glimac/Image.hpp>
 #include <glimac/LoadSave.hpp>
-#include <glimac/DirectionnalLight.hpp>
+#include <glimac/Light.hpp>
 #include <iostream>
 
 
@@ -36,7 +36,7 @@ int main(int, char** argv)
 
     //create world and intial cubes
     Construction construction;
-    DirectionnalLight sun;
+    Light lights;
 
 
     //variables
@@ -48,7 +48,7 @@ int main(int, char** argv)
     
     //create uniform variables by using one cube 
     construction.get_cubes()(0,0).at(0).create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
-    sun.create_uniform_variable_light(program);
+    lights.create_uniform_variable_light(program);
 
     //create Cameras
     TrackballCamera tb_camera(45,10,0);
@@ -106,8 +106,8 @@ int main(int, char** argv)
             
         }
 
-        interface_imgui(window, show_toolbox, show_helpbox,show_savebox, show_loadbox, clear_color, io, construction, cursor, scene_modified, trackball_used,sun);      
-        sun.render_DirectionnalLight();
+        interface_imgui(window, show_toolbox, show_helpbox,show_savebox, show_loadbox, clear_color, io, construction, cursor, scene_modified, trackball_used,light);      
+        lights.render_light();
         //create and render all cubes
         construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
 

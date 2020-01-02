@@ -1,8 +1,8 @@
-#include <glimac/DirectionnalLight.hpp>
+#include <glimac/Light.hpp>
 #include "glimac/glm.hpp"
 
 
-void DirectionnalLight::create_uniform_variable_light(glimac::Program &program)
+void Light::create_uniform_variable_light(glimac::Program &program)
 {
     //Obtiention des variables uniformes pour la lumière
     m_uDiffuse = glGetUniformLocation(program.getGLId(), "uDiffuse");
@@ -15,7 +15,7 @@ void DirectionnalLight::create_uniform_variable_light(glimac::Program &program)
 
 }
 
-void DirectionnalLight::render_DirectionnalLight(){
+void Light::render_light(){
     glUniform3f(m_uDiffuse, 0.1, 0.2, 0.3); //Couleur des boules
     glUniform3f(m_uGlossy, 0.5, 0.0, 0.0);
     glUniform1f(m_uShininess, 32.0);
@@ -32,7 +32,7 @@ void DirectionnalLight::render_DirectionnalLight(){
 
 }
 
-DirectionnalLight::~DirectionnalLight()
+Light::~Light()
 {
  
 }

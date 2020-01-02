@@ -1,5 +1,5 @@
 #include <glimac/Construction.hpp>
-#include <glimac/DirectionnalLight.hpp>
+#include <glimac/Light.hpp>
 #include <stdio.h>
 
 Construction::Construction()

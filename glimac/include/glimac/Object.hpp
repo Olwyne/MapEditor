@@ -1,7 +1,7 @@
 #pragma once
 #include "Program.hpp"
 #include "Camera.hpp"
-#include "DirectionnalLight.hpp"
+#include "Light.hpp"
 
 using namespace glimac;
 

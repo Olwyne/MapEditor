@@ -5,7 +5,7 @@
 using namespace glimac;
 
 
-class DirectionnalLight
+class Light
 {
     protected:
         GLuint m_uDiffuse;
@@ -20,11 +20,11 @@ class DirectionnalLight
 
 
     public:
-        DirectionnalLight():m_uDiffuse(0), m_uGlossy(0), m_uShininess(0), m_uLightDir_vs(0), m_uLightIntensity(0),m_typeAmbiant(0){};
-        ~DirectionnalLight();
+        Light():m_uDiffuse(0), m_uGlossy(0), m_uShininess(0), m_uLightDir_vs(0), m_uLightIntensity(0),m_typeAmbiant(0){};
+        ~Light();
 
         void create_uniform_variable_light(glimac::Program &program);
-        void render_DirectionnalLight();
+        void render_light();
 
         GLuint get_uDiffuse() { return m_uDiffuse; }
         GLuint get_uGlossy() { return m_uGlossy; }
