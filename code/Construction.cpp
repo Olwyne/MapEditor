@@ -1,5 +1,5 @@
-#include <glimac/Construction.hpp>
-#include <glimac/Light.hpp>
+#include "include/Construction.hpp"
+#include "include/Light.hpp"
 #include <stdio.h>
 
 Construction::Construction()
@@ -36,11 +36,10 @@ Cube& Construction::cube_at_cursor(Cursor &cursor)
     if(valid_position( cursor.get_position() ))
     {
         bool res = false;
-        int cube_in_column = 0;
+        unsigned int cube_in_column = 0;
 
         //these variables are mainly created to make the code easier to read
         unsigned int x = cursor.get_position().x;
-        unsigned int y = cursor.get_position().y;
         unsigned int z = cursor.get_position().z;
         unsigned int vector_size = m_all_cubes(x, z).size();
 
@@ -76,7 +75,7 @@ void Construction::delete_cube(Cursor &cursor)
 //used to extrude and dig
 unsigned int Construction::index_highest_cube_in_col(Cursor &cursor)
 {
-    unsigned int index_col = 39;
+    int index_col = 39;
     if( valid_position(cursor.get_position()) )
     {
         //work out in which column the cursor is
@@ -105,7 +104,9 @@ void Construction::extrude_cube(Cursor &cursor)
         unsigned int z = cursor.get_position().z;
         unsigned int y = index_highest_cube_in_col(cursor);
 
-        m_all_cubes(x,z).at(y+1).set_invisible(0);
+        //make sure you're not extruding above world's limits
+        if (y < m_max_cubes_in_column)
+            m_all_cubes(x,z).at(y+1).set_invisible(0);
     }
 }
 
@@ -118,31 +119,32 @@ void Construction::dig_cube(Cursor &cursor)
         unsigned int z = cursor.get_position().z;
         unsigned int y = index_highest_cube_in_col(cursor);
 
-        m_all_cubes(x,z).at(y).set_invisible(1);
+        //since it's a uint it'll never be negative, but could have an outrageous value if invalid
+        if(y < m_max_cubes_in_column)
+            m_all_cubes(x,z).at(y).set_invisible(1);
     }
 }
 
 
 
-void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool &scene_modified)
+void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool scene_modified)
 {       
 
     for (unsigned int length=0; length<m_length; length++) 
-    {
         for (unsigned int width=0; width<m_width; width++)
-        {
             for(unsigned int i=0; i<m_max_cubes_in_column; i++)
             {
-                //only render cube if it its parameter invisible is false!
+                //only render cube if it its parameter invisible is false
                 if (!m_all_cubes(length,width).at(i).is_invisible())
                 {
                     m_all_cubes(length,width).at(i).create_and_render(uMVP_location, uMV_location, uNormal_location, camera, scene_modified);
                 }
             }
-        }
-    }
-    scene_modified=false;
+    
+    scene_modified = false;
+
 }
+
 
 
 std::vector<glm::vec2> Construction::put_all_cubes_positions_in_one_vector()

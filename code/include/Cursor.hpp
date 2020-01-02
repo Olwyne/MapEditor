@@ -16,7 +16,7 @@ public:
   ~Cursor() override = default;
 
 	/// \brief defined in Object.hpp: adapted to a cursor
-  virtual void create_vbo_vao(bool scene_modified) override;
+  void create_vbo_vao() override;
 
 	/// \brief change position of the cursor
   /// \param position : new position of the cursor

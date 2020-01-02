@@ -1,5 +1,5 @@
 #pragma once
-#include "Program.hpp"
+#include <../../glimac/include/Program.hpp>
 #include <iostream>
 
 using namespace glimac;
@@ -23,16 +23,16 @@ class Light
         Light():m_uDiffuse(0), m_uGlossy(0), m_uShininess(0), m_uLightDir_vs(0), m_uLightIntensity(0),m_typeAmbiant(0){};
         ~Light();
 
-        void create_uniform_variable_light(glimac::Program &program);
-        void render_light();
+        void create_uniform_variable_light(Program &program);
+        void render_light(bool scene_modified);
 
-        GLuint get_uDiffuse() { return m_uDiffuse; }
-        GLuint get_uGlossy() { return m_uGlossy; }
-        GLuint get_uShininess() { return m_uShininess; }
-        GLuint get_uLightDir_vs() { return m_uLightDir_vs; }
-        GLuint get_uLightIntensity() { return m_uLightIntensity; }
-        int get_typeAmbiant() { return m_typeAmbiant; }
-        float get_intensitySun() { return m_intensitySun; }
+        inline GLuint get_uDiffuse() { return m_uDiffuse; }
+        inline GLuint get_uGlossy() { return m_uGlossy; }
+        inline GLuint get_uShininess() { return m_uShininess; }
+        inline GLuint get_uLightDir_vs() { return m_uLightDir_vs; }
+        inline GLuint get_uLightIntensity() { return m_uLightIntensity; }
+        inline int get_typeAmbiant() { return m_typeAmbiant; }
+        inline float get_intensitySun() { return m_intensitySun; }
 
 
 

@@ -1,13 +1,9 @@
 #include <iostream>
-#include <glimac/Cursor.hpp>
+#include "include/Cursor.hpp"
 
 
-void Cursor::create_vbo_vao(bool scene_modified)
+void Cursor::create_vbo_vao()
 {
-    /*
-        JULES: CHANGE THIS: faire ligne par ligne pour dessiner aretes du cube
-    */
-
     glGenBuffers(1, &m_vbo);
     //bind buffer vbo to a target
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);

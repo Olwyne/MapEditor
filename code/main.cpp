@@ -1,11 +1,12 @@
-#include <glimac/Construction.hpp>
-#include <glimac/FreeflyCamera.hpp>
-#include <glimac/TrackballCamera.hpp>
-#include <glimac/Camera.hpp>
-#include <glimac/Interface.hpp>
-#include <glimac/Image.hpp>
-#include <glimac/LoadSave.hpp>
-#include <glimac/Light.hpp>
+#include <../../glimac/include/FreeflyCamera.hpp>
+#include <../../glimac/include/TrackballCamera.hpp>
+
+#include "include/Construction.hpp"
+#include "include/Camera.hpp"
+#include "include/Interface.hpp"
+#include "include/LoadSave.hpp"
+#include "include/Light.hpp"
+
 #include <iostream>
 
 
@@ -33,7 +34,7 @@ int main(int, char** argv)
     //create cursor
     Cursor cursor;  
 
-    //create world and intial cubes
+    //create world and initial cubes
     Construction construction;
     Light lights;
 
@@ -42,25 +43,14 @@ int main(int, char** argv)
     GLint uMVP_location = glGetUniformLocation(program.getGLId(), "uMVPMatrix" );
     GLint uMV_location = glGetUniformLocation(program.getGLId(), "uMVMatrix" );
     GLint uNormal_location = glGetUniformLocation(program.getGLId(), "uNormalMatrix" );
+    lights.create_uniform_variable_light(program);
     bool scene_modified = true;
 
-    //light
-  //  GLint uKd, uKs, uShininess, uLightDir_vs, uLightIntensity;
-    
-    lights.create_uniform_variable_light(program);
     //create Cameras
     TrackballCamera tb_camera(45,10,0);
     FreeflyCamera ff_camera;
 
     bool trackball_used = true;
-
-
-    //mathematics part: get control points, set u vector, apply interpolation
-    unsigned int RBF_function = 1; //c'est 0,1,2 ou 3, voir radialbasisfunction.hpp pour le noms des fonctions
-    if (RBF_function <= 3) //if it's a valid index
-    {
-      
-    }
 
     glEnable(GL_DEPTH_TEST);
 
@@ -82,39 +72,20 @@ int main(int, char** argv)
             tb_camera.move_camera_key_pressed(e);
             ff_camera.move_camera_key_pressed(e);
             cursor.move(e);
-
-            //press x to paint multiple cubes around the cursor
-            //number 3 is the perimeter = what needs to be chosen in imgui
-            //glm::vec3 is the color = needs to be chosen in imgui too
-            //construction.paint_cubes(cursor, 3, glm::vec3(1,0,0), e, scene_modified);
-
-            
-            if (e.type == SDL_KEYDOWN && e.key.repeat == 0) //CHANGE THIS just to test methods
-            {
-                switch(e.key.keysym.sym)
-                {
-                    case SDLK_v:
-                  //      construction.save_scene(scene_modified);
-                        break;
-                    case SDLK_b:
-                    //    construction.load_scene(scene_modified);
-                        break;
-                }
-            }
-            
         }
 
-        interface_imgui(window, show_toolbox, show_helpbox,show_savebox, show_loadbox, clear_color, io, construction, cursor, scene_modified, trackball_used,lights);      
-        lights.render_light();
+        interface_imgui(window, show_toolbox, show_helpbox,show_savebox, show_loadbox, clear_color, io, construction, cursor, scene_modified, trackball_used, lights);      
+        lights.render_light(scene_modified);
+
         //create and render all cubes
         construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
 
         //create and render the cursor
-        glClear(GL_DEPTH_BUFFER_BIT); //so that it's always visible
-
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); //so that it's wireframed
+        glClear(GL_DEPTH_BUFFER_BIT); //clear depth here again so the cursor is always visible
 
         cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
+        
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

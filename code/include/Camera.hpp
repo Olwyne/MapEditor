@@ -1,6 +1,5 @@
 #pragma once
-#include <glimac/SDLWindowManager.hpp>
-
+#include <../../glimac/include/SDLWindowManager.hpp>
 
 /// \class Camera
 /// \brief abstract class containingFreeFly and TrackBall cameras' methods' declarations

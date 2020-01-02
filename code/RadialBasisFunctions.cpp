@@ -1,6 +1,6 @@
 
-#include <glimac/RadialBasisFunctions.hpp>
-#include <glimac/Construction.hpp>
+#include "include/RadialBasisFunctions.hpp"
+#include "include/Construction.hpp"
 
 
 std::vector<glm::vec2> get_control_points_RBF(const std::string &filename)

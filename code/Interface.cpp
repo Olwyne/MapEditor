@@ -1,4 +1,4 @@
-#include <glimac/Interface.hpp>
+#include "include/Interface.hpp"
 #include <iostream>
 #include <chrono>
 #include <ctime>
@@ -120,10 +120,6 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
     ImGui::NewFrame();
     if (show_toolbox)
     {
-        static float f = 0.0f;
-        static int counter = 0;
-        //create and render all cubes
-
         ImGui::Begin("ToolBox", &show_toolbox);
             if (ImGui::Button("Show help")){
                 show_helpbox=!show_helpbox;

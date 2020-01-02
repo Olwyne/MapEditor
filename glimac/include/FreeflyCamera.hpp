@@ -1,7 +1,7 @@
 #pragma once
-#include "glimac/glm.hpp"
-#include <glimac/Camera.hpp>
-#include <glimac/TrackballCamera.hpp>
+#include "glm.hpp"
+#include "../../code/include/Camera.hpp"
+#include "TrackballCamera.hpp"
 
 
 class FreeflyCamera: public Camera

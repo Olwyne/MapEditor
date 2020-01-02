@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Object.hpp"
-#include "Image.hpp"
+#include <../../glimac/include/Image.hpp>
 
 using namespace glimac;
 
@@ -23,7 +23,7 @@ public:
   ~Cube() override = default;
 
 	/// \brief defined in Object.hpp: adapted to a cube
-  void create_vbo_vao(bool scene_modified) override;
+  void create_vbo_vao() override;
   /// \brief set the cube's color
 	/// \param color : color to set
   void set_color(const glm::vec3 color);

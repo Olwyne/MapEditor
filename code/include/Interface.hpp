@@ -3,10 +3,9 @@
 #include <imgui/imgui_impl_sdl.h>
 #include <imgui/imgui_impl_opengl3.h>
 
-#include <glimac/SDLWindowManager.hpp>
+#include <../../glimac/include/SDLWindowManager.hpp>
 
-//#include <glimac/Construction.hpp>
-#include <glimac/LoadSave.hpp>
+#include "LoadSave.hpp"
 #include <GL/glew.h>
 #include <iostream>
 #include <vector>

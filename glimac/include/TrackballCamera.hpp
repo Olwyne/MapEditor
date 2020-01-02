@@ -1,7 +1,7 @@
 #pragma once
-#include "glimac/glm.hpp"
-#include <glimac/Camera.hpp>
-#include <glimac/Construction.hpp>
+#include "glm.hpp"
+#include "../../code/include/Camera.hpp"
+#include "../../code/include/Construction.hpp"
 
 
 class TrackballCamera: public Camera
