@@ -4,9 +4,6 @@
 
 void DirectionnalLight::create_uniform_variable_light(glimac::Program &program)
 {
-
-  
-
     //Obtiention des variables uniformes pour la lumière
     m_uDiffuse = glGetUniformLocation(program.getGLId(), "uDiffuse");
     m_uGlossy = glGetUniformLocation(program.getGLId(), "uGlossy");
@@ -15,9 +12,6 @@ void DirectionnalLight::create_uniform_variable_light(glimac::Program &program)
     m_uLightIntensity = glGetUniformLocation(program.getGLId(), "uLightIntensity");
     m_uLightPos= glGetUniformLocation(program.getGLId(), "uLightPos");
     m_uAmbiantLightIntensity= glGetUniformLocation(program.getGLId(), "ambiantLightIntensity");
-
-
-
 
 }
 
@@ -29,7 +23,12 @@ void DirectionnalLight::render_DirectionnalLight(){
     glUniform3f(m_uLightDir_vs, LightDir.x, LightDir.y, LightDir.z);
     glUniform3f(m_uLightIntensity, 10.0, 10.0, 10.0);
     glUniform3f(m_uLightPos, 1, 1, 30);
-    glUniform1f(m_uAmbiantLightIntensity, 0.2);
+    if(m_typeAmbiant==0){
+        glUniform1f(m_uAmbiantLightIntensity, 0.4);
+    }
+    else{
+        glUniform1f(m_uAmbiantLightIntensity, 0.1);
+    }
 
 }
 

@@ -113,7 +113,7 @@ void destroy_window(SDL_GLContext gl_context,SDL_Window* window){
     SDL_Quit();
 }
 
-void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,bool &show_savebox,bool &show_loadbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene,bool &trackball_used){
+void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,bool &show_savebox,bool &show_loadbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene,bool &trackball_used,DirectionnalLight &light){
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(window);
@@ -200,6 +200,18 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
             }
             ImGui::TextColored(ImVec4(1,1,0,1), "Apply color to a larger zone :");
             ImGui::SliderInt("", &perimeter, 1, 15);
+
+            ImGui::Dummy(ImVec2(0.0f, 10.0f));
+            int typelight=light.get_typeAmbiant();
+            ImGui::TextColored(ImVec4(1,1,0,1), "Lights : ");
+            if(ImGui::RadioButton("Day", &typelight, 0)){
+                light.set_typeAmbiant(typelight);
+                modified_scene=true;
+            }
+            if(ImGui::RadioButton("Night", &typelight, 1)){
+                light.set_typeAmbiant(typelight);
+                modified_scene=true;
+            }
 
         ImGui::End();
     }
