@@ -3,6 +3,7 @@
 #include "Cube.hpp"
 #include "Cursor.hpp"
 #include "RadialBasisFunctions.hpp"
+#include "Light.hpp"
 
 // Doxygen menu
 /// \mainpage

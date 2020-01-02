@@ -25,4 +25,4 @@ SDL_Window* initialise_window();
 SDL_GLContext initialise_context(SDL_Window* window);
 ImGuiIO& initialise_ImGui(SDL_Window* window,SDL_GLContext gl_context);
 void destroy_window(SDL_GLContext gl_context,SDL_Window* window);
-void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox ,bool &show_savebox,bool &show_loadbox,ImVec4 clear_color,ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene, bool &trackball_used);
+void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox ,bool &show_savebox,bool &show_loadbox,ImVec4 clear_color,ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene, bool &trackball_used,Light &light);

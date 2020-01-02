@@ -19,14 +19,40 @@ void Cube::create_vbo_vao(bool scene_modified)
         glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 
         Param_Pos_Color vertices[] = {
-                        Param_Pos_Color(glm::vec3(1.0f, -1.0f, 1.0f)+m_position*2.f, m_color), //0
-                        Param_Pos_Color(glm::vec3(-1.0f, -1.0f, 1.0f)+m_position*2.f, m_color), //1
-                        Param_Pos_Color(glm::vec3(-1.0f, 1.0f, 1.0f)+m_position*2.f, m_color), //2
-                        Param_Pos_Color(glm::vec3(1.0f, 1.0f, 1.0f)+m_position*2.f, m_color), //3
-                        Param_Pos_Color(glm::vec3(1.0f, -1.0f, -1.0f)+m_position*2.f, m_color), //4
-                        Param_Pos_Color(glm::vec3(-1.0f, -1.0f, -1.0f)+m_position*2.f, m_color), //5
-                        Param_Pos_Color(glm::vec3(-1.0f, 1.0f, -1.0f)+m_position*2.f, m_color), //6
-                        Param_Pos_Color(glm::vec3(1.0f, 1.0f, -1.0f)+m_position*2.f, m_color) //7
+                        //front
+                        Param_Pos_Color(glm::vec3(1.0f, -1.0f, 1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, 0.0f, 1.0f)), //0
+                        Param_Pos_Color(glm::vec3(-1.0f, -1.0f, 1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, 0.0f, 1.0f)), //1
+                        Param_Pos_Color(glm::vec3(-1.0f, 1.0f, 1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, 0.0f, 1.0f)), //2
+                        Param_Pos_Color(glm::vec3(1.0f, 1.0f, 1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, 0.0f, 1.0f)), //3
+                        //back
+                        Param_Pos_Color(glm::vec3(1.0f, -1.0f, -1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, 0.0f, -1.0f)), //4
+                        Param_Pos_Color(glm::vec3(-1.0f, -1.0f, -1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, 0.0f, -1.0f)), //5
+                        Param_Pos_Color(glm::vec3(-1.0f, 1.0f, -1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, 0.0f, -1.0f)), //6
+                        Param_Pos_Color(glm::vec3(1.0f, 1.0f, -1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, 0.0f, -1.0f)), //7
+                        //top
+                        Param_Pos_Color(glm::vec3(1.0f, 1.0f, 1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, 1.0f, 0.0f)), //3
+                        Param_Pos_Color(glm::vec3(-1.0f, 1.0f, 1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, 1.0f, 0.0f)), //2
+                        Param_Pos_Color(glm::vec3(-1.0f, 1.0f, -1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, 1.0f, 0.0f)), //6
+                        Param_Pos_Color(glm::vec3(1.0f, 1.0f, -1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, 1.0f, 0.0f)), //7
+                        //bot
+                        Param_Pos_Color(glm::vec3(1.0f, -1.0f, 1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, -1.0f, 0.0f)), //0
+                        Param_Pos_Color(glm::vec3(-1.0f, -1.0f, 1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, -1.0f, 0.0f)), //1
+                        Param_Pos_Color(glm::vec3(-1.0f, -1.0f, -1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, -1.0f, 0.0f)), //5
+                        Param_Pos_Color(glm::vec3(1.0f, -1.0f, -1.0f)+m_position*2.f, m_color,glm::vec3(0.0f, -1.0f, 0.0f)), //4
+                        //left
+                        Param_Pos_Color(glm::vec3(-1.0f, -1.0f, 1.0f)+m_position*2.f, m_color,glm::vec3(-1.0f, 0.0f, 0.0f)), //1
+                        Param_Pos_Color(glm::vec3(-1.0f, -1.0f, -1.0f)+m_position*2.f, m_color,glm::vec3(-1.0f, 0.0f, 0.0f)), //5
+                        Param_Pos_Color(glm::vec3(-1.0f, 1.0f, -1.0f)+m_position*2.f, m_color,glm::vec3(-1.0f, 0.0f, 0.0f)), //6
+                        Param_Pos_Color(glm::vec3(-1.0f, 1.0f, 1.0f)+m_position*2.f, m_color,glm::vec3(-1.0f, 0.0f, 0.0f)), //2
+
+                        //right
+                        Param_Pos_Color(glm::vec3(1.0f, -1.0f, -1.0f)+m_position*2.f, m_color,glm::vec3(1.0f, 0.0f, 0.0f)), //4
+                        Param_Pos_Color(glm::vec3(1.0f, -1.0f, 1.0f)+m_position*2.f, m_color,glm::vec3(1.0f, 0.0f, 0.0f)), //0
+                        Param_Pos_Color(glm::vec3(1.0f, 1.0f, 1.0f)+m_position*2.f, m_color,glm::vec3(1.0f, 0.0f, 0.0f)), //3
+                        Param_Pos_Color(glm::vec3(1.0f, 1.0f, -1.0f)+m_position*2.f, m_color,glm::vec3(1.0f, 0.0f, 0.0f)) //7
+        
+
+                        
                             };
 
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -40,18 +66,24 @@ void Cube::create_vbo_vao(bool scene_modified)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
         //8 vertices, 6 faces
-        uint32_t indexes[get_index()] = {0, 1, 3, //top face 
-                                1, 3, 2,
-                                4, 5, 7, //bottom face
-                                5, 7, 6,
-                                0, 3, 4, //left face
-                                3, 4, 7,
-                                1, 2, 5, //right face
-                                2, 5, 6,
-                                3, 2, 7, //front face
-                                2, 7, 6,
-                                0, 1, 4, //back 
-                                1, 4, 5};
+        uint32_t indexes[get_index()] = {// Back face
+                    0, 1, 2,
+                    0, 2, 3,
+                    // Front face
+                    4, 5, 6,
+                    4, 6, 7,
+                    // Top face
+                    8, 9, 10,
+                    8, 10, 11,
+                    // Bottom face
+                    12, 13 , 14,
+                    12, 14, 15,
+                    // Left face
+                    16, 17 , 18,
+                    16, 18, 19,
+                    // Right face
+                    20, 21 , 22,
+                    20, 22, 23,};
 
         //fill IBO with indexes
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, get_index()*sizeof(uint32_t), indexes, GL_STATIC_DRAW);
@@ -68,6 +100,8 @@ void Cube::create_vbo_vao(bool scene_modified)
         //tell OpenGL what attribute we're wanting to use (position-0)
         const GLuint VERTEX_ATTR_POSITION = 0;
         const GLuint VERTEX_ATTR_COLOR = 1;
+        const GLuint VERTEX_ATTR_NORMAL = 2;
+
 
         //vbo contains data, vao describes it
         //bind vbo again
@@ -75,9 +109,13 @@ void Cube::create_vbo_vao(bool scene_modified)
         //tell OpenGL where to find vertices and how to read data associated to each vertex
         glEnableVertexAttribArray(VERTEX_ATTR_COLOR);
         glEnableVertexAttribArray(VERTEX_ATTR_POSITION);
+        glEnableVertexAttribArray(VERTEX_ATTR_NORMAL);
+
 
         glVertexAttribPointer(VERTEX_ATTR_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color), (void*)offsetof(Param_Pos_Color, m_position));
         glVertexAttribPointer(VERTEX_ATTR_COLOR, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color), (void*)offsetof(Param_Pos_Color, m_color));
+        glVertexAttribPointer(VERTEX_ATTR_NORMAL, 3, GL_FLOAT, GL_FALSE, sizeof(Param_Pos_Color), (void*)offsetof(Param_Pos_Color, m_normal));
+
 
         //unbind vbo and vao
         glBindBuffer(GL_ARRAY_BUFFER, 0);

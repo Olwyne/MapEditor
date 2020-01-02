@@ -1,6 +1,7 @@
 #pragma once
 #include "Program.hpp"
 #include "Camera.hpp"
+#include "Light.hpp"
 
 using namespace glimac;
 
@@ -8,9 +9,12 @@ struct Param_Pos_Color
 {
     glm::vec3 m_position;
     glm::vec3 m_color;
+    glm::vec3 m_normal;
     Param_Pos_Color();
+    Param_Pos_Color(glm::vec3 position, glm::vec3 color,glm::vec3 normal)
+        :m_position(position), m_color(color),m_normal(normal) {}
     Param_Pos_Color(glm::vec3 position, glm::vec3 color)
-        :m_position(position), m_color(color)  {}
+        :m_position(position), m_color(color) {}
 };
 
 
@@ -21,6 +25,7 @@ protected:
   GLuint m_vao; //Vertex Array Object
   glm::vec3 m_position;
   glm::vec3 m_color;
+  glm::vec3 m_normal;
   //can't use const because of the operator = function (Cube.hpp)
   unsigned int m_nb_index; //for IBO purpose
 
@@ -40,6 +45,7 @@ public:
 
   virtual unsigned int get_index() {return m_nb_index;}
   virtual glm::vec3 get_position() { return m_position; }
+  virtual glm::vec3 get_normal() { return m_normal; }
   virtual glm::vec3 get_color() { return m_color; }
   virtual GLuint get_vao() { return m_vao; }
   virtual GLuint get_vbo() { return m_vbo; }

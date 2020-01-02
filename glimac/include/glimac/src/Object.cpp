@@ -15,8 +15,10 @@ void Object::create_uniform_variable_location(GLint &uMVP_location, GLint &uMV_l
 
 void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera, bool scene_modified)
 {
+    glBindVertexArray(m_vao);
 
     glm::mat4 camera_VM = camera.getViewMatrix();
+
 
     //vertical angle of view, ratio width/height of window, near, far 
     glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), WINDOW_WIDTH/WINDOW_HEIGHT, 0.1f, 100.f); 
@@ -24,7 +26,7 @@ void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_locat
     //formula: (MV⁻1)^T
     glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
     
-    glBindVertexArray(m_vao);
+
 
     glUniformMatrix4fv(uMVP_location, 1, GL_FALSE, glm::value_ptr(ProjMatrix*camera_VM));
     glUniformMatrix4fv(uMV_location, 1, GL_FALSE, glm::value_ptr(camera_VM*MVMatrix));
