@@ -59,11 +59,7 @@ int main(int, char** argv)
     unsigned int RBF_function = 1; //c'est 0,1,2 ou 3, voir radialbasisfunction.hpp pour le noms des fonctions
     if (RBF_function <= 3) //if it's a valid index
     {
-    // std::vector<glm::vec2> control_points = get_control_points_RBF("code/txt/control_points.txt");
-    // Eigen::VectorXd u_vect(5);
-    // u_vect << 1, 1, 1, 1, 1;
-    // phi_functors f;
-    // construction.apply_interpolation(control_points, u_vect, f, RBF_function);
+      
     }
 
     glEnable(GL_DEPTH_TEST);

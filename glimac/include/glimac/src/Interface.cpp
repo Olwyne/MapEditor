@@ -221,6 +221,32 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
                 modified_scene=true;
             }
 
+            ImGui::Dummy(ImVec2(0.0f, 10.0f));
+            ImGui::TextColored(ImVec4(1,1,0,1), "Radial Function :");
+            int typeradial=4;
+            std::vector<glm::vec2> control_points = get_control_points_RBF("code/txt/control_points.txt");
+            Eigen::VectorXd u_vect(5);
+            u_vect << 1, 1, 1, 1, 1;
+            phi_functors phi;
+            if(ImGui::RadioButton("Basic Radial", &typeradial, 0)){
+                construction.apply_interpolation(control_points, u_vect, phi,typeradial);
+                modified_scene=true;
+            }
+            if(ImGui::RadioButton("Multiquadric", &typeradial,1)){
+                construction.apply_interpolation(control_points, u_vect, phi,typeradial);
+                modified_scene=true;
+            }
+            if(ImGui::RadioButton("Inverse Quadric", &typeradial,2)){
+                construction.apply_interpolation(control_points, u_vect, phi,typeradial);
+                modified_scene=true;
+            }
+            if(ImGui::RadioButton("Gaussian", &typeradial,3)){
+                construction.apply_interpolation(control_points, u_vect, phi,typeradial);
+                modified_scene=true;
+            }
+
+
+
         ImGui::End();
     }
 
