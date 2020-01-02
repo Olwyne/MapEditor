@@ -106,7 +106,7 @@ int main(int, char** argv)
             
         }
 
-        interface_imgui(window, show_toolbox, show_helpbox,show_savebox, show_loadbox, clear_color, io, construction, cursor, scene_modified, trackball_used,light);      
+        interface_imgui(window, show_toolbox, show_helpbox,show_savebox, show_loadbox, clear_color, io, construction, cursor, scene_modified, trackball_used,lights);      
         lights.render_light();
         //create and render all cubes
         construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
