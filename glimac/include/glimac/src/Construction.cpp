@@ -12,7 +12,7 @@ Construction::Construction()
         {
             for (unsigned int layer=0; layer<m_max_cubes_in_column; layer++)
             {
-                Cube new_cube = Cube(Param_Pos_Color(glm::vec3(i,layer,j), glm::vec3(0.2,1,0)) );
+                Cube new_cube = Cube(Param_Pos_Color(glm::vec3(i,layer,j), glm::vec3(0.2,1,0)));
                 //make cubes over 3 initial layers invisible
                 if(layer >= 3) new_cube.set_invisible(1);
                 m_all_cubes(i,j).push_back(new_cube);
@@ -131,7 +131,6 @@ void Construction::dig_cube(Cursor &cursor)
 
 void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool &scene_modified, DirectionnalLight sun)
 {       
-                         sun.render_DirectionnalLight();
 
     for (unsigned int length=0; length<m_length; length++) 
     {
@@ -142,7 +141,6 @@ void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, G
                 //only render cube if it its parameter invisible is false!
                 if (!m_all_cubes(length,width).at(i).is_invisible())
                 {
-                     sun.render_DirectionnalLight();
                     m_all_cubes(length,width).at(i).create_and_render(uMVP_location, uMV_location, uNormal_location, camera, scene_modified,sun);
                 }
             }

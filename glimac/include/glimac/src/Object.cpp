@@ -26,7 +26,6 @@ void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_locat
     //formula: (MV⁻1)^T
     glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
     
-    sun.render_DirectionnalLight();
 
 
     glUniformMatrix4fv(uMVP_location, 1, GL_FALSE, glm::value_ptr(ProjMatrix*camera_VM));
