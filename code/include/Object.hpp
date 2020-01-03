@@ -44,7 +44,7 @@ public:
   virtual ~Object();
 
 	/// \brief creates the object's VBO and VAO
-  virtual void create_vbo_vao() {}
+  virtual void create_vbo_vao(bool) {}
 	/// \brief renders the object
   /// \param uMVP_location : GLint, used to create uniform variable location
   /// \param uMV_location : GLint, used to create uniform variable location

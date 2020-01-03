@@ -16,14 +16,14 @@ public:
   ~Cursor() override = default;
 
 	/// \brief defined in Object.hpp: adapted to a cursor
-  void create_vbo_vao() override;
+  void create_vbo_vao(bool modified_scene) override;
 
 	/// \brief change position of the cursor
   /// \param position : new position of the cursor
   void change_position(const glm::vec3 position);
   /// \brief move cursor using keyboard
   /// \param e : SDL_event which tells us what key is being pressed
-  void move(SDL_Event &e, bool &modified_scene);
+  void move(SDL_Event &e);
 
 };
 

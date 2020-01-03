@@ -23,7 +23,7 @@ public:
   ~Cube() override = default;
 
 	/// \brief defined in Object.hpp: adapted to a cube
-  void create_vbo_vao() override;
+  void create_vbo_vao(bool modified_scene) override;
   /// \brief set the cube's color
 	/// \param color : color to set
   void set_color(const glm::vec3 color);

@@ -37,7 +37,7 @@ Object::~Object()
 
 void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool scene_modified)
 {
-    if (scene_modified) create_vbo_vao();
+    create_vbo_vao(scene_modified);
     render(uMVP_location, uMV_location, uNormal_location, camera);
 }
 
