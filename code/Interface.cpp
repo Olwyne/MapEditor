@@ -121,11 +121,13 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
     if (show_toolbox)
     {
         ImGui::Begin("ToolBox", &show_toolbox);
+            // Button help
             if (ImGui::Button("Show help")){
                 show_helpbox=!show_helpbox;
             }
             ImGui::SameLine();
 
+            //Button save and load scene
             if (ImGui::Button("Save scene")){
                 show_savebox=!show_savebox;
             }
@@ -136,11 +138,13 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
             }
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
+            //Show if we are outside of the world
             if(!construction.valid_position(cursor.get_position())){
                 ImGui::TextColored(ImVec4(1,0,0,1), "Your cursor is outside of the world !");
                 ImGui::Dummy(ImVec2(0.0f, 10.0f));
             }
 
+            //Change camera and show type
             if (ImGui::Button("Change camera")){
                 trackball_used=!trackball_used;
             }
@@ -153,6 +157,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
             }
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
+            //Modified world
             ImGui::TextColored(ImVec4(1,1,0,1), "Change the world");
             if (ImGui::Button("Add Cube")){
                 construction.add_cube(cursor);
@@ -174,6 +179,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
             }
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
+            //Modified color and perimeter
             ImGui::TextColored(ImVec4(1,1,0,1), "Select the cube's color");
             int e = construction.cube_at_cursor(cursor).get_type();
             static int perimeter=1;
@@ -197,6 +203,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
             ImGui::TextColored(ImVec4(1,1,0,1), "Apply color to a larger zone :");
             ImGui::SliderInt("", &perimeter, 1, 15);
 
+            //Modified light
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
             int typelight=light.get_typeAmbiant();
             ImGui::TextColored(ImVec4(1,1,0,1), "Ambiance : ");
@@ -235,8 +242,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
                 modified_scene=true;
             }
 
-
-
+            //Maths function
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
             ImGui::TextColored(ImVec4(1,1,0,1), "Radial Function :");
             int typeradial=4;
@@ -264,12 +270,9 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
                 construction.apply_interpolation(control_points, u_vect, phi,typeradial);
                 modified_scene=true;
             }
-
-
-
         ImGui::End();
     }
-
+        //Save scene box
        if (show_savebox)
         {
             static char path_file[128] = "code/txt/";
@@ -295,6 +298,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
                 ImGui::TextColored(ImVec4(1,1,0,1), "Please wait few seconds after validation");
             ImGui::End();
         }
+        //Load scene box
         if (show_loadbox)
         {
             static char path_file[128] = "code/txt/";
@@ -320,6 +324,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
                 ImGui::TextColored(ImVec4(1,1,0,1), "Please wait few seconds after validation");
             ImGui::End();
         }
+        //Help box
         if (show_helpbox)
         {
             ImGui::Begin("Help", &show_helpbox);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
