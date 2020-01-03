@@ -80,7 +80,7 @@ int main(int, char** argv)
 
         //create and render the cursor
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); //so that it's wireframed
-        //glClear(GL_DEPTH_BUFFER_BIT); //clear depth here again so the cursor is always visible
+        glClear(GL_DEPTH_BUFFER_BIT); //clear depth here again so the cursor is always visible
 
         cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
         
