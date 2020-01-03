@@ -20,8 +20,8 @@ int main(int, char** argv)
     ImGuiIO& io = initialise_ImGui(window,gl_context);
            
     FilePath applicationPath(argv[0]);
-    Program program = loadProgram(applicationPath.dirPath() + "shaders/dirPoint.vs.glsl",
-                              applicationPath.dirPath() + "shaders/dirPoint.fs.glsl");
+    Program program = loadProgram(applicationPath.dirPath() + "shaders/lights.vs.glsl",
+                              applicationPath.dirPath() + "shaders/lights.fs.glsl");
     program.use();
     // Our state
     bool show_toolbox = true;
