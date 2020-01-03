@@ -127,7 +127,7 @@ void Construction::dig_cube(Cursor &cursor)
 
 
 
-void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool scene_modified)
+void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool &scene_modified)
 {       
 
     for (unsigned int length=0; length<m_length; length++) 

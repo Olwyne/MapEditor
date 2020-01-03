@@ -50,8 +50,7 @@ public:
   /// \param uMV_location : GLint, used to create uniform variable location
 	/// \param uNormal_location : GLint, used to create uniform variable location
 	/// \param camera : either Trackball or Freefly camera
-  /// \param scene_modified : bool, if true means that there's been a change in the scene and it needs to be updated
-  virtual void render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera, bool scene_modified);
+  virtual void render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera);
   
 	/// \brief creates the object's VBO and VAO
   /// \param uMVP_location : GLint, used to create uniform variable location

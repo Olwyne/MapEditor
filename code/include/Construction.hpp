@@ -81,7 +81,7 @@ public:
 	/// \param uNormal_location : GLint, used to create uniform variable location
 	/// \param camera : either Trackball or Freefly camera
 	/// \param scene_modified : bool, if true means that there's been a change in the scene and it needs to be updated
-    void render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool scene_modified);
+    void render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool &scene_modified);
 
     /// \brief return a vector of vec2: basically a vector of all (x, z) positions, used for RBF purpose
     std::vector<glm::vec2> put_all_cubes_positions_in_one_vector();

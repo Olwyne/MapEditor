@@ -4,30 +4,26 @@
 
 using namespace glimac;
 
-void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera, bool scene_modified)
+void Object::render(GLint uMVP_location, GLint uMV_location, GLint uNormal_location, Camera &camera)
 {
-    if (scene_modified)
-    {
-        glBindVertexArray(m_vao);
+    glBindVertexArray(m_vao);
 
-        glm::mat4 camera_VM = camera.getViewMatrix();
+    glm::mat4 camera_VM = camera.getViewMatrix();
 
-        //vertical angle of view, ratio width/height of window, near, far 
-        glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), WINDOW_WIDTH/WINDOW_HEIGHT, 0.1f, 100.f); 
-        glm::mat4 MVMatrix = glm::translate(glm::mat4(), glm::vec3(0.f, 0.f, -5.f));
-        //formula: (MV⁻1)^T
-        glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
+    //vertical angle of view, ratio width/height of window, near, far 
+    glm::mat4 ProjMatrix = glm::perspective(glm::radians(70.f), WINDOW_WIDTH/WINDOW_HEIGHT, 0.1f, 100.f); 
+    glm::mat4 MVMatrix = glm::translate(glm::mat4(), glm::vec3(0.f, 0.f, -5.f));
+    //formula: (MV⁻1)^T
+    glm::mat4 NormalMatrix = glm::transpose(glm::inverse(MVMatrix));
 
-        glUniformMatrix4fv(uMVP_location, 1, GL_FALSE, glm::value_ptr(ProjMatrix*camera_VM));
-        glUniformMatrix4fv(uMV_location, 1, GL_FALSE, glm::value_ptr(camera_VM*MVMatrix));
-        glUniformMatrix4fv(uNormal_location, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
+    glUniformMatrix4fv(uMVP_location, 1, GL_FALSE, glm::value_ptr(ProjMatrix*camera_VM));
+    glUniformMatrix4fv(uMV_location, 1, GL_FALSE, glm::value_ptr(camera_VM*MVMatrix));
+    glUniformMatrix4fv(uNormal_location, 1, GL_FALSE, glm::value_ptr(NormalMatrix));
 
-        glDrawElements(GL_TRIANGLES, get_index(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, get_index(), GL_UNSIGNED_INT, 0);
 
-        //unbind vao
-        glBindVertexArray(0);
-
-    }
+    //unbind vao
+    glBindVertexArray(0);
 
 }
 
@@ -41,8 +37,8 @@ Object::~Object()
 
 void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool scene_modified)
 {
-    create_vbo_vao();
-    render(uMVP_location, uMV_location, uNormal_location, camera, scene_modified);
+    if (scene_modified) create_vbo_vao();
+    render(uMVP_location, uMV_location, uNormal_location, camera);
 }
 
 

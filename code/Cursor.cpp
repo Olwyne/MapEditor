@@ -79,7 +79,7 @@ void Cursor::change_position(const glm::vec3 position)
     m_position += position;
 }
 
-void Cursor::move(SDL_Event &e)
+void Cursor::move(SDL_Event &e, bool &modified_scene)
 {
     //move the cursor
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
@@ -106,4 +106,5 @@ void Cursor::move(SDL_Event &e)
                 break;
         }
     }
+    modified_scene = true;
 }
