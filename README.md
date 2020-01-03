@@ -5,3 +5,11 @@ Ce projet consiste en la réalisation d’un éditeur-visualiseur de terrain et 
 cmake ../
 make
 ./code/main
+
+
+
+# Generate documentation
+
+make html
+
+Go in build/doc/doc-doxygen/html and drag the index.html into your browser

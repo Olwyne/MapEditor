@@ -1,55 +1,58 @@
-#include <glimac/Construction.hpp>
-#include <glimac/FreeflyCamera.hpp>
-#include <glimac/TrackballCamera.hpp>
-#include <glimac/Camera.hpp>
-#include <glimac/Interface.hpp>
-#include <glimac/Image.hpp>
+#include <../../glimac/include/FreeflyCamera.hpp>
+#include <../../glimac/include/TrackballCamera.hpp>
+
+#include "include/Construction.hpp"
+#include "include/Camera.hpp"
+#include "include/Interface.hpp"
+#include "include/LoadSave.hpp"
+#include "include/Light.hpp"
+
+#include <iostream>
+
 
 #include <GL/glew.h>
 using namespace glimac;
 
 int main(int, char** argv)
 {
-    SDL_Window* window=initialise_window();
-    SDL_GLContext gl_context =initialise_context(window);
-    ImGuiIO& io=initialise_ImGui(window,gl_context);
+    SDL_Window* window = initialise_window();
+    SDL_GLContext gl_context = initialise_context(window);
+    ImGuiIO& io = initialise_ImGui(window,gl_context);
            
     FilePath applicationPath(argv[0]);
-    Program program = loadProgram(applicationPath.dirPath() + "shaders/simple.vs.glsl",
-                              applicationPath.dirPath() + "shaders/simple.fs.glsl");
+    Program program = loadProgram(applicationPath.dirPath() + "shaders/lights.vs.glsl",
+                              applicationPath.dirPath() + "shaders/lights.fs.glsl");
     program.use();
     // Our state
     bool show_toolbox = true;
     bool show_helpbox = false;
+    bool show_savebox = false;
+    bool show_loadbox = false;
 
     ImVec4 clear_color = ImVec4(0, 0, 0, -1);
     
     //create cursor
     Cursor cursor;  
 
-    //create world and intial cubes
+    //create world and initial cubes
     Construction construction;
+    Light lights;
+
 
     //variables
-    GLint uMVP_location, uMV_location, uNormal_location, uTexture_location;
+    GLint uMVP_location = glGetUniformLocation(program.getGLId(), "uMVPMatrix" );
+    GLint uMV_location = glGetUniformLocation(program.getGLId(), "uMVMatrix" );
+    GLint uNormal_location = glGetUniformLocation(program.getGLId(), "uNormalMatrix" );
+    lights.create_uniform_variable_light(program);
     bool scene_modified = true;
-    
-    //create uniform variables by using one cube 
-    construction.get_cubes()(0,0).at(0).create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, uTexture_location, program);
-   
+
     //create Cameras
-    TrackballCamera tb_camera(15,0,0);
+    TrackballCamera tb_camera(45,10,0);
     FreeflyCamera ff_camera;
 
     bool trackball_used = true;
 
-    //mathematics part: get control points, set u vector, apply interpolation
-    std::vector<glm::vec2> control_points = get_control_points_RBF("code/control_points.txt");
-    Eigen::VectorXd u_vect(5);
-    u_vect << 1, 1, 1, 1, 1;
-    phi_functors f;
-    unsigned int RBF_function = 1; //c'est 0,1,2 ou 3, voir radialbasisfunction.hpp pour le noms des fonctions
-    construction.apply_interpolation(control_points, u_vect, f, RBF_function);
+    glEnable(GL_DEPTH_TEST);
 
     // Main loop
     bool done = false;
@@ -65,30 +68,27 @@ int main(int, char** argv)
             if(e.type == SDL_QUIT) {
                 done = true; // Leave the loop after this iteration
             }
+
             tb_camera.move_camera_key_pressed(e);
             ff_camera.move_camera_key_pressed(e);
             cursor.move(e);
-
-            if (e.type == SDL_KEYDOWN && e.key.repeat == 0) //just to test methods
-            {
-                switch(e.key.keysym.sym)
-                {
-                       
-                }
-            }
-            
         }
 
-        interface_imgui(window, show_toolbox,show_helpbox ,clear_color, io, construction, cursor, scene_modified,trackball_used);      
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
-        
-        //create and render all cubes
-        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, uTexture_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
+        interface_imgui(window, show_toolbox, show_helpbox,show_savebox, show_loadbox, clear_color, io, construction, cursor, scene_modified, trackball_used, lights);      
+        lights.render_light(scene_modified);
 
         //create and render the cursor
-        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); //CHANGE THIS IT IS BAD
-        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, uTexture_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); //so that it's wireframed
+        glClear(GL_DEPTH_BUFFER_BIT); //clear depth here again so the cursor is always visible
+
+        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
+        
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+
+
+        //create and render all cubes
+        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
+
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         SDL_GL_SwapWindow(window);

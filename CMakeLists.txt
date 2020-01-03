@@ -40,6 +40,7 @@ include_directories(${SDL2_INCLUDE_DIRS}
 			${GLEW_INCLUDE_DIRS} 
 			${EIGEN3_INCLUDE_DIR} 
 			glimac/include 
+			code/include
 			third-party/include)
 
 
@@ -49,7 +50,7 @@ set(ALL_LIBRARIES glimac ${SDL2_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARY} $
 #_______________________________________________________________sets
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake)
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
-file(GLOB MAIN_CODE "code")
+
 add_subdirectory(glimac)
 add_subdirectory(code)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
