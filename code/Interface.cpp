@@ -14,7 +14,6 @@ SDL_Window* initialise_window(){
         std::cerr<<"Error : "<< err <<std::endl;
     }
 
-
     // Create window with graphics context
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);

@@ -8,14 +8,16 @@ using namespace glimac;
 class Light
 {
     protected:
-        GLuint m_uLightDir_vs;
-        GLuint m_uLightDirIntensity;
-        GLuint m_uLightPointPos1;
-        GLuint m_uLightPointPos2;
-        GLuint m_uAmbiantLightIntensity;
-        GLuint m_uLightPointIntensity1;
-        GLuint m_uLightPointIntensity2;
+    //uniform variable
+        GLuint m_uLightDir_vs; //Directionnal Light
+        GLuint m_uLightDirIntensity; //Intensity Directionnal Light
+        GLuint m_uLightPointPos1; //Position Point light 1
+        GLuint m_uLightPointPos2; // Position Point light 2
+        GLuint m_uAmbiantLightIntensity; //Ambiance light intensity
+        GLuint m_uLightPointIntensity1; //Intensity Point light 1
+        GLuint m_uLightPointIntensity2; //Intensity Point light 2
 
+    //variable for update light
         int m_typeAmbiant;
         float m_intensitySun;
         float m_intensityPoint1;
