@@ -14,19 +14,23 @@ uniform float uShininess;
 
 //to give info about the light to the shader
 uniform vec3 uLightDir_vs;
-uniform float uLightIntensity;
-uniform vec3 uLightPos;
+uniform float uLightDirIntensity;
+uniform vec3 uLightPointPos1;
+uniform vec3 uLightPointPos2;
 uniform float ambiantLightIntensity;
 
 
 void main() {
 	vec3 color = vFragColor;
-	vec3 dirBetweenPointLightAndCurrentPixel = normalize(vPosInWorldSpace-uLightPos);
-	
-	float luminosityDirLight = max(-dot(vNormal_vs, uLightDir_vs), 0.)*(uLightIntensity);
-	float d = length(vPosInWorldSpace-uLightPos);
-	float luminosityPointLight = max(-dot(vNormal_vs, dirBetweenPointLightAndCurrentPixel  ), 0.);
-	
-	float totalLuminosity = min(luminosityDirLight + luminosityPointLight + ambiantLightIntensity, 1.); // on s'assure que la luminosité ne dépasse pas 1. (ceci dit vous pouvez l'enlever, le résultat est intéressant aussi)
+
+	vec3 dirBetweenPointLightAndCurrentPixel1 = normalize(vPosInWorldSpace-uLightPointPos1);
+	vec3 dirBetweenPointLightAndCurrentPixel2 = normalize(vPosInWorldSpace-uLightPointPos2);
+
+	float luminosityDirLight = max(-dot(vNormal_vs, uLightDir_vs), 0.)*(uLightDirIntensity);
+	float luminosityPointLight1 = max(-dot(vNormal_vs, dirBetweenPointLightAndCurrentPixel1), 0.);
+	float luminosityPointLight2 = max(-dot(vNormal_vs, dirBetweenPointLightAndCurrentPixel2), 0.);
+
+
+	float totalLuminosity = min(/*luminosityDirLight + luminosityPointLight1 + */luminosityPointLight2 /*+ ambiantLightIntensity*/, 1.); // on s'assure que la luminosité ne dépasse pas 1. (ceci dit vous pouvez l'enlever, le résultat est intéressant aussi)
 	fFragColor = vec3(color * totalLuminosity); 
 } 

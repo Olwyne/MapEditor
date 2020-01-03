@@ -211,11 +211,31 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
             ImGui::TextColored(ImVec4(1,1,0,1), "Intensity of the sun (directional light) : ");
             float intensitySun=light.get_intensitySun();
             float tmp=intensitySun;
-            ImGui::SliderFloat("%", &intensitySun,0.0, 1.0);
+            ImGui::SliderFloat("Sun %", &intensitySun,0.0, 1.0);
             light.set_intensitySun(intensitySun);
             if(tmp!=intensitySun){
                 modified_scene=true;
             }
+
+            ImGui::TextColored(ImVec4(1,1,0,1), "Intensity of the point light 1 : ");
+            float intensityPoint1=light.get_intensityPoint1();
+            float tmp2=intensityPoint1;
+            ImGui::SliderFloat("Point 1 %", &intensityPoint1,0.0, 1.0);
+            light.set_intensityPoint1(intensityPoint1);
+            if(tmp2!=intensityPoint1){
+                modified_scene=true;
+            }
+
+            ImGui::TextColored(ImVec4(1,1,0,1), "Intensity of the point light 2 : ");
+            float intensityPoint2=light.get_intensityPoint2();
+            float tmp3=intensityPoint2;
+            ImGui::SliderFloat("Point 2%", &intensityPoint2,0.0, 1.0);
+            light.set_intensityPoint2(intensityPoint2);
+            if(tmp3!=intensityPoint2){
+                modified_scene=true;
+            }
+
+
 
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
             ImGui::TextColored(ImVec4(1,1,0,1), "Radial Function :");
