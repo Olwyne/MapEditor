@@ -129,7 +129,7 @@ void Construction::dig_cube(Cursor &cursor)
 
 void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool &scene_modified)
 {       
-
+    int nbcubes = 0;
     for (unsigned int length=0; length<m_length; length++) 
         for (unsigned int width=0; width<m_width; width++)
             for(unsigned int i=0; i<m_max_cubes_in_column; i++)
@@ -138,11 +138,11 @@ void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, G
                 if (!m_all_cubes(length,width).at(i).is_invisible())
                 {
                     m_all_cubes(length,width).at(i).create_and_render(uMVP_location, uMV_location, uNormal_location, camera, scene_modified);
+                    nbcubes++;
                 }
             }
     
     scene_modified = false;
-
 }
 
 
@@ -170,6 +170,7 @@ void Construction::apply_interpolation(std::vector<glm::vec2> control_points, Ei
     Eigen::VectorXd omegas = get_omega_variables(control_points, u_vect, phi_function, type_function);
     std::vector<float> interpolation_result = interpolate(control_points, omegas, all_positions, phi_function, type_function);
 
+    erase_all_cubes();
     unsigned int interpolation_it = 0;
     for(unsigned int i=0; i<m_length; i++) 
     {

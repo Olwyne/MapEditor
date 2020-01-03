@@ -35,8 +35,3 @@ void Light::render_light(bool scene_modified){
         }
     }
 }
-
-Light::~Light()
-{
- 
-}

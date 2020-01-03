@@ -23,7 +23,7 @@ public:
   void change_position(const glm::vec3 position);
   /// \brief move cursor using keyboard
   /// \param e : SDL_event which tells us what key is being pressed
-  void move(SDL_Event &e);
+  void move(SDL_Event &e, bool &scene_modified);
 
 };
 

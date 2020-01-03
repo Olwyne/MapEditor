@@ -1,6 +1,7 @@
 
 #include "include/RadialBasisFunctions.hpp"
 #include "include/Construction.hpp"
+#include <assert.h>
 
 
 std::vector<glm::vec2> get_control_points_RBF(const std::string &filename)
@@ -8,10 +9,8 @@ std::vector<glm::vec2> get_control_points_RBF(const std::string &filename)
     const unsigned int nb_of_control_points = 5;
     std::ifstream myfile;
     myfile.open(filename, std::ios::in | std::ios::binary);
-    if (!myfile.is_open()) 
-    {
-        std::cerr << "Unable to open file"<< std::endl; //CHANGE THIS do an assert
-    }
+
+    assert(myfile.is_open() && "Unable to open control points file!");
 
     //build and read vect components
     std::vector<glm::vec2> control_points;

@@ -70,7 +70,7 @@ void Construction::save_scene(bool &scene_modified,std::string path,std::string 
 
 
 
-void Construction::load_scene(bool &scene_modified,std::string path,std::string name)
+void Construction::load_scene(bool &scene_modified, std::string path, std::string name)
 {
     std::string filename = path + name + ".txt";
 

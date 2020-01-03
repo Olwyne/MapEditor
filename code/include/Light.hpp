@@ -23,7 +23,6 @@ class Light
 
     public:
         Light():m_typeAmbiant(0),m_intensitySun(0),m_intensityPoint1(0),m_intensityPoint2(0){};
-        ~Light();
 
         void create_uniform_variable_light(Program &program);
         void render_light(bool scene_modified);
