@@ -58,10 +58,10 @@ void FreeflyCamera::move_camera_key_pressed(const SDL_Event &e)
         switch(e.key.keysym.sym)
         {
             case SDLK_UP:
-                moveFront(-0.1);
+                moveFront(0.1);
                 break;
             case SDLK_DOWN:
-                moveFront(0.1);
+                moveFront(-0.1);
                 break;
             case SDLK_q:
                 rotateLeft(20.f);
