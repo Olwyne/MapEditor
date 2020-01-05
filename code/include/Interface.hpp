@@ -20,8 +20,31 @@
 #include IMGUI_IMPL_OPENGL_LOADER_CUSTOM
 #endif
 
+/// \brief return the main window
 SDL_Window* initialise_window();
+/// \brief return the SDL_GLContext
+/// \param window : the SDL window
 SDL_GLContext initialise_context(SDL_Window* window);
-ImGuiIO& initialise_ImGui(SDL_Window* window,SDL_GLContext gl_context);
-void destroy_window(SDL_GLContext gl_context,SDL_Window* window);
-void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox ,bool &show_savebox,bool &show_loadbox,ImVec4 clear_color,ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene, bool &trackball_used,Light &light);
+/// \brief return the Imgui configuration
+/// \param window : the SDL window
+ImGuiIO& initialise_ImGui(SDL_Window* window, SDL_GLContext gl_context);
+/// \brief destroy GL and SDL information
+/// \param gl_context : the SDL_GLcontext
+/// \param window : the SDL window
+void destroy_window(SDL_GLContext gl_context, SDL_Window* window);
+/// \brief create Imgui interface
+/// \param window : the SDL window
+/// \param show_toolbox : boolean used to know if we show the tool box or not
+/// \param show_helpbox : boolean used to know if we show the help box or not
+/// \param show_savebox : ?
+/// \param show_loadbox : ?
+/// \param clear_color : ?
+/// \param io : ??
+/// \param construction : the construction of cubes
+/// \param cursor : the world's cursor
+/// \param modified_scene : bool set to true so that the scene will be rerendered
+/// \param trackball_used : bool used to know if the trackball camera is used or not
+/// \param light : the world's light
+void interface_imgui(SDL_Window* window, bool show_toolbox, bool &show_helpbox, bool &show_savebox, 
+                     bool &show_loadbox, ImVec4 clear_color, ImGuiIO& io, Construction &construction, 
+                     Cursor &cursor, bool &modified_scene, bool &trackball_used, Light &light);
