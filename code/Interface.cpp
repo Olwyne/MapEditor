@@ -208,7 +208,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
             //Modified light
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
             int typelight=light.get_typeAmbience();
-            ImGui::TextColored(ImVec4(1,1,0,1), "ambience : ");
+            ImGui::TextColored(ImVec4(1,1,0,1), "Atmosphere : ");
             if(ImGui::RadioButton("Day", &typelight, 0)){
                 light.set_typeAmbience(typelight);
                 modified_scene=true;

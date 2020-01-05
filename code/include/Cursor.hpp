@@ -26,8 +26,7 @@ public:
   void change_position(const glm::vec3 position);
   /// \brief move cursor using keyboard
   /// \param e : SDL_event which tells us what key is being pressed
-  /// \param scene_modified : bool set to true so that the scene will be rerendered
-  void move(SDL_Event &e, bool &scene_modified);
+  void move(SDL_Event &e);
 
 };
 

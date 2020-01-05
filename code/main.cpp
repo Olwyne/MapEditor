@@ -59,12 +59,7 @@ int main(int, char** argv)
         SDL_Event e;
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        interface_imgui(window, show_toolbox, show_helpbox, show_savebox, show_loadbox, clear_color, io, construction, cursor, scene_modified, trackball_used, lights);      
-        lights.render_light(scene_modified);
-
-        //create and render all cubes
-        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
-
+                
         while(SDL_PollEvent(&e)) 
         {
             ImGui_ImplSDL2_ProcessEvent(&e);
@@ -74,8 +69,14 @@ int main(int, char** argv)
 
             tb_camera.move_camera_key_pressed(e);
             ff_camera.move_camera_key_pressed(e);
-            cursor.move(e, scene_modified);
+            cursor.move(e);
         }
+
+        interface_imgui(window, show_toolbox, show_helpbox, show_savebox, show_loadbox, clear_color, io, construction, cursor, scene_modified, trackball_used, lights);      
+        lights.render_light(scene_modified);
+
+        //create and render all cubes
+        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
 
         //create and render the cursor
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); //so that it's wireframed
@@ -84,7 +85,6 @@ int main(int, char** argv)
         cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
         
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         SDL_GL_SwapWindow(window);
     }
