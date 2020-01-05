@@ -70,7 +70,7 @@ void Construction::save_scene(bool &scene_modified,std::string path,std::string 
 
 
 
-void Construction::load_scene(bool &scene_modified,std::string path,std::string name)
+void Construction::load_scene(bool &scene_modified, std::string path, std::string name)
 {
     std::string filename = path + name + ".txt";
 
@@ -104,7 +104,7 @@ void Construction::load_scene(bool &scene_modified,std::string path,std::string 
             myfile >> length >> width >> height >> max_height;
             line_nb++;
             //if invalid numbers, stop everything
-            if (length != 15 || width != 15 || height != 3 || max_height != 60)
+            if (length != world_length || width != world_width || height != 3 || max_height != world_max_height)
             {
                 std::cerr << "Invalid paramaters to build construction"<< std::endl; 
                 line_nb = 999999;

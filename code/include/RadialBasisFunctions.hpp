@@ -11,10 +11,16 @@
 #include <iostream>
 #include <fstream>
 
-
-class phi_functors
+/// \class Phi_functor
+/// \brief structure containing 4 radial basis functions
+class Phi_functor
 {
 public:
+    /// \brief return a radial basis functions
+    /// \param vect1 : 2 dimension vector
+    /// \param vect2 : 2 dimension vector
+    /// \param e : epsilon constant
+    /// \param type_function : uint representing the type of a RBF 
     template<typename T>
     T operator() (const glm::vec2 vect1, const glm::vec2 vect2, const T e, const unsigned int type_function)
     {
@@ -43,14 +49,23 @@ public:
 
 
 
-/*
-    Little explanation: u_i will be the height of cubes, x_i their (x,z) positions
-*/
-
+/// \brief return control points from a file
+/// \param filename : file containing control points
 std::vector<glm::vec2> get_control_points_RBF(const std::string &filename);
 
+/// \brief return vector containing omega variables
+/// \param control_points : vector containing control points
+/// \param u_vect : vector containing generated heights of cubes
+/// \param phi_function : the RBF
+/// \param type_function : uint used to choose to RBF
 Eigen::VectorXd get_omega_variables(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, 
-                                    phi_functors phi_function, const unsigned int type_function);
-                                    
+                                    Phi_functor phi_function, const unsigned int type_function);
+
+/// \brief return vector containing omega variables
+/// \param control_points : vector containing control points
+/// \param omegas : vector containing omega variables
+/// \param all_position : vector containing (x, z) positions of world's cubes
+/// \param phi_function : the RBF
+/// \param type_function : uint used to choose to RBF
 std::vector<float> interpolate(std::vector<glm::vec2> control_points, Eigen::VectorXd omegas, 
-                                      std::vector<glm::vec2> all_positions, phi_functors phi_function, const unsigned int type_function);
+                               std::vector<glm::vec2> all_positions, Phi_functor phi_function, const unsigned int type_function);

@@ -4,7 +4,7 @@
 
 void Light::create_uniform_variable_light(glimac::Program &program)
 {
-    //Uniform variable light
+    //Uniform variables 
     m_uLightDir_vs = glGetUniformLocation(program.getGLId(), "uLightDir_vs");
     m_uLightDirIntensity = glGetUniformLocation(program.getGLId(), "uLightDirIntensity");
     m_uLightPointPos1= glGetUniformLocation(program.getGLId(), "uLightPointPos1");
@@ -12,11 +12,10 @@ void Light::create_uniform_variable_light(glimac::Program &program)
     m_uAmbiantLightIntensity= glGetUniformLocation(program.getGLId(), "ambiantLightIntensity");
     m_uLightPointIntensity1= glGetUniformLocation(program.getGLId(), "uLightPointIntensity1");
     m_uLightPointIntensity2= glGetUniformLocation(program.getGLId(), "uLightPointIntensity2");
-
 }
 
 void Light::render_light(bool scene_modified){
-    //Modified uniform variable light
+    //Modified uniform variables
     if(scene_modified)
     {
         glm::vec3 LightDir = glm::normalize(glm::vec3(10, -100, -30));;
@@ -27,16 +26,11 @@ void Light::render_light(bool scene_modified){
         glUniform1f(m_uLightPointIntensity1, m_intensityPoint1);
         glUniform1f(m_uLightPointIntensity2, m_intensityPoint2);
         
-        if(m_typeAmbiant==0){
+        if(m_typeAmbience==0){
             glUniform1f(m_uAmbiantLightIntensity, 0.4);
         }
         else{
             glUniform1f(m_uAmbiantLightIntensity, 0.1);
         }
     }
-}
-
-Light::~Light()
-{
- 
 }

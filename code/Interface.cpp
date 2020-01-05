@@ -72,6 +72,7 @@ SDL_GLContext initialise_context(SDL_Window* window){
     return gl_context;
 }
 
+
 ImGuiIO& initialise_ImGui(SDL_Window* window,SDL_GLContext gl_context){
 
     // Decide GLSL versions
@@ -87,8 +88,6 @@ ImGuiIO& initialise_ImGui(SDL_Window* window,SDL_GLContext gl_context){
         // Setup Dear ImGui context
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -109,7 +108,9 @@ void destroy_window(SDL_GLContext gl_context,SDL_Window* window){
     SDL_Quit();
 }
 
-void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,bool &show_savebox,bool &show_loadbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene,bool &trackball_used,Light &light){
+
+
+void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,bool &show_savebox,bool &show_loadbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene, bool &trackball_used, Light &light){
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(window);
@@ -143,6 +144,7 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
             //Change camera and show type
             if (ImGui::Button("Change camera")){
                 trackball_used=!trackball_used;
+                modified_scene = true;
             }
             ImGui::SameLine();
             if(trackball_used){
@@ -201,14 +203,14 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
 
             //Modified light
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
-            int typelight=light.get_typeAmbiant();
-            ImGui::TextColored(ImVec4(1,1,0,1), "Ambiance : ");
+            int typelight=light.get_typeAmbience();
+            ImGui::TextColored(ImVec4(1,1,0,1), "Atmosphere : ");
             if(ImGui::RadioButton("Day", &typelight, 0)){
-                light.set_typeAmbiant(typelight);
+                light.set_typeAmbience(typelight);
                 modified_scene=true;
             }
             if(ImGui::RadioButton("Night", &typelight, 1)){
-                light.set_typeAmbiant(typelight);
+                light.set_typeAmbience(typelight);
                 modified_scene=true;
             }
             ImGui::TextColored(ImVec4(1,1,0,1), "Intensity of the sun (directional light) : ");
@@ -238,31 +240,27 @@ void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,boo
                 modified_scene=true;
             }
 
-            //Maths function
+            //Maths functions
             ImGui::Dummy(ImVec2(0.0f, 10.0f));
-            ImGui::TextColored(ImVec4(1,1,0,1), "Radial Function :");
+            ImGui::TextColored(ImVec4(1,1,0,1), "Radial Functions :");
             int typeradial=4;
             std::vector<glm::vec2> control_points = get_control_points_RBF("code/txt/control_points.txt");
             Eigen::VectorXd u_vect(5);
             u_vect << 1, 1, 1, 1, 1;
-            phi_functors phi;
+            Phi_functor phi;
             if(ImGui::RadioButton("Basic Radial", &typeradial, 0)){
-                construction.erase_all_cubes();
                 construction.apply_interpolation(control_points, u_vect, phi,typeradial);
                 modified_scene=true;
             }
             if(ImGui::RadioButton("Multiquadric", &typeradial,1)){
-                construction.erase_all_cubes();
                 construction.apply_interpolation(control_points, u_vect, phi,typeradial);
                 modified_scene=true;
             }
             if(ImGui::RadioButton("Inverse Quadric", &typeradial,2)){
-                construction.erase_all_cubes();
                 construction.apply_interpolation(control_points, u_vect, phi,typeradial);
                 modified_scene=true;
             }
             if(ImGui::RadioButton("Gaussian", &typeradial,3)){
-                construction.erase_all_cubes();
                 construction.apply_interpolation(control_points, u_vect, phi,typeradial);
                 modified_scene=true;
             }

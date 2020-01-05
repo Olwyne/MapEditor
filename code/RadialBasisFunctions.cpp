@@ -1,6 +1,7 @@
 
 #include "include/RadialBasisFunctions.hpp"
 #include "include/Construction.hpp"
+#include <assert.h>
 
 
 std::vector<glm::vec2> get_control_points_RBF(const std::string &filename)
@@ -8,10 +9,8 @@ std::vector<glm::vec2> get_control_points_RBF(const std::string &filename)
     const unsigned int nb_of_control_points = 5;
     std::ifstream myfile;
     myfile.open(filename, std::ios::in | std::ios::binary);
-    if (!myfile.is_open()) 
-    {
-        std::cerr << "Unable to open file"<< std::endl; //CHANGE THIS do an assert
-    }
+
+    assert(myfile.is_open() && "Unable to open control points file!");
 
     //build and read vect components
     std::vector<glm::vec2> control_points;
@@ -34,7 +33,7 @@ std::vector<glm::vec2> get_control_points_RBF(const std::string &filename)
 
 
 Eigen::VectorXd get_omega_variables(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, 
-                                    phi_functors phi_function, const unsigned int type_function)
+                                    Phi_functor phi_function, const unsigned int type_function)
 {
     //calculate phi matrix
     const unsigned int nb_control_points = control_points.size();
@@ -57,7 +56,7 @@ Eigen::VectorXd get_omega_variables(std::vector<glm::vec2> control_points, Eigen
 
 
 std::vector<float> interpolate(std::vector<glm::vec2> control_points, Eigen::VectorXd omegas, 
-                                      std::vector<glm::vec2> all_positions, phi_functors phi_function, const unsigned int type_function)
+                                      std::vector<glm::vec2> all_positions, Phi_functor phi_function, const unsigned int type_function)
 {
     const unsigned int nb_control_points = control_points.size();
     const unsigned int nb_points_total = all_positions.size();

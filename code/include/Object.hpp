@@ -5,7 +5,7 @@
 
 using namespace glimac;
 
-/// \struct Construction
+/// \struct Param_Pos_Color
 /// \brief structure containing position and color parameters (vec3 type)
 struct Param_Pos_Color
 {

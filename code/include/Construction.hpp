@@ -5,6 +5,11 @@
 #include "RadialBasisFunctions.hpp"
 #include "Light.hpp"
 
+constexpr unsigned int world_width = 16;
+constexpr unsigned int world_length = 16;
+constexpr unsigned int world_max_height = 40;
+
+
 // Doxygen menu
 /// \mainpage
 /// \tableofcontents
@@ -21,7 +26,6 @@
 /// \li make html to generate this documentation
 
 
-
 /// \class Construction
 /// \brief class containing all cubes and information related to the construction's dimensions
 
@@ -29,10 +33,10 @@
 class Construction
 {
 private:
-    static const unsigned int m_width = 15; /*!< maximum width of the construction */
-    static const unsigned int m_length = 15; /*!< maximum length of the construction */
+    static const unsigned int m_width = world_width; /*!< maximum width of the construction */
+    static const unsigned int m_length = world_length; /*!< maximum length of the construction */
     static const unsigned int m_height = 3; /*!< initial height of the construction */
-    static const unsigned int m_max_cubes_in_column = 60; /*!< maximum height of the construction */
+    static const unsigned int m_max_cubes_in_column = world_max_height; /*!< maximum height of the construction */
 
     Eigen::Matrix <std::vector<Cube>, m_length, m_width> m_all_cubes; /*!< matrix of columns (=vectors) of cubes*/
 
@@ -91,7 +95,7 @@ public:
     /// \param u_vect : vector used in RBF part
     /// \param phi_function : a RBF
     /// \param type_function : the index of the RBF
-    void apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, phi_functors phi_function, const unsigned int type_function);
+    void apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, Phi_functor phi_function, const unsigned int type_function);
 
     /// \brief save the current construction (create a txt file with all its information)
     /// \param scene modified : bool set to true so that the scene will be rerendered

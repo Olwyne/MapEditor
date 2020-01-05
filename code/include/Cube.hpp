@@ -5,6 +5,8 @@
 
 using namespace glimac;
 
+/// \class Cube
+/// \brief class containing a cube's information
 
 class Cube: public Object
 {
@@ -20,6 +22,7 @@ public:
          : Object(param, 36), m_invisible(0), m_type(0) {}
   /// \brief reference constructor
   Cube(const Cube &c) : Object(c), m_invisible(c.m_invisible) {}
+  /// \brief destructor
   ~Cube() override = default;
 
 	/// \brief defined in Object.hpp: adapted to a cube

@@ -129,7 +129,6 @@ void Construction::dig_cube(Cursor &cursor)
 
 void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool &scene_modified)
 {       
-
     for (unsigned int length=0; length<m_length; length++) 
         for (unsigned int width=0; width<m_width; width++)
             for(unsigned int i=0; i<m_max_cubes_in_column; i++)
@@ -142,7 +141,6 @@ void Construction::render_all_cubes(GLint &uMVP_location, GLint &uMV_location, G
             }
     
     scene_modified = false;
-
 }
 
 
@@ -164,12 +162,13 @@ std::vector<glm::vec2> Construction::put_all_cubes_positions_in_one_vector()
 }
 
 
-void Construction::apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, phi_functors phi_function, const unsigned int type_function)
+void Construction::apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, Phi_functor phi_function, const unsigned int type_function)
 {
     std::vector<glm::vec2> all_positions = put_all_cubes_positions_in_one_vector();
     Eigen::VectorXd omegas = get_omega_variables(control_points, u_vect, phi_function, type_function);
     std::vector<float> interpolation_result = interpolate(control_points, omegas, all_positions, phi_function, type_function);
 
+    erase_all_cubes();
     unsigned int interpolation_it = 0;
     for(unsigned int i=0; i<m_length; i++) 
     {
@@ -229,6 +228,7 @@ void Construction::erase_all_cubes()
             for(unsigned int i=0; i<m_max_cubes_in_column; i++)
             {
                 m_all_cubes(length, width)[i].set_invisible(1);
+                m_all_cubes(length, width)[i].set_type(0);
             }
 }
 
