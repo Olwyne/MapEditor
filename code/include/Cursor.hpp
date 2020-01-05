@@ -4,6 +4,8 @@
 #include "Object.hpp"
 #include "Cube.hpp"
 
+/// \class Cursor
+/// \brief class containing a cursor's information
 class Cursor: public Object
 {
 

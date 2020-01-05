@@ -11,7 +11,7 @@
 #include <iostream>
 #include <fstream>
 
-/// \struct Phi_functor
+/// \class Phi_functor
 /// \brief structure containing 4 radial basis functions
 class Phi_functor
 {
@@ -48,10 +48,6 @@ public:
 };
 
 
-
-/*
-    Little explanation: u_i will be the height of cubes, x_i their (x,z) positions
-*/
 
 /// \brief return control points from a file
 /// \param filename : file containing control points

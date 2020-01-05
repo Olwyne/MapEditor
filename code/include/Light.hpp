@@ -4,7 +4,8 @@
 
 using namespace glimac;
 
-
+/// \class Light
+/// \brief class containing a light's information
 class Light
 {
     protected:
