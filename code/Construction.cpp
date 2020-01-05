@@ -162,7 +162,7 @@ std::vector<glm::vec2> Construction::put_all_cubes_positions_in_one_vector()
 }
 
 
-void Construction::apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, phi_functors phi_function, const unsigned int type_function)
+void Construction::apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, Phi_functor phi_function, const unsigned int type_function)
 {
     std::vector<glm::vec2> all_positions = put_all_cubes_positions_in_one_vector();
     Eigen::VectorXd omegas = get_omega_variables(control_points, u_vect, phi_function, type_function);

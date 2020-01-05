@@ -91,7 +91,7 @@ public:
     /// \param u_vect : vector used in RBF part
     /// \param phi_function : a RBF
     /// \param type_function : the index of the RBF
-    void apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, phi_functors phi_function, const unsigned int type_function);
+    void apply_interpolation(std::vector<glm::vec2> control_points, Eigen::VectorXd u_vect, Phi_functor phi_function, const unsigned int type_function);
 
     /// \brief save the current construction (create a txt file with all its information)
     /// \param scene modified : bool set to true so that the scene will be rerendered

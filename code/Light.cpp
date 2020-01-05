@@ -27,7 +27,7 @@ void Light::render_light(bool scene_modified){
         glUniform1f(m_uLightPointIntensity1, m_intensityPoint1);
         glUniform1f(m_uLightPointIntensity2, m_intensityPoint2);
         
-        if(m_typeAmbiant==0){
+        if(m_typeAmbience==0){
             glUniform1f(m_uAmbiantLightIntensity, 0.4);
         }
         else{
