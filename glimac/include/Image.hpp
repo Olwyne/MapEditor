@@ -7,6 +7,9 @@
 #include "glm.hpp"
 #include "FilePath.hpp"
 
+
+constexpr float WINDOW_WIDTH = 1000;
+constexpr float WINDOW_HEIGHT = 800; 
 namespace glimac {
 
 class Image {
