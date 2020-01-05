@@ -8,9 +8,8 @@
 #include "include/Light.hpp"
 
 #include <iostream>
-
-
 #include <GL/glew.h>
+
 using namespace glimac;
 
 int main(int, char** argv)

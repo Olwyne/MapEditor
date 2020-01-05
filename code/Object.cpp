@@ -37,7 +37,9 @@ Object::~Object()
 
 void Object::create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool scene_modified)
 {
+    //only create VBO/VAO when there's been a change 
     create_vbo_vao(scene_modified);
+    //but always render 
     render(uMVP_location, uMV_location, uNormal_location, camera);
 }
 

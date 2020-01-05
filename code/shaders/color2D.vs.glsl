@@ -27,12 +27,6 @@ mat3 rotate(float a)
 void main() {
 
 	vVertexPosition = aVertexPosition;
-	//vFragColor = aVertexColor;
-
-	//translate 0.5 to right and to the top, and make it 2 times smaller
-  	//gl_Position = vec4(aVertexPosition, 0, 1) + vec4(0.5, 0.5, 0, 2);
-	//2 times bigger on x axis, 2 times smaller on y axis
-	//gl_Position = vec4(aVertexPosition, 0, 1) * vec4(1, 0.5, 0, 2);
 
 	mat3 MS = scale(0.5,0.5);
 	mat3 MT = translate(0.5,0);

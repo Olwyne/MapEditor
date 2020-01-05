@@ -27,7 +27,6 @@ void main() {
 	float luminosityPointLight1 = max(-dot(vNormal_vs, dirBetweenPointLightAndCurrentPixel1), 0.)*uLightPointIntensity1;
 	float luminosityPointLight2 = max(-dot(vNormal_vs, dirBetweenPointLightAndCurrentPixel2), 0.)*uLightPointIntensity2;
 
-
 	float totalLuminosity = min(luminosityDirLight + luminosityPointLight1 + luminosityPointLight2 + ambiantLightIntensity, 1.); // on s'assure que la luminosité ne dépasse pas 1. (ceci dit vous pouvez l'enlever, le résultat est intéressant aussi)
 	fFragColor = vec3(color * totalLuminosity); 
 } 

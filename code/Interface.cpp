@@ -76,6 +76,7 @@ SDL_GLContext initialise_context(SDL_Window* window){
     return gl_context;
 }
 
+
 ImGuiIO& initialise_ImGui(SDL_Window* window,SDL_GLContext gl_context){
 
     // Decide GLSL versions
@@ -91,8 +92,6 @@ ImGuiIO& initialise_ImGui(SDL_Window* window,SDL_GLContext gl_context){
         // Setup Dear ImGui context
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -113,7 +112,9 @@ void destroy_window(SDL_GLContext gl_context,SDL_Window* window){
     SDL_Quit();
 }
 
-void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,bool &show_savebox,bool &show_loadbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene,bool &trackball_used,Light &light){
+
+
+void interface_imgui(SDL_Window* window,bool show_toolbox,bool &show_helpbox,bool &show_savebox,bool &show_loadbox,ImVec4 clear_color, ImGuiIO& io,Construction &construction, Cursor &cursor, bool &modified_scene, bool &trackball_used, Light &light){
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(window);
