@@ -36,10 +36,10 @@ void destroy_window(SDL_GLContext gl_context, SDL_Window* window);
 /// \param window : the SDL window
 /// \param show_toolbox : boolean used to know if we show the tool box or not
 /// \param show_helpbox : boolean used to know if we show the help box or not
-/// \param show_savebox : ?
-/// \param show_loadbox : ?
-/// \param clear_color : ?
-/// \param io : ??
+/// \param show_savebox : boolean used to know if we show the save scene box or not
+/// \param show_loadbox : boolean used to know if we show the load scene box or not
+/// \param clear_color : background color of ImGUI
+/// \param io : cofiguraturation between the application and ImGUI
 /// \param construction : the construction of cubes
 /// \param cursor : the world's cursor
 /// \param modified_scene : bool set to true so that the scene will be rerendered
