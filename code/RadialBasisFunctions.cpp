@@ -56,7 +56,7 @@ Eigen::VectorXd get_omega_variables(std::vector<glm::vec2> control_points, Eigen
 
 
 std::vector<float> interpolate(std::vector<glm::vec2> control_points, Eigen::VectorXd omegas, 
-                                      std::vector<glm::vec2> all_positions, Phi_functor phi_function, const unsigned int type_function)
+                               std::vector<glm::vec2> all_positions, Phi_functor phi_function, const unsigned int type_function)
 {
     const unsigned int nb_control_points = control_points.size();
     const unsigned int nb_points_total = all_positions.size();
@@ -78,3 +78,4 @@ std::vector<float> interpolate(std::vector<glm::vec2> control_points, Eigen::Vec
    
     return interpolation_result;
 }
+

@@ -1,6 +1,7 @@
 # World IMaker
 
-Ce projet consiste en la réalisation d’un éditeur-visualiseur de terrain et de scène en 3D. Un certain nombre de fonctionnalités devront être implémentées afin de permettre à l’utilisateur de créer un monde à partir de blocs cubiques et de naviguer dedans.
+This program is a 3D world editor. The world is made of colored cubes. You can add some, delete them, change their color, generate constructions thanks to the magic of radial basis functions, save your scene in a simple text file, and come back to it by loading it from the same file. Have fun!
+
 
 cmake ../
 make
