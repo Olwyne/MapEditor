@@ -1,126 +1,96 @@
+#include <../../glimac/include/FreeflyCamera.hpp>
+#include <../../glimac/include/TrackballCamera.hpp>
 
-#include <glimac/SDLWindowManager.hpp>
-#include <glimac/Cube.hpp>
+#include "include/Construction.hpp"
+#include "include/Camera.hpp"
+#include "include/Interface.hpp"
+#include "include/LoadSave.hpp"
+#include "include/Light.hpp"
 
-
-#include <GL/glew.h>
 #include <iostream>
-#include <vector>
+#include <GL/glew.h>
 
 using namespace glimac;
 
+int main(int, char** argv)
+{
+    SDL_Window* window = initialise_window();
+    SDL_GLContext gl_context = initialise_context(window);
+    ImGuiIO& io = initialise_ImGui(window,gl_context);
+           
+    FilePath applicationPath(argv[0]);
+    Program program = loadProgram(applicationPath.dirPath() + "shaders/lights.vs.glsl",
+                              applicationPath.dirPath() + "shaders/lights.fs.glsl");
+    program.use();
+    // Our state
+    bool show_toolbox = true;
+    bool show_helpbox = false;
+    bool show_savebox = false;
+    bool show_loadbox = false;
 
-//___________________________________________________________  WHERE DO WE PUT THESE FUNCTIONS?
+    ImVec4 clear_color = ImVec4(0, 0, 0, -1);
+    
+    //create cursor
+    Cursor cursor;  
 
-SDLWindowManager initialise()
-{ 
-    // Initialize SDL and open a window
-    SDLWindowManager windowManager(800, 800, "World Editor");
+    //create world and initial cubes
+    Construction construction;
+    Light lights;
 
-    // Initialize glew for OpenGL3+ support
-    GLenum glewInitError = glewInit();
-    if(GLEW_OK != glewInitError) {
-        std::cerr << glewGetErrorString(glewInitError) << std::endl;
-    }
+    //variables
+    GLint uMVP_location = glGetUniformLocation(program.getGLId(), "uMVPMatrix" );
+    GLint uMV_location = glGetUniformLocation(program.getGLId(), "uMVMatrix" );
+    GLint uNormal_location = glGetUniformLocation(program.getGLId(), "uNormalMatrix" );
+    lights.create_uniform_variable_light(program);
+    bool scene_modified = true;
 
-    std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
-    std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
+    //create Cameras
+    TrackballCamera tb_camera(45,10,0);
+    FreeflyCamera ff_camera;
+
+    bool trackball_used = true;
 
     glEnable(GL_DEPTH_TEST);
 
-    return windowManager;
-}
-
-
-void move_camera_key_pressed(SDL_Event &e, TrackballCamera &camera)
-{
-    switch(e.key.keysym.sym)
-    {
-        case SDLK_UP:
-            camera.moveFront(-0.1);
-            break;
-        case SDLK_DOWN:
-            camera.moveFront(0.1);
-            break;
-        case SDLK_z:
-            camera.rotateLeft(1);
-            break;
-        case SDLK_s:
-            camera.rotateLeft(-1);
-            break;
-        case SDLK_q:
-            camera.rotateUp(1);
-            break;
-        case SDLK_d:
-            camera.rotateUp(-1);
-            break;
-    }
-    
-}
-
-//********************************************************************************************************
-//********************************************************************************************************
-
-int main(int argc, char** argv) {
-
-    SDLWindowManager windowManager = initialise();
-        
-    FilePath applicationPath(argv[0]);
-    Program program = loadProgram(applicationPath.dirPath() + "shaders/simple.vs.glsl",
-                              applicationPath.dirPath() + "shaders/simple.fs.glsl");
-    program.use();
-
-    std::cout << argc << std::endl; //<---------------------change this
-
-
-    GLint uMVP_location, uMV_location, uNormal_location;
-    unsigned int nb_cubes=8;
-    std::vector <Cube> all_cubes;
-    for (unsigned int i=0; i<nb_cubes; i++)
-    {
-        all_cubes.push_back( Cube(glm::vec3(0,2*i,2), glm::vec3(0.2 + i/5.0, i/5.0, 0.2 + i*0.1)) );
-    }
-
-    for(Cube &c: all_cubes)
-    {
-        c.create_vbo_vao();
-        c.create_uniform_variable_location(uMVP_location, uMV_location, uNormal_location, program);
-    }
-
-    TrackballCamera camera;
-    // Application loop:
+    // Main loop
     bool done = false;
     while(!done) {
         // Event loop:
         SDL_Event e;
-        while(windowManager.pollEvent(e)) {
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                
+        while(SDL_PollEvent(&e)) 
+        {
+            ImGui_ImplSDL2_ProcessEvent(&e);
             if(e.type == SDL_QUIT) {
                 done = true; // Leave the loop after this iteration
             }
-            move_camera_key_pressed(e, camera);
+
+            tb_camera.move_camera_key_pressed(e);
+            ff_camera.move_camera_key_pressed(e);
+            cursor.move(e);
         }
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        interface_imgui(window, show_toolbox, show_helpbox, show_savebox, show_loadbox, clear_color, io, construction, cursor, scene_modified, trackball_used, lights);      
+        lights.render_light(scene_modified);
 
-        for(Cube &c: all_cubes)
-        {
-            c.render(uMVP_location, uMV_location, uNormal_location, camera);
-        }
+        //create and render all cubes
+        construction.render_all_cubes(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
 
-        // Update the display
-        windowManager.swapBuffers();
+        //create and render the cursor
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); //so that it's wireframed
+        glClear(GL_DEPTH_BUFFER_BIT); //clear depth here again so the cursor is always visible
+
+        cursor.create_and_render(uMVP_location, uMV_location, uNormal_location, choose_camera(tb_camera, ff_camera, trackball_used), scene_modified);
+        
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        SDL_GL_SwapWindow(window);
     }
 
-    for(Cube &c: all_cubes)
-    {
-        c.liberate_resources();
-    }
+    // Cleanup
+    destroy_window(gl_context, window);
 
-    return EXIT_SUCCESS;
+    return 0;
 }
-
-
-// ./code/main 
-
-
-
