@@ -34,13 +34,13 @@ class Light
         void render_light(bool scene_modified);
         
         /// \brief return type of ambience
-        inline int get_typeAmbience() { return m_typeAmbience; }
+        inline int get_typeAmbience() const { return m_typeAmbience; }
         /// \brief return the intensity of the sun         
-        inline float get_intensitySun() { return m_intensitySun; }
+        inline float get_intensitySun() const { return m_intensitySun; }
         /// \brief return the intensity of the 1st point         
-        inline float get_intensityPoint1() { return m_intensityPoint1; }
+        inline float get_intensityPoint1() const { return m_intensityPoint1; }
         /// \brief return the intensity of the 2nd point      
-        inline float get_intensityPoint2() { return m_intensityPoint2; }
+        inline float get_intensityPoint2() const { return m_intensityPoint2; }
 
         /// \brief set ambience type
 	    /// \param typeAmbience : type of ambience

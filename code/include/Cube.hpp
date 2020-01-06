@@ -45,9 +45,9 @@ public:
   bool operator==(const Cube& c);
   
   /// \brief returns true if the cube is invisible, false if not
-  inline bool is_invisible() { return m_invisible; }
+  inline bool is_invisible() const { return m_invisible; }
   /// \brief returns the type of the cube
-  inline unsigned int get_type() { return m_type; }
+  inline unsigned int get_type() const { return m_type; }
   
 };
 

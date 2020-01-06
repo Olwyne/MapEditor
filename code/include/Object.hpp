@@ -61,16 +61,16 @@ public:
   virtual void create_and_render(GLint &uMVP_location, GLint &uMV_location, GLint &uNormal_location, Camera &camera, bool scene_modified);
 
 	/// \brief return the object's number of indexes
-  virtual unsigned int get_index() {return m_nb_index;}
+  virtual unsigned int get_index() const {return m_nb_index;}
   /// \brief return the object's position
-  virtual glm::vec3 get_position() { return m_position; }
-  virtual glm::vec3 get_normal() { return m_normal; }
+  virtual glm::vec3 get_position() const { return m_position; }
+  virtual glm::vec3 get_normal() const { return m_normal; }
 	/// \brief return the object's color 
-  virtual glm::vec3 get_color() { return m_color; }
+  virtual glm::vec3 get_color() const { return m_color; }
   /// \brief return the object's VAO
-  virtual GLuint get_vao() { return m_vao; }
+  virtual GLuint get_vao() const { return m_vao; }
   /// \brief return the object's VBO
-  virtual GLuint get_vbo() { return m_vbo; }
+  virtual GLuint get_vbo() const { return m_vbo; }
 
 	/// \brief return true if the object as a parameter has the same position as the current object
   virtual bool obj_same_pos(Object &obj);
